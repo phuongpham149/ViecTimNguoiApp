@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <View
+        android:id="@+id/viewLineTop"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/bg_gradient" />
+
+    <RelativeLayout
+        android:id="@+id/rlMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/viewLineTop"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp">
+
+        <TextView
+            android:id="@+id/tvMenuItemName"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_toLeftOf="@+id/imgRight"
+            android:layout_toStartOf="@+id/imgRight"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:textColor="@drawable/selector_text"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/imgRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:contentDescription="@string/app_name"
+            android:src="@drawable/ic_list_item" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/viewLineBottom"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rlMenuItem"
+        android:background="@drawable/bg_gradient"
+        android:visibility="visible" />
+
+</RelativeLayout>

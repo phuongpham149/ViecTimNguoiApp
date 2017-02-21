@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">ViecTimNguoiApp</string>
+    <string name="openDrawer">Open</string>
+    <string name="closeDrawer">Close</string>
+    <string name="textview_title_username_header_menu">username</string>
+    <string name="textview_name_app_footer_menu">Ứng dụng việc tìm người</string>
 </resources>

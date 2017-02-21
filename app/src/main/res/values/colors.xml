@@ -3,4 +3,8 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+
+    <!--Navigation Menu-->
+    <color name="drawerlayout.scrim">#33377EB0</color>
+    <color name="text_selector">#677783</color>
 </resources>
