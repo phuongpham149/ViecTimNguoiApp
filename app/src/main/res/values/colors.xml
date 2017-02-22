@@ -7,4 +7,8 @@
     <!--Navigation Menu-->
     <color name="drawerlayout.scrim">#33377EB0</color>
     <color name="text_selector">#677783</color>
+
+    <!-- contact new background -->
+    <color name="bg_selected">#DEDEDE</color>
+    <color name="bg_default">#FFFFFF</color>
 </resources>
