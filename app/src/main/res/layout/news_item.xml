@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlNewItem"
     android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp"
-    android:layout_height="wrap_content">
+    android:layout_marginRight="20dp">
 
     <View
         android:id="@+id/viewLineTop"
@@ -54,7 +55,7 @@
             android:textColor="#677783"
             android:textSize="14sp" />
 
-        <ImageView
+        <CheckBox
             android:id="@+id/imgNewContact"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -63,11 +64,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_gravity="top|end|center_vertical"
-            android:layout_marginTop="5dp"
-            android:src="@drawable/ic_contact"
-            android:padding="2dp"
+            android:layout_marginTop="10dp"
+            android:button="@drawable/selector_contact"
             android:clickable="true"
-            />
+            android:padding="2dp" />
 
     </RelativeLayout>
 

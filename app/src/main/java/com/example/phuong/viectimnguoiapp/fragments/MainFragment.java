@@ -32,7 +32,7 @@ public class MainFragment extends BaseFragment {
         MainTabPager adapter = new MainTabPager(getActivity().getSupportFragmentManager());
         adapter.addFragment(NewsFragment_.builder().build(), "Việc làm");
         adapter.addFragment(InforUserFragment_.builder().build(), "Lưu bài");
-        adapter.addFragment(InforUserFragment_.builder().build(), "Cài đặt");
+        adapter.addFragment(ContactFragment_.builder().build(), "Cài đặt");
         viewPager.setAdapter(adapter);
     }
 
