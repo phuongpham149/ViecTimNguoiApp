@@ -11,4 +11,11 @@
     <!-- contact new background -->
     <color name="bg_selected">#DEDEDE</color>
     <color name="bg_default">#FFFFFF</color>
+
+    <!-- login -->
+    <color name="textview.text.title.login">#0798D6</color>
+    <color name="textview.text.title.register">#0798D6</color>
+
+    <!--register -->
+    <color name="hint_text">#898e91</color>
 </resources>
