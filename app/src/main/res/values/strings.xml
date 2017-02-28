@@ -6,4 +6,5 @@
     <string name="textview_name_app_footer_menu">Ứng dụng việc tìm người</string>
     <string name="textview.text.work">Người tìm việc</string>
     <string name="textview.text.hider">Nhà tuyển dụng</string>
+    <string name="img_contact_detail_description">image back</string>
 </resources>

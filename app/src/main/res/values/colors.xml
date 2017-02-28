@@ -18,4 +18,5 @@
 
     <!--register -->
     <color name="hint_text">#898e91</color>
+    <color name="textview.text.detail.new">#677783</color>
 </resources>

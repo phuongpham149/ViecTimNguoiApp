@@ -45,6 +45,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/edtUsername"
             android:layout_marginTop="5dp"
             android:background="@drawable/bg_message"
             android:padding="10dp" />
@@ -60,6 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:inputType="textPassword"
+            android:id="@+id/edtPassword"
             android:background="@drawable/bg_message"
             android:padding="10dp" />
 

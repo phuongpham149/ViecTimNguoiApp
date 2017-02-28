@@ -6,20 +6,20 @@
 
     <ImageView
         android:id="@+id/imgClose"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="@dimen/img_close_detail_new"
+        android:layout_height="@dimen/img_close_detail_new"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginRight="@dimen/img_close_detail_new_margin_right"
+        android:layout_marginTop="@dimen/img_close_detail_new_margin_top"
         android:src="@drawable/ic_close" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgClose"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginLeft="@dimen/ll_detail_new_margin"
+        android:layout_marginRight="@dimen/ll_detail_new_margin"
+        android:layout_marginTop="@dimen/ll_detail_new_margin_top"
         android:orientation="vertical">
 
         <TextView
@@ -27,10 +27,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
-            android:text="12/12/2017"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="15sp"
+            android:textColor="@color/textview.text.detail.new"
+            android:textSize="@dimen/textview.text.date.detail.new.size"
             android:textStyle="bold" />
 
         <TextView
@@ -39,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
-            android:text="Công việc sửa mái nhà"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:textColor="#677783"
             android:textSize="12sp" />
