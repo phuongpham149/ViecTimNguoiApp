@@ -8,6 +8,7 @@ public class Constant {
     public static final String DATA_NAME_USER_LOGIN = "user_login";
     public static final String NAME_USER_LOGIN = "username";
     public static final String ID_USER_LOGIN = "idUser";
+    public static final String ROLE_USER_LOGIN = "roleUser";
 
     public static final String USER_ACTIVE = "1";
     public static final String USER_INACTIVE = "0";
@@ -19,6 +20,8 @@ public class Constant {
     public static String WIFI_ENABLE = "Wifi enabled";
     public static String MOBILE_DATA_ENABLE = "Mobile data enabled";
     public static String NO_INTERNET = "Not connected to Internet";
+
+    public static String statusUser = "block_account";
 
 
 }
