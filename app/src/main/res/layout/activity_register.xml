@@ -47,6 +47,7 @@
                 android:textColor="#747a7e" />
 
             <EditText
+                android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -61,10 +62,12 @@
                 android:textColor="#747a7e" />
 
             <EditText
+                android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_message"
+                android:inputType="textPassword"
                 android:padding="10dp" />
 
             <TextView
@@ -75,10 +78,12 @@
                 android:textColor="#747a7e" />
 
             <EditText
+                android:id="@+id/edtRePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/bg_message"
+                android:inputType="textPassword"
                 android:padding="10dp" />
 
             <TextView
@@ -127,14 +132,14 @@
                 android:background="@drawable/bg_gradient" />
 
             <Button
-                android:id="@+id/btnLogin"
+                android:id="@+id/btnRegister"
                 android:layout_width="200dp"
                 android:layout_height="50dp"
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="40dp"
                 android:layout_marginBottom="30dp"
+                android:layout_marginTop="40dp"
                 android:background="@drawable/bg_btn_contact"
                 android:text="Đăng ký"
                 android:textColor="@android:color/white"

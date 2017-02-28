@@ -2,4 +2,15 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="img_back_contact_detail">40dp</dimen>
+    <dimen name="img_back_contact_detail_margin_left">20dp</dimen>
+    <dimen name="img_back_contact_detail_margin_top">10dp</dimen>
+    <dimen name="scroll_contact_detail_margin">20dp</dimen>
+    <dimen name="message_detail_contact_margin_top">5dp</dimen>
+    <dimen name="img_close_detail_new">50dp</dimen>
+    <dimen name="img_close_detail_new_margin_right">20dp</dimen>
+    <dimen name="img_close_detail_new_margin_top">10dp</dimen>
+    <dimen name="ll_detail_new_margin">40dp</dimen>
+    <dimen name="ll_detail_new_margin_top">20dp</dimen>
+    <dimen name="textview.text.date.detail.new.size">15sp</dimen>
 </resources>
