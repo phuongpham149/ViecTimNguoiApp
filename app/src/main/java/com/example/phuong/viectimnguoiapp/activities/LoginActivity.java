@@ -1,5 +1,7 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -7,7 +9,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -76,6 +82,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private int mStatusBlockUser = 0;
     private SharedPreferences mSharedPreferences;
     private CallbackManager callbackManager;
+    private String mRoleUserFaceBook;
 
     @Override
     void inits() {
@@ -96,24 +103,16 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
-                        Log.d("tag", "Login");
-                        Log.d("tag", "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken());
-
+                        fetchFacebookInfo(loginResult.getAccessToken(), LoginActivity.this);
                     }
 
                     @Override
                     public void onCancel() {
-                        Log.d("tag", "Login1");
                         Toast.makeText(LoginActivity.this, "Login Cancel", Toast.LENGTH_LONG).show();
                     }
 
                     @Override
                     public void onError(FacebookException exception) {
-                        Log.d("tag", "Login2 "+exception.getMessage());
                         Toast.makeText(LoginActivity.this, exception.getMessage(), Toast.LENGTH_LONG).show();
                     }
                 });
@@ -124,7 +123,17 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                Log.d("tag120","result "+object.toString());
+                SharedPreferences.Editor editor = mSharedPreferences.edit();
+                try {
+                    editor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
+                    editor.putString(Constant.ROLE_USER_LOGIN, mRoleUserFaceBook);
+                    editor.commit();
+                    MainActivity_.intent(LoginActivity.this).start();
+                } catch (JSONException e) {
+                    Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
+                    e.printStackTrace();
+                }
+
             }
         });
         Bundle parameters = new Bundle();
@@ -164,6 +173,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     SharedPreferences.Editor editor = mSharedPreferences.edit();
                     editor.putString(Constant.NAME_USER_LOGIN, mUser.getUsername());
                     editor.putString(Constant.ROLE_USER_LOGIN, mUser.getRole());
+                    editor.commit();
                     MainActivity_.intent(LoginActivity.this).start();
                 } else {
                     if (mStatusBlockUser == 0) {
@@ -189,7 +199,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                             check = true;
                             mUser = new User();
                             mUser.setUsername(username);
-                            mUser.setPassword(password);
                             mUser.setRole(map.get("role").toString());
                             return;
                         } else {
@@ -242,8 +251,40 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Click(R.id.tvLoginFaceBook)
     public void loginWithFacebook() {
-        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("public_profile", "user_friends"));
-        Log.d("tag1", "1");
+        showDialogChoiceRole();
+    }
+
+    public void showDialogChoiceRole() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_choice_role);
+        final RadioButton rdWork = (RadioButton) dialog.findViewById(R.id.radioWork);
+        RadioButton rdHide = (RadioButton) dialog.findViewById(R.id.radioHide);
+        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
+        Button btnCancel = (Button) dialog.findViewById(R.id.tvBtnCancel);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (rdWork.isChecked()) {
+                    mRoleUserFaceBook = Constant.USER_WORK;
+                } else {
+                    mRoleUserFaceBook = Constant.USER_HIDE;
+                }
+
+                dialog.dismiss();
+                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
 
     @Override

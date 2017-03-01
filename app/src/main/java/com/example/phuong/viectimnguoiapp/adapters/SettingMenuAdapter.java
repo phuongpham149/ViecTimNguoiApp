@@ -68,7 +68,7 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         switch (holder.getItemViewType()) {
             case MENU_HEADER:
-                String username = userLogin.getString(Constant.NAME_USER_LOGIN, "Phuong");
+                String username = userLogin.getString(Constant.NAME_USER_LOGIN, "");
                 HeaderHolder mHeader = (HeaderHolder) holder;
                 mHeader.mTvUsername.setText(username);
                 break;
