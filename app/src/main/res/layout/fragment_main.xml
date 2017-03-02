@@ -9,23 +9,23 @@
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPagerMain"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="@dimen/btn_dialog_choice"
         android:layout_weight="7"></android.support.v4.view.ViewPager>
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DEDEDE" />
+        android:layout_height="@dimen/view_height"
+        android:background="@color/view_footer_dilog" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="0.8"
-        app:tabIndicatorColor="#079AD9"
-        app:tabIndicatorHeight="3dp"
+        app:tabIndicatorColor="@color/tab_indicator"
+        app:tabIndicatorHeight="@dimen/tab_indicator_height"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="#0793D0">
+        app:tabSelectedTextColor="@color/tab_selected_color">
 
     </android.support.design.widget.TabLayout>
 </LinearLayout>

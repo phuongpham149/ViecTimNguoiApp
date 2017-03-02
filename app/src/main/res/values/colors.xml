@@ -19,4 +19,13 @@
     <!--register -->
     <color name="hint_text">#898e91</color>
     <color name="textview.text.detail.new">#677783</color>
+    <color name="textview_text_title_new_detail">#677783</color>
+    <color name="textview_login">#747a7e</color>
+    <color name="textview_title_name_app">#0796D4</color>
+    <color name="textview_login_username">#747a7e</color>
+    <color name="view_footer_dilog">#DEDEDE</color>
+    <color name="tab_indicator">#079AD9</color>
+    <color name="tab_selected_color">#0793D0</color>
+    <color name="textview_title_footer">#0599d9</color>
+    <color name="ll_item_separator">#85caea</color>
 </resources>

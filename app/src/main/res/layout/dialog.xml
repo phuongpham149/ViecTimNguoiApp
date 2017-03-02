@@ -1,51 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:layout_width="350dp"
-    android:layout_height="180dp">
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_height">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="Việc Tìm Người"
+        android:layout_marginTop="@dimen/textview_title_dialog_margin"
+        android:layout_marginLeft="@dimen/textview_title_dialog_margin"
+        android:text="@string/textview_name_app"
         android:textColor="@color/textview.text.title.login"
         android:textStyle="bold"
         android:id="@+id/tvTitle"
-        android:textSize="20sp"
+        android:textSize="@dimen/textview_name_app_size"
         />
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
+        android:layout_height="@dimen/view_height_dialog"
         android:background="@color/textview.text.title.register"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/view_dialog_margin_top"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:textSize="@dimen/btn_login_text"
         android:id="@+id/tvContent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#747a7e"
+        android:layout_marginLeft="@dimen/textview_dialog_content_margin"
+        android:layout_marginRight="@dimen/textview_dialog_content_margin"
+        android:layout_marginTop="@dimen/textview_dialog_content_margin"
+        android:textColor="@color/textview_login"
         android:layout_gravity="center_horizontal"
         />
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DEDEDE"
-        android:layout_marginTop="10dp"
+        android:layout_height="@dimen/view_height"
+        android:background="@color/view_footer_dilog"
+        android:layout_marginTop="@dimen/view_footer_dialog_margin_top"
         />
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="OK"
+        android:text="@string/textview_btn_ok"
         android:id="@+id/tvBtnOk"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:textSize="15sp"
-        android:textColor="#747a7e"
+        android:layout_marginTop="@dimen/textview_btn_ok_margin"
+        android:layout_marginBottom="@dimen/textview_btn_ok_margin"
+        android:textSize="@dimen/textview_btn_ok_size"
+        android:textColor="@color/textview_login"
         />
 </LinearLayout>

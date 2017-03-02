@@ -3,20 +3,20 @@
     android:id="@+id/llContactItem"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="30dp"
-    android:layout_marginRight="30dp"
+    android:layout_marginLeft="@dimen/ll_contact_item_margin"
+    android:layout_marginRight="@dimen/ll_contact_item_margin"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/tvUserContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
-        android:textSize="15sp" />
+        android:layout_marginBottom="@dimen/textview_user_contact_margin_bottom"
+        android:layout_marginTop="@dimen/textview_user_contact_margin_top"
+        android:textSize="@dimen/textview_user_contact_text_size" />
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/view_height"
         android:background="@drawable/bg_gradient" />
 </LinearLayout>
