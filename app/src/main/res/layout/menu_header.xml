@@ -4,10 +4,10 @@
     android:layout_height="wrap_content"
     android:background="@android:color/white"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingLeft="16dp"
-    android:paddingRight="16dp"
-    android:paddingTop="50dp">
+    android:paddingBottom="@dimen/menu_header_padding_left_bottom"
+    android:paddingLeft="@dimen/menu_header_padding_left_right"
+    android:paddingRight="@dimen/menu_header_padding_left_right"
+    android:paddingTop="@dimen/rl_register_header_height">
 
     <TextView
         android:id="@+id/tvTitle"
@@ -19,6 +19,5 @@
         android:id="@+id/tvUsername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="phuong_pham" />
+        android:layout_marginTop="@dimen/textview_user_contact_margin_top" />
 </LinearLayout>

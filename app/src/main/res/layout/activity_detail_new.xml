@@ -6,6 +6,7 @@
 
     <ImageView
         android:id="@+id/imgClose"
+        android:contentDescription="@string/img_close_detail_new"
         android:layout_width="@dimen/img_close_detail_new"
         android:layout_height="@dimen/img_close_detail_new"
         android:layout_alignParentRight="true"
@@ -39,8 +40,8 @@
             android:layout_marginTop="20dp"
             android:background="@android:color/transparent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="12sp" />
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_title_new_detail_size" />
 
         <TextView
             android:id="@+id/tvDetailNewDetail"
@@ -48,60 +49,57 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@android:color/transparent"
-            android:text="làm vào ngày 23/02/2017"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="12sp" />
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_title_new_detail_size" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginTop="30dp"
+            android:layout_height="@dimen/View_detail_new_height"
+            android:layout_marginTop="@dimen/View_detail_new_margin_top"
             android:background="@drawable/bg_gradient" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/textview_text_title_user_hider"
             android:background="@android:color/transparent"
-            android:text="Người đăng bài"
+            android:text="@string/textview_title_user_hider"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="15sp"
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_title_user_hider_size"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/tvUsernameNew"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/textview_text_user_hider_margin_top"
             android:background="@android:color/transparent"
-            android:text="Username : phuongpham"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="12sp" />
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_user_hider_size" />
 
         <TextView
             android:id="@+id/tvAddressUser"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/textview_text_address_user_hider"
             android:background="@android:color/transparent"
-            android:text="58 Ngô Thị Nhậm, Đà Nẵng"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="12sp" />
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_user_hider_size" />
 
         <Button
             android:id="@+id/btnContact"
-            android:layout_width="160dp"
-            android:layout_height="40dp"
+            android:layout_width="@dimen/button_contact_width"
+            android:layout_height="@dimen/button_contact_height"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="@dimen/button_contact_margin_top"
             android:background="@drawable/bg_btn_contact"
             android:textColor="@android:color/white"
-            android:text="Đặt chỗ"
-            android:textSize="14sp" />
+            android:text="@string/button_contact_detail_new"
+            android:textSize="@dimen/button_contact_text_size" />
     </LinearLayout>
 
 </RelativeLayout>

@@ -3,13 +3,13 @@
     android:id="@+id/rlNewItem"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginLeft="20dp"
-    android:layout_marginRight="20dp">
+    android:layout_marginLeft="@dimen/ll_detail_new_margin_top"
+    android:layout_marginRight="@dimen/ll_detail_new_margin_top">
 
     <View
         android:id="@+id/viewLineTop"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/view_height"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_gradient" />
 
@@ -21,18 +21,18 @@
         android:layout_toLeftOf="@id/imgRight"
         android:layout_toStartOf="@id/imgRight"
         android:orientation="vertical"
-        android:paddingBottom="15dp"
+        android:paddingBottom="@dimen/textview_text_user_hider_margin_top"
         android:textStyle="bold">
 
         <TextView
             android:id="@+id/tvDateNew"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="@dimen/textview_text_user_hider_margin_top"
             android:background="@android:color/transparent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="12sp"
+            android:textColor="@color/text_selector"
+            android:textSize="@dimen/textview_text_user_hider_size"
             android:textStyle="bold" />
 
         <TextView
@@ -42,8 +42,8 @@
             android:layout_below="@+id/tvDateNew"
             android:background="@android:color/transparent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="14sp" />
+            android:textColor="@color/text_selector"
+            android:textSize="@dimen/button_contact_text_size" />
 
         <TextView
             android:id="@+id/tvDetailNew"
@@ -52,8 +52,8 @@
             android:layout_below="@+id/tvTitleNew"
             android:background="@android:color/transparent"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="#677783"
-            android:textSize="14sp" />
+            android:textColor="@color/text_selector"
+            android:textSize="@dimen/button_contact_text_size" />
 
         <CheckBox
             android:id="@+id/imgNewContact"
@@ -64,10 +64,10 @@
             android:layout_alignParentTop="true"
             android:layout_centerInParent="true"
             android:layout_gravity="top|end|center_vertical"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/rl_login_header_margin_top"
             android:button="@drawable/selector_contact"
             android:clickable="true"
-            android:padding="2dp" />
+            android:padding="@dimen/view_height_dialog" />
 
     </RelativeLayout>
 

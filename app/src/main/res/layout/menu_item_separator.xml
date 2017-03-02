@@ -2,16 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#85caea">
+    android:background="@color/ll_item_separator">
 
     <TextView
         android:id="@+id/tvSeparator"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:paddingLeft="20dp"
+        android:layout_height="@dimen/ll_detail_new_margin"
+        android:paddingLeft="@dimen/ll_detail_new_margin_top"
         android:gravity="center_vertical"
         android:textColor="@android:color/white"
-        android:textSize="15sp"
+        android:textSize="@dimen/textview_text_title_user_hider_size"
         android:textStyle="bold"
         android:visibility="visible" />
 

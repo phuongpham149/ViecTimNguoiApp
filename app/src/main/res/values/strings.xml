@@ -8,4 +8,22 @@
     <string name="textview.text.hider">Nhà tuyển dụng</string>
     <string name="img_contact_detail_description">image back</string>
     <string name="facebook_app_id">1284834688271138</string>
+    <string name="img_close_detail_new">icon close</string>
+    <string name="button_contact_detail_new">Book</string>
+    <string name="textview_title_user_hider">User hide</string>
+    <string name="textview_text_login">Login</string>
+    <string name="textview_login_username">Username</string>
+    <string name="textview_password">Password (smallest 8 characters)</string>
+    <string name="btn_login">Login</string>
+    <string name="textview_login_fb">Login Using Facebook Account</string>
+    <string name="title_name_app">VIỆC TÌM NGƯỜI</string>
+    <string name="btn_register">Register</string>
+    <string name="btn_text_login">Login</string>
+    <string name="textview_retype_password">Confirm Password</string>
+    <string name="textview_role_register">You are</string>
+    <string name="edt_hint_mesage_area">Write a message...</string>
+    <string name="textview_name_app">Việt Tìm Người</string>
+    <string name="textview_btn_ok">OK</string>
+    <string name="btn_cancel">Cancel</string>
+    <string name="textview_user_infor">User Information</string>
 </resources>

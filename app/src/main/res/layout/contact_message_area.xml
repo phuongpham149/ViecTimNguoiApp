@@ -10,16 +10,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:hint="Write a message..."
+        android:hint="@string/edt_hint_mesage_area"
         android:id="@+id/edtMessageArea"
-        android:maxHeight="80dp"
+        android:maxHeight="@dimen/edt_message_area_max_height"
         />
 
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="4"
-        android:padding="4dp"
+        android:padding="@dimen/img_send_padding"
         android:src="@drawable/ic_send_message"
         android:id="@+id/imgSend"/>
 </LinearLayout>

@@ -1,43 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="350dp"
-    android:layout_height="260dp">
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_choice_role_height"
+    android:orientation="vertical">
+
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginLeft="20dp"
-        android:text="Việc Tìm Người"
+        android:layout_marginLeft="@dimen/view_dialog_margin_top"
+        android:layout_marginTop="@dimen/view_dialog_margin_top"
+        android:text="@string/title_name_app"
         android:textColor="@color/textview.text.title.login"
-        android:textStyle="bold"
-        android:id="@+id/tvTitle"
-        android:textSize="20sp"
-        />
+        android:textSize="@dimen/textview_name_app_size"
+        android:textStyle="bold" />
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/textview.text.title.register"
-        android:layout_marginTop="20dp"
-        />
+        android:layout_height="@dimen/view_height_dialog"
+        android:layout_marginTop="@dimen/view_dialog_margin_top"
+        android:background="@color/textview.text.title.register" />
+
     <TextView
+        android:id="@+id/tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:id="@+id/tvContent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:textColor="#747a7e"
-        android:text="You are "
         android:layout_gravity="center_horizontal"
-        />
+        android:layout_marginLeft="@dimen/edt_username_login_padding"
+        android:layout_marginRight="@dimen/edt_username_login_padding"
+        android:layout_marginTop="@dimen/edt_username_login_padding"
+        android:text="@string/textview_role_register"
+        android:textColor="@color/textview_login"
+        android:textSize="@dimen/btn_login_text" />
+
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp">
+        android:layout_gravity="start"
+        android:layout_marginLeft="@dimen/radio_group_margin"
+        android:layout_marginTop="@dimen/radio_group_margin">
 
         <!-- TODO 素材-->
         <RadioButton
@@ -56,45 +57,45 @@
             style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="@dimen/rl_register_header_margin_top"
             android:background="@null"
             android:text="@string/textview.text.hider"
             android:textColor="@color/hint_text" />
     </RadioGroup>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#DEDEDE"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_height="@dimen/view_height"
+        android:layout_marginTop="@dimen/rl_register_header_margin_top"
+        android:background="@color/view_footer_dilog" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
+        android:orientation="horizontal">
+
         <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:text="Cancel"
-            android:layout_weight="1"
             android:id="@+id/tvBtnCancel"
-            android:textSize="15sp"
-            android:textColor="#747a7e"
-            />
-        <View
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:background="#747a7e"
-            />
-        <Button
-            android:layout_width="0dp"
+            android:layout_width="@dimen/btn_dialog_choice"
             android:layout_height="match_parent"
-            android:text="OK"
             android:layout_weight="1"
+            android:text="@string/btn_cancel"
+            android:textColor="@color/textview_login"
+            android:textSize="@dimen/textview_btn_ok_size" />
+
+        <View
+            android:layout_width="@dimen/view_height"
+            android:layout_height="wrap_content"
+            android:background="@color/textview_login" />
+
+        <Button
             android:id="@+id/tvBtnOk"
-            android:textSize="15sp"
-            android:textColor="#747a7e"
-            />
+            android:layout_width="@dimen/btn_dialog_choice"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="@string/textview_btn_ok"
+            android:textColor="@color/textview_login"
+            android:textSize="@dimen/textview_btn_ok_size" />
     </LinearLayout>
 
 </LinearLayout>

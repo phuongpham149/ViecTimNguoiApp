@@ -22,8 +22,8 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:gravity="center"
-                android:textColor="#0599d9"
-                android:textSize="18sp"
+                android:textColor="@color/textview_title_footer"
+                android:textSize="@dimen/textview_text_login_size"
                 android:visibility="gone" />
         </RelativeLayout>
 
@@ -34,8 +34,8 @@
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="4dp"
-            android:layout_marginRight="4dp"
+            android:layout_marginEnd="@dimen/img_send_padding"
+            android:layout_marginRight="@dimen/img_send_padding"
             android:visibility="gone" />
 
     </RelativeLayout>

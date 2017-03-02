@@ -5,26 +5,26 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="@dimen/ll_register_margin"
+            android:layout_marginRight="@dimen/ll_register_margin"
             android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp">
+                android:layout_height="@dimen/rl_register_header_height"
+                android:layout_marginTop="@dimen/rl_register_header_margin_top">
 
                 <ImageView
                     android:id="@+id/imgBack"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="@dimen/img_back_size"
+                    android:layout_height="@dimen/img_back_size"
                     android:layout_centerVertical="true"
                     android:src="@drawable/ic_back" />
 
@@ -33,73 +33,73 @@
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
-                    android:text="Đăng Ký"
+                    android:text="@string/btn_register"
                     android:textColor="@color/textview.text.title.register"
-                    android:textSize="18sp"
+                    android:textSize="@dimen/textview_title_register"
                     android:textStyle="bold" />
             </RelativeLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
-                android:text="Tên tài khoản"
-                android:textColor="#747a7e" />
+                android:layout_marginTop="@dimen/textview_username_register_margin_top"
+                android:text="@string/textview_login_username"
+                android:textColor="@color/textview_login_username" />
 
             <EditText
                 android:id="@+id/edtUsername"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/edt_username_login_margin_top"
                 android:background="@drawable/bg_message"
-                android:padding="10dp" />
+                android:padding="@dimen/edt_username_login_padding" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Mật khẩu ( ít nhất 8 kí tự)"
-                android:textColor="#747a7e" />
+                android:layout_marginTop="@dimen/textview_text_password_margin_top"
+                android:text="@string/textview_password"
+                android:textColor="@color/textview_login_username" />
 
             <EditText
                 android:id="@+id/edtPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/edt_password_margin_top"
                 android:background="@drawable/bg_message"
                 android:inputType="textPassword"
-                android:padding="10dp" />
+                android:padding="@dimen/edt_password_padding" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Nhập lại mật khẩu"
-                android:textColor="#747a7e" />
+                android:layout_marginTop="@dimen/textview_repassword_margin_top"
+                android:text="@string/textview_retype_password"
+                android:textColor="@color/textview_login_username" />
 
             <EditText
                 android:id="@+id/edtRePassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/edt_password_margin_top"
                 android:background="@drawable/bg_message"
                 android:inputType="textPassword"
-                android:padding="10dp" />
+                android:padding="@dimen/edt_password_padding" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:text="Bạn là "
-                android:textColor="#747a7e" />
+                android:layout_marginTop="@dimen/textview_role_register"
+                android:text="@string/textview_role_register"
+                android:textColor="@color/textview_login_username" />
             >
 
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp">
+                android:layout_gravity="start"
+                android:layout_marginLeft="@dimen/radio_group_margin"
+                android:layout_marginTop="@dimen/radio_group_margin">
 
                 <!-- TODO 素材-->
                 <RadioButton
@@ -118,7 +118,7 @@
                     style="@android:style/Widget.Holo.Light.CompoundButton.RadioButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="@dimen/radio_hider_margion_top"
                     android:background="@null"
                     android:text="@string/textview.text.hider"
                     android:textColor="@color/hint_text" />
@@ -127,23 +127,23 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginTop="20dp"
+                android:layout_height="@dimen/view_height"
+                android:layout_marginTop="@dimen/view_register_margin_top"
                 android:background="@drawable/bg_gradient" />
 
             <Button
                 android:id="@+id/btnRegister"
-                android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_width="@dimen/btn_register_width"
+                android:layout_height="@dimen/btn_register_height"
                 android:layout_below="@+id/btnLogin"
                 android:layout_centerHorizontal="true"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginBottom="30dp"
-                android:layout_marginTop="40dp"
+                android:layout_marginBottom="@dimen/btn_register_margin_bottom"
+                android:layout_marginTop="@dimen/btn_activity_register_margin_top"
                 android:background="@drawable/bg_btn_contact"
-                android:text="Đăng ký"
+                android:text="@string/btn_register"
                 android:textColor="@android:color/white"
-                android:textSize="18sp" />
+                android:textSize="@dimen/btn_regiter_text_size" />
 
 
         </LinearLayout>

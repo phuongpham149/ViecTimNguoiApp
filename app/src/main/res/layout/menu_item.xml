@@ -6,7 +6,7 @@
     <View
         android:id="@+id/viewLineTop"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/view_height"
         android:layout_alignParentTop="true"
         android:background="@drawable/bg_gradient" />
 
@@ -15,19 +15,19 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewLineTop"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp">
+        android:paddingLeft="@dimen/ll_register_margin"
+        android:paddingRight="@dimen/ll_register_margin">
 
         <TextView
             android:id="@+id/tvMenuItemName"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="@dimen/img_back_size"
             android:layout_toLeftOf="@+id/imgRight"
             android:layout_toStartOf="@+id/imgRight"
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:textColor="@drawable/selector_text"
-            android:textSize="12sp" />
+            android:textSize="@dimen/textview_title_footer" />
 
         <ImageView
             android:id="@+id/imgRight"
@@ -43,7 +43,7 @@
     <View
         android:id="@+id/viewLineBottom"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="@dimen/view_height"
         android:layout_below="@+id/rlMenuItem"
         android:background="@drawable/bg_gradient"
         android:visibility="visible" />
