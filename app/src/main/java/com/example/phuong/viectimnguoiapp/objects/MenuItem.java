@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Data
 public class MenuItem {
-    Class<?> clazz;
+    private int icon;
     private String title;
 }

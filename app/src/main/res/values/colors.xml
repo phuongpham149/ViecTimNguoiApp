@@ -13,8 +13,8 @@
     <color name="bg_default">#FFFFFF</color>
 
     <!-- login -->
-    <color name="textview.text.title.login">#0798D6</color>
-    <color name="textview.text.title.register">#0798D6</color>
+    <color name="textview.text.title.login">#303F9F</color>
+    <color name="textview.text.title.register">#303F9F</color>
 
     <!--register -->
     <color name="hint_text">#898e91</color>
@@ -28,4 +28,6 @@
     <color name="tab_selected_color">#0793D0</color>
     <color name="textview_title_footer">#0599d9</color>
     <color name="ll_item_separator">#85caea</color>
+    <color name="textview_Register_in_Login">#303F9F</color>
+    <color name="view_background_separate">#DEDEDE</color>
 </resources>

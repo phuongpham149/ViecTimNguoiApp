@@ -7,7 +7,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/ll_login_margin"
         android:layout_marginRight="@dimen/ll_login_margin"
         android:orientation="vertical">
@@ -17,22 +17,16 @@
             android:layout_height="@dimen/rl_login_header_height"
             android:layout_marginTop="@dimen/rl_login_header_margin_top">
 
-            <ImageView
-                android:id="@+id/imgBack"
-                android:layout_width="@dimen/img_back_header_login"
-                android:layout_height="@dimen/img_back_header_login"
-                android:layout_centerVertical="true"
-                android:src="@drawable/ic_back" />
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
-                android:text="@string/textview_text_login"
+                android:textStyle="bold"
                 android:textColor="@color/textview.text.title.login"
-                android:textSize="@dimen/textview_text_login_size"
-                android:textStyle="bold" />
+                android:text="@string/textview_text_login"
+                android:textSize="@dimen/textview_text_login_size"/>
+
         </RelativeLayout>
 
         <TextView
@@ -40,6 +34,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/textview_text_username_margin_top"
             android:text="@string/textview_login_username"
+            android:textSize="@dimen/textview_text_username_size"
             android:textColor="@color/textview_login" />
 
         <EditText
@@ -55,7 +50,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/textview_text_password_margin_top"
             android:text="@string/textview_password"
-            android:textColor="@color/textview_login" />
+            android:textSize="@dimen/textview_text_username_size"
+             />
 
         <EditText
             android:id="@+id/edtPassword"
@@ -66,11 +62,13 @@
             android:inputType="textPassword"
             android:padding="@dimen/edt_password_padding" />
 
-        <View
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/View_login_height"
+            android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/View_login_margin_top"
-            android:background="@drawable/bg_gradient" />
+            android:text="@string/textview_text_forget_password"
+            android:textSize="@dimen/textview_text_username_size"
+            />
 
         <Button
             android:id="@+id/btnLogin"
@@ -80,24 +78,76 @@
             android:layout_marginTop="@dimen/btn_login_margin_top"
             android:background="@drawable/bg_btn_contact"
             android:text="@string/btn_login"
-            android:textColor="@android:color/white"
+            android:textColor="@color/textview.text.title.login"
             android:textSize="@dimen/btn_login_text" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom">
-
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/ll_separate_margin_top"
+            >
+            <View
+                android:layout_width="@dimen/btn_dialog_choice"
+                android:layout_height="@dimen/view_height"
+                android:background="@color/view_background_separate"
+                android:layout_weight="3"
+                />
             <TextView
-                android:id="@+id/tvLoginFaceBook"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:text="@string/textview_text_or"
+                />
+            <View
+                android:layout_width="0dp"
+                android:layout_height="@dimen/view_height"
+                android:background="@color/view_background_separate"
+                android:layout_weight="3"
+                />
+        </LinearLayout>
+        <Button
+            android:id="@+id/tvLoginFaceBook"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/btn_login_height"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/btn_login_fb_margin_top"
+            android:background="@drawable/bg_btn_contact"
+            android:text="@string/btn_login_fb_text"
+            android:textColor="@color/textview.text.title.login"
+            android:paddingLeft="@dimen/btn_login_fb_padding_left"
+            android:paddingRight="10dp"
+            android:textSize="@dimen/btn_login_text" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="50dp"
+            android:layout_gravity="center_horizontal"
+            >
+            <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="@dimen/textview_login_fb_margin_top"
-                android:layout_marginBottom="@dimen/textview_login_fb_margin_bottom"
-                android:text="@string/textview_login_fb"
-                android:textColor="@color/textview.text.title.login" />
+                android:text="Bạn chưa có tài khoản."
+                android:textSize="18sp"
+                android:id="@+id/tvYoudontAccount"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" Đăng Ký"
+                android:textSize="18sp"
+                android:id="@+id/tvRegister"
+                android:layout_toRightOf="@+id/tvYoudontAccount"
+                android:textColor="@color/textview_Register_in_Login"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=" ngay"
+                android:textSize="18sp"
+                android:layout_toRightOf="@+id/tvRegister"
+                />
         </RelativeLayout>
+
     </LinearLayout>
 </ScrollView>
