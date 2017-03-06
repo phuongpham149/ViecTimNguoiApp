@@ -142,7 +142,7 @@
                 android:layout_marginTop="@dimen/btn_activity_register_margin_top"
                 android:background="@drawable/bg_btn_contact"
                 android:text="@string/btn_register"
-                android:textColor="@android:color/white"
+                android:textColor="@color/textview.text.title.register"
                 android:textSize="@dimen/btn_regiter_text_size" />
 
 

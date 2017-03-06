@@ -38,15 +38,13 @@ public class SettingMenuFragment extends BaseFragment implements DrawerLayout.Dr
     public void initsData() {
         mItems = new ArrayList<>();
         mItems.add(new String("header"));
-        mItems.add(new MenuItem(NewsFragment_.class, "Việc làm"));
-        mItems.add(new MenuItem(InforUserFragment_.class, "Thông tin"));
-        mItems.add(new MenuItem(ContactFragment_.class, "Tin nhắn"));
-        mItems.add(new MenuItem(null, "Empty"));
-        mItems.add(new MenuItem(null, "Cài đặt"));
-        mItems.add(new MenuItem(ContactFragment_.class, "Đổi mật khẩu"));
-        mItems.add(new MenuItem(null, "Empty"));
-        mItems.add(new MenuItem(null, "Trợ giúp"));
-        mItems.add(new MenuItem(ContactFragment_.class, "Đổi mật khẩu"));
+        mItems.add(new MenuItem(R.drawable.ic_home, "Việc làm"));
+        mItems.add(new MenuItem(R.drawable.ic_user_infor, "Thông tin cá nhân"));
+        mItems.add(new MenuItem(R.drawable.ic_save, "Việc làm đã lưu"));
+        mItems.add(new MenuItem(R.drawable.ic_note, "Việc đã tương tác"));
+        mItems.add(new MenuItem(R.drawable.ic_settings, "Cài đặt"));
+        mItems.add(new MenuItem(R.drawable.ic_feedback, "Phản hồi"));
+        mItems.add(new MenuItem(R.drawable.ic_logout, "Đăng xuất"));
         mItems.add(new Integer(1));
     }
 

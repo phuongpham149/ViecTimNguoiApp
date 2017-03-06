@@ -93,7 +93,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     @Click(R.id.imgBack)
     public void BackAction() {
-        finish();
+        LoginActivity_.intent(this).start();
     }
 
     public void doRegister() {

@@ -5,14 +5,14 @@
     android:background="@android:color/white"
     android:gravity="center"
     android:orientation="vertical"
-    android:paddingBottom="20dp"
-    android:paddingTop="30dp">
+    android:paddingBottom="@dimen/ll_footer_padding_bottom"
+    android:paddingTop="@dimen/ll_footer_padding_top">
 
     <TextView
         android:id="@+id/tvNameApp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/textview_name_app_footer_menu"
-        android:textColor="@color/textview_title_footer"
+        android:textColor="@color/textview.text.title.register"
         android:textSize="@dimen/textview_title_footer" />
 </LinearLayout>

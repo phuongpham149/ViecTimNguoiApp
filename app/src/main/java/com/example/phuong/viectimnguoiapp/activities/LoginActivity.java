@@ -64,6 +64,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     protected String username;
     @Extra
     protected String password;
+
     @NotEmpty(message = "Vui lòng điền tên tài khoản")
     @ViewById(R.id.edtUsername)
     EditText mEdtUsername;
@@ -72,8 +73,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     @NotEmpty(message = "Vui lòng điền mật khẩu")
     @ViewById(R.id.edtPassword)
     EditText mEdtPassword;
+
     @ViewById(R.id.tvLoginFaceBook)
-    TextView mTvLoginFacebook;
+    Button mTvLoginFacebook;
+    @ViewById(R.id.btnLogin)
+    Button mBtnLogin;
+    @ViewById(R.id.tvRegister)
+    TextView mTvRegister;
+
     private ProgressDialog mProgressDialogLoading;
     private Validator mValidator;
     private Firebase mFirebase;
@@ -81,6 +88,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private User mUser;
     private int mStatusBlockUser = 0;
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private CallbackManager callbackManager;
     private String mRoleUserFaceBook;
 
@@ -96,7 +104,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         mValidator.setValidationListener(this);
 
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
+        if(mSharedPreferences.getString(Constant.IS_USER_LOGIN,"").equals("true")){
+            MainActivity_.intent(this).start();
+        }
         BusProvider.getInstance().register(this);
+
         FacebookSdk.sdkInitialize(this);
         callbackManager = CallbackManager.Factory.create();
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -123,11 +136,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         GraphRequest request = GraphRequest.newMeRequest(accessToken, new GraphRequest.GraphJSONObjectCallback() {
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
-                SharedPreferences.Editor editor = mSharedPreferences.edit();
                 try {
-                    editor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
-                    editor.putString(Constant.ROLE_USER_LOGIN, mRoleUserFaceBook);
-                    editor.commit();
+                    mEditor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
+                    mEditor.putString(Constant.ROLE_USER_LOGIN, mRoleUserFaceBook);
+                    mEditor.putString(Constant.IS_USER_LOGIN, "true");
+                    mEditor.commit();
                     MainActivity_.intent(LoginActivity.this).start();
                 } catch (JSONException e) {
                     Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
@@ -170,10 +183,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void run() {
                 if (check) {
-                    SharedPreferences.Editor editor = mSharedPreferences.edit();
-                    editor.putString(Constant.NAME_USER_LOGIN, mUser.getUsername());
-                    editor.putString(Constant.ROLE_USER_LOGIN, mUser.getRole());
-                    editor.commit();
+                    mEditor.putString(Constant.NAME_USER_LOGIN, mUser.getUsername());
+                    mEditor.putString(Constant.ROLE_USER_LOGIN, mUser.getRole());
+                    mEditor.putString(Constant.IS_USER_LOGIN, "true");
+                    mEditor.commit();
                     MainActivity_.intent(LoginActivity.this).start();
                 } else {
                     if (mStatusBlockUser == 0) {
@@ -198,7 +211,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         if (map.get("status").toString().equals(Constant.USER_ACTIVE)) {
                             check = true;
                             mUser = new User();
-                            mUser.setUsername(username);
+                            mUser.setUsername(mEdtUsername.getText().toString());
                             mUser.setRole(map.get("role").toString());
                             return;
                         } else {
@@ -234,11 +247,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             }
         });
-    }
-
-    @Click(R.id.imgBack)
-    public void BackAction() {
-        finish();
     }
 
     @Override
@@ -285,6 +293,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
 
         dialog.show();
+    }
+
+    @Click(R.id.tvRegister)
+    void RegisterAction() {
+        RegisterActivity_.intent(this).start();
     }
 
     @Override

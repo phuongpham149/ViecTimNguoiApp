@@ -3,7 +3,7 @@
     <string name="openDrawer">Open</string>
     <string name="closeDrawer">Close</string>
     <string name="textview_title_username_header_menu">username</string>
-    <string name="textview_name_app_footer_menu">Ứng dụng việc tìm người</string>
+    <string name="textview_name_app_footer_menu">Người tìm việc - Việc tìm người</string>
     <string name="textview.text.work">Người tìm việc</string>
     <string name="textview.text.hider">Nhà tuyển dụng</string>
     <string name="img_contact_detail_description">image back</string>
@@ -11,10 +11,11 @@
     <string name="img_close_detail_new">icon close</string>
     <string name="button_contact_detail_new">Book</string>
     <string name="textview_title_user_hider">User hide</string>
-    <string name="textview_text_login">Login</string>
-    <string name="textview_login_username">Username</string>
-    <string name="textview_password">Password (smallest 8 characters)</string>
-    <string name="btn_login">Login</string>
+    <string name="textview_text_login">Đăng Nhập</string>
+    <string name="textview_login_username">Tên tài khoản</string>
+    <string name="textview_password">Mật khẩu (ít nhất 8 kí tự)</string>
+    <string name="btn_login">Đăng Nhập</string>
+    <string name="btn_login_fb_text">Đăng Nhập Bằng Facebook</string>
     <string name="textview_login_fb">Login Using Facebook Account</string>
     <string name="title_name_app">VIỆC TÌM NGƯỜI</string>
     <string name="btn_register">Register</string>
@@ -26,4 +27,6 @@
     <string name="textview_btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
     <string name="textview_user_infor">User Information</string>
+    <string name="textview_text_forget_password">Quên mật khẩu ?</string>
+    <string name="textview_text_or">OR</string>
 </resources>

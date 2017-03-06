@@ -22,9 +22,7 @@ import java.util.List;
 public class SettingMenuAdapter extends RecyclerView.Adapter {
     private static final int MENU_HEADER = 0;
     private static final int MENU_ITEM_INFORMATION = 1;
-    private static final int MENU_ITEM_SEPARATOR = 2;
-    private static final int MENU_ITEM_EMPTY = 3;
-    private static final int MENU_FOOTER = 4;
+    private static final int MENU_FOOTER = 2;
     protected final Context mContext;
     private final List mItems;
     SharedPreferences userLogin;
@@ -48,17 +46,9 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
                 View footer = inflater.inflate(R.layout.menu_footer, parent, false);
                 viewHolder = new FooterHolder(footer);
                 break;
-            case MENU_ITEM_EMPTY:
-                View itemEmpty = inflater.inflate(R.layout.menu_item, parent, false);
-                viewHolder = new ItemEmptyHolder(itemEmpty);
-                break;
             case MENU_ITEM_INFORMATION:
                 View itemInfor = inflater.inflate(R.layout.menu_item, parent, false);
                 viewHolder = new ItemHolder(itemInfor);
-                break;
-            case MENU_ITEM_SEPARATOR:
-                View itemSeparator = inflater.inflate(R.layout.menu_item_separator, parent, false);
-                viewHolder = new ItemSeparatorHolder(itemSeparator);
                 break;
         }
         return viewHolder;
@@ -76,14 +66,7 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
                 MenuItem menuItem = (MenuItem) mItems.get(position);
                 ItemHolder mItem = (ItemHolder) holder;
                 mItem.mTvMenuItemName.setText(menuItem.getTitle());
-                if (position == (mItems.size() - 2)) {
-                    mItem.mViewBottom.setVisibility(View.VISIBLE);
-                }
-                break;
-            case MENU_ITEM_SEPARATOR:
-                MenuItem menuItem1 = (MenuItem) mItems.get(position);
-                ItemSeparatorHolder mItemSeparator = (ItemSeparatorHolder) holder;
-                mItemSeparator.mTvSeparator.setText(menuItem1.getTitle());
+                mItem.mImgIcon.setImageResource(menuItem.getIcon());
                 break;
         }
     }
@@ -96,15 +79,7 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     @Override
     public int getItemViewType(int position) {
         if (mItems.get(position) instanceof MenuItem) {
-            if (((MenuItem) mItems.get(position)).getClazz() == null) {
-                if (position == 4 || position == 7) {
-                    return MENU_ITEM_EMPTY;
-                } else {
-                    return MENU_ITEM_SEPARATOR;
-                }
-            } else {
-                return MENU_ITEM_INFORMATION;
-            }
+            return MENU_ITEM_INFORMATION;
         }
         if (mItems.get(position) instanceof String) {
             return MENU_HEADER;
@@ -137,42 +112,12 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
 
     public class ItemHolder extends RecyclerView.ViewHolder {
         TextView mTvMenuItemName;
-        ImageView mImgRight;
-        View mViewTop;
-        View mViewBottom;
+        ImageView mImgIcon;
 
         public ItemHolder(View itemView) {
             super(itemView);
             mTvMenuItemName = (TextView) itemView.findViewById(R.id.tvMenuItemName);
-            mImgRight = (ImageView) itemView.findViewById(R.id.imgRight);
-            mViewTop = (View) itemView.findViewById(R.id.viewLineTop);
-            mViewBottom = (View) itemView.findViewById(R.id.viewLineBottom);
-            mViewBottom.setVisibility(View.GONE);
-        }
-    }
-
-    public class ItemEmptyHolder extends RecyclerView.ViewHolder {
-        TextView mTvMenuItemName;
-        ImageView mImgRight;
-        View mViewTop;
-        View mViewBottom;
-
-        public ItemEmptyHolder(View itemView) {
-            super(itemView);
-            mTvMenuItemName = (TextView) itemView.findViewById(R.id.tvMenuItemName);
-            mImgRight = (ImageView) itemView.findViewById(R.id.imgRight);
-            mViewTop = (View) itemView.findViewById(R.id.viewLineTop);
-            mViewBottom = (View) itemView.findViewById(R.id.viewLineBottom);
-            mImgRight.setVisibility(View.GONE);
-        }
-    }
-
-    public class ItemSeparatorHolder extends RecyclerView.ViewHolder {
-        TextView mTvSeparator;
-
-        public ItemSeparatorHolder(View itemView) {
-            super(itemView);
-            mTvSeparator = (TextView) itemView.findViewById(R.id.tvSeparator);
+            mImgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
         }
     }
 }

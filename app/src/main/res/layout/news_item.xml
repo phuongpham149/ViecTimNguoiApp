@@ -18,8 +18,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/viewLineTop"
-        android:layout_toLeftOf="@id/imgRight"
-        android:layout_toStartOf="@id/imgRight"
         android:orientation="vertical"
         android:paddingBottom="@dimen/textview_text_user_hider_margin_top"
         android:textStyle="bold">
