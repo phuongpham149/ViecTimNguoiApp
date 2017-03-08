@@ -14,6 +14,26 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(suppressConstructorProperties = true)
 @Data
 public class NewItem implements Parcelable {
+    private String id;
+    private int idCat;
+    private String timeDeadline;
+    private String address;
+    private String timeCreated;
+    private String idUser;
+    private int idDistrict;
+    private String note;
+
+    protected NewItem(Parcel in) {
+        id = in.readString();
+        idCat = in.readInt();
+        timeCreated = in.readString();
+        timeDeadline = in.readString();
+        note = in.readString();
+        address = in.readString();
+        idDistrict = in.readInt();
+        idUser = in.readString();
+    }
+
     public static final Creator<NewItem> CREATOR = new Creator<NewItem>() {
         @Override
         public NewItem createFromParcel(Parcel in) {
@@ -25,30 +45,21 @@ public class NewItem implements Parcelable {
             return new NewItem[size];
         }
     };
-    private String date;
-    private String title;
-    private String detail;
-    private int idUser;
-
-    protected NewItem(Parcel in) {
-        date = in.readString();
-        title = in.readString();
-        detail = in.readString();
-        idUser = in.readInt();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(date);
-        dest.writeString(title);
-        dest.writeString(detail);
-        dest.writeInt(idUser);
-    }
 
     @Override
     public int describeContents() {
         return 0;
     }
 
-
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(id);
+        parcel.writeInt(idCat);
+        parcel.writeString(timeCreated);
+        parcel.writeString(timeDeadline);
+        parcel.writeString(note);
+        parcel.writeString(address);
+        parcel.writeInt(idDistrict);
+        parcel.writeString(idUser);
+    }
 }

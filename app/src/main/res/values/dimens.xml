@@ -24,7 +24,7 @@
     <dimen name="button_contact_width">160dp</dimen>
     <dimen name="button_contact_height">40dp</dimen>
     <dimen name="button_contact_margin_top">30dp</dimen>
-    <dimen name="button_contact_text_size">14sp</dimen>
+    <dimen name="button_contact_text_size">16sp</dimen>
     <dimen name="ll_login_margin">20dp</dimen>
     <dimen name="rl_login_header_height">50dp</dimen>
     <dimen name="rl_login_header_margin_top">10dp</dimen>
@@ -105,5 +105,16 @@
     <dimen name="ll_footer_padding_top">50dp</dimen>
     <dimen name="img_icon_menu_size">30dp</dimen>
     <dimen name="img_icon_menu_margin_left">20dp</dimen>
+    <dimen name="textview_text_name_job">18sp</dimen>
+    <dimen name="textview_text_setting_size">20sp</dimen>
+    <dimen name="textview_text_setting_margin_top">10dp</dimen>
+    <dimen name="textview_text_choice_job_margin_top">15dp</dimen>
+    <dimen name="textview_text_choice_job_size">18sp</dimen>
+    <dimen name="textview_text_fix_water_pipe">Sửa ống nước</dimen>
+    <dimen name="btn_save_width">120dp</dimen>
+    <dimen name="btn_save_height">50dp</dimen>
+    <dimen name="img_icon_size">30dp</dimen>
+    <dimen name="img_icon_margin_top">5dp</dimen>
+    <dimen name="textview_time_margin_top">17dp</dimen>
 
 </resources>

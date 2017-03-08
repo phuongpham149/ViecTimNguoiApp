@@ -29,4 +29,36 @@
     <string name="textview_user_infor">User Information</string>
     <string name="textview_text_forget_password">Quên mật khẩu ?</string>
     <string name="textview_text_or">OR</string>
+    <string name="textview_text_setting">Cài đặt</string>
+    <string name="textview_tex_choice_job">Chọn loại công việc</string>
+    <string name="chk_text_fix_electronic">Sửa chữa điện trong nhà</string>
+    <string name="chk_clean_house">Lau nhà</string>
+    <string name="textview_text_do_laundry">Giặt quần áo</string>
+    <string name="textview_text_paint_house">Sơn sửa nhà cửa</string>
+    <string name="textview_text_choice_address">Chọn địa điểm</string>
+    <string name="chk_text_hai_chau">Hải Châu</string>
+    <string name="chk_text_cam_le">Cẩm Lệ</string>
+    <string name="chk_text_lien_chieu">Liên Chiểu</string>
+    <string name="chk_text_thanh_khe">Thanh Khê</string>
+    <string name="chk_text_son_tra">Sơn Trà</string>
+    <string name="chk_text_ngu_hanh_son">Ngũ Hành Sơn</string>
+    <string name="chk_text_hoa_vang">Hòa Vang</string>
+    <string name="btn_text_save">Lưu</string>
+
+    <array name="name_category">
+        <item>Sửa điện trong nhà</item>
+        <item>Lau nhà</item>
+        <item>Giặt quần áo</item>
+        <item>Sửa ống nước</item>
+        <item>Sơn sửa nhà cửa</item>
+    </array>
+    <array name="name_district">
+        <item>Hải Châu</item>
+        <item>Cẩm Lệ</item>
+        <item>Thanh Khê</item>
+        <item>Sơn Trà</item>
+        <item>Ngũ Hành Sơn</item>
+        <item>Hoà Vang</item>
+        <item>Liên Chiểu</item>
+    </array>
 </resources>

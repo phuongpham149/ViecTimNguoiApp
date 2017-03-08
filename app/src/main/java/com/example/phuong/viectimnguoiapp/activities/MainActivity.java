@@ -11,7 +11,7 @@ import android.view.animation.TranslateAnimation;
 import android.widget.FrameLayout;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.fragments.MainFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.SettingMenuFragment;
 import com.example.phuong.viectimnguoiapp.fragments.SettingMenuFragment_;
 import com.example.phuong.viectimnguoiapp.utils.ScreenUtil;
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity {
     }
 
     public void initMain() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, MainFragment_.builder().build()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().build()).commit();
     }
 
     private void initActionbar() {
