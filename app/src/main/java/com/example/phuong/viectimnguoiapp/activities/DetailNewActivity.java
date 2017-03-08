@@ -46,9 +46,9 @@ public class DetailNewActivity extends BaseActivity {
         Firebase.setAndroidContext(this);
         mSharedPreferencesLogin = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         if (mNewItem != null) {
-            mTvDate.setText(mNewItem.getDate().toString());
-            mTvTitle.setText(mNewItem.getTitle());
-            mTvDetail.setText(mNewItem.getDetail());
+//            mTvDate.setText(mNewItem.getDate().toString());
+//            mTvTitle.setText(mNewItem.getTitle());
+//            mTvDetail.setText(mNewItem.getDetail());
         } else {
             Log.d("tag11", "du lieu null");
         }
@@ -65,9 +65,9 @@ public class DetailNewActivity extends BaseActivity {
         } else {
             mFirebase1 = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUser + "_" + mNewItem.getIdUser());
             mFirebase2 = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + mNewItem.getIdUser() + "_" + idUser);
-            String messageText = username + " đăng ký làm việc " + mNewItem.getTitle() + ". Bài được đăng lúc " + mNewItem.getDate();
+            //String messageText = username + " đăng ký làm việc " + mNewItem.getTitle() + ". Bài được đăng lúc " + mNewItem.getDate();
             Map<String, String> map = new HashMap<>();
-            map.put("message", messageText);
+            //map.put("message", messageText);
             map.put("user", idUser);
             mFirebase1.push().setValue(map);
             mFirebase2.push().setValue(map);

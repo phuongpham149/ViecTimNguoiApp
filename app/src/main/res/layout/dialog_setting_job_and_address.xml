@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tvTitleDialog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/textview_text_setting"
+            android:textColor="@color/textview.text.title.register"
+            android:textSize="@dimen/textview_text_setting_size" />
+
+        <View
+            android:id="@+id/view"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/view_height"
+            android:layout_below="@+id/tvTitleDialog"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:background="@color/textview_login" />
+
+        <TextView
+            android:id="@+id/tvChoiceSomeJob"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/view"
+            android:layout_marginLeft="@dimen/textview_text_setting_margin_top"
+            android:layout_marginTop="@dimen/textview_text_choice_job_margin_top"
+            android:text="@string/textview_tex_choice_job"
+            android:textSize="@dimen/textview_text_choice_job_size" />
+
+        <CheckBox
+            android:id="@+id/chkFixElectronicInHouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvChoiceSomeJob"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_fix_electronic" />
+
+        <CheckBox
+            android:id="@+id/chkCleanHouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkFixElectronicInHouse"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_clean_house" />
+
+        <CheckBox
+            android:id="@+id/chkDoLaundry"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkCleanHouse"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/textview_text_do_laundry" />
+
+        <CheckBox
+            android:id="@+id/chkFixWaterPipe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkDoLaundry"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@dimen/textview_text_fix_water_pipe" />
+
+        <CheckBox
+            android:id="@+id/chkPaintHouse"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkFixWaterPipe"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/textview_text_paint_house" />
+
+        <TextView
+            android:id="@+id/tvChoiceSomeAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkPaintHouse"
+            android:layout_marginLeft="@dimen/textview_text_setting_margin_top"
+            android:layout_marginTop="@dimen/textview_text_choice_job_margin_top"
+            android:text="@string/textview_text_choice_address"
+            android:textSize="@dimen/textview_text_name_job" />
+
+        <CheckBox
+            android:id="@+id/chkHaiChau"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvChoiceSomeAddress"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_hai_chau" />
+
+        <CheckBox
+            android:id="@+id/chkCamLe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkHaiChau"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_cam_le" />
+
+        <CheckBox
+            android:id="@+id/chkLienChieu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkCamLe"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_lien_chieu" />
+
+        <CheckBox
+            android:id="@+id/chkThanhKhe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkLienChieu"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_thanh_khe" />
+
+        <CheckBox
+            android:id="@+id/chkSonTra"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkThanhKhe"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_son_tra" />
+
+        <CheckBox
+            android:id="@+id/chkNguHanhSon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkSonTra"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_ngu_hanh_son" />
+
+        <CheckBox
+            android:id="@+id/chkHoaVang"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/chkNguHanhSon"
+            android:layout_marginLeft="@dimen/ll_login_margin"
+            android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+            android:text="@string/chk_text_hoa_vang" />
+
+        <Button
+            android:layout_width="@dimen/btn_save_width"
+            android:layout_height="@dimen/btn_save_height"
+            android:text="@string/btn_text_save"
+            android:layout_marginTop="@dimen/ll_login_margin"
+            android:layout_below="@+id/chkHoaVang"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/btnSave"
+            android:layout_marginBottom="@dimen/rl_login_header_margin_top"
+            android:background="@drawable/bg_btn_contact"
+            android:textColor="@color/textview.text.title.register"
+            />
+    </RelativeLayout>
+</ScrollView>

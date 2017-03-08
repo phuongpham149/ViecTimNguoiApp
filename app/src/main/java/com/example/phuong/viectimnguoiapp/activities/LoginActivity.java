@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -92,6 +93,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private CallbackManager callbackManager;
     private String mRoleUserFaceBook;
 
+    private String mSettingJob = "";
+    private String mSettingAddress = "";
+
     @Override
     void inits() {
         if (!"".equals(username) && !"".equals(password)) {
@@ -105,7 +109,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
-        if(mSharedPreferences.getString(Constant.IS_USER_LOGIN,"").equals("true")){
+        if (mSharedPreferences.getString(Constant.IS_USER_LOGIN, "").equals("true")) {
             MainActivity_.intent(this).start();
         }
         BusProvider.getInstance().register(this);
@@ -141,7 +145,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     mEditor.putString(Constant.ROLE_USER_LOGIN, mRoleUserFaceBook);
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.commit();
-                    MainActivity_.intent(LoginActivity.this).start();
+                    showDialogSetting();
                 } catch (JSONException e) {
                     Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
                     e.printStackTrace();
@@ -187,7 +191,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     mEditor.putString(Constant.ROLE_USER_LOGIN, mUser.getRole());
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.commit();
-                    MainActivity_.intent(LoginActivity.this).start();
+                    showDialogSetting();
                 } else {
                     if (mStatusBlockUser == 0) {
                         Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
@@ -292,6 +296,80 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             }
         });
 
+        dialog.show();
+    }
+
+    public void showDialogSetting() {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_setting_job_and_address);
+        final CheckBox chkFixElectronicInHouse = (CheckBox) dialog.findViewById(R.id.chkFixElectronicInHouse);
+        final CheckBox chkCleanHouse = (CheckBox) dialog.findViewById(R.id.chkCleanHouse);
+        final CheckBox chkDoLaundry = (CheckBox) dialog.findViewById(R.id.chkDoLaundry);
+        final CheckBox chkFixWaterPipe = (CheckBox) dialog.findViewById(R.id.chkFixWaterPipe);
+        final CheckBox chkPaintHouse = (CheckBox) dialog.findViewById(R.id.chkPaintHouse);
+
+        final CheckBox chkHaiChau = (CheckBox) dialog.findViewById(R.id.chkHaiChau);
+        final CheckBox chkCamLe = (CheckBox) dialog.findViewById(R.id.chkCamLe);
+        final CheckBox chkLienChieu = (CheckBox) dialog.findViewById(R.id.chkLienChieu);
+        final CheckBox chkThanhKhe = (CheckBox) dialog.findViewById(R.id.chkThanhKhe);
+        final CheckBox chkSonTra = (CheckBox) dialog.findViewById(R.id.chkSonTra);
+        final CheckBox chkNguHanhSon = (CheckBox) dialog.findViewById(R.id.chkNguHanhSon);
+        final CheckBox chkHoaVang = (CheckBox) dialog.findViewById(R.id.chkHoaVang);
+
+        Button btnSave = (Button) dialog.findViewById(R.id.btnSave);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (chkFixElectronicInHouse.isChecked()) {
+                    mSettingJob += Constant.TYPE_FIX_ELECTRONIC_IN_HOUSE + ";";
+                }
+                if (chkCleanHouse.isChecked()) {
+                    mSettingJob += Constant.TYPE_CLEAN_HOUSE + ";";
+                }
+                if (chkDoLaundry.isChecked()) {
+                    mSettingJob += Constant.TYPE_DO_LAUNDRY + ";";
+                }
+                if (chkFixWaterPipe.isChecked()) {
+                    mSettingJob += Constant.TYPE_FIX_WATER_PIPE + ";";
+                }
+                if (chkPaintHouse.isChecked()) {
+                    mSettingJob += Constant.TYPE_PAINT_HOUSE + ";";
+                }
+
+                if (chkHaiChau.isChecked()) {
+                    mSettingAddress += Constant.TYPE_HAI_CHAU + ";";
+                }
+                if (chkCamLe.isChecked()) {
+                    mSettingAddress += Constant.TYPE_CAM_LE + ";";
+                }
+                if (chkLienChieu.isChecked()) {
+                    mSettingAddress += Constant.TYPE_LIEN_CHIEU + ";";
+                }
+                if (chkThanhKhe.isChecked()) {
+                    mSettingAddress += Constant.TYPE_THANH_KHE + ";";
+                }
+                if (chkSonTra.isChecked()) {
+                    mSettingAddress += Constant.TYPE_SON_TRA + ";";
+                }
+                if (chkNguHanhSon.isChecked()) {
+                    mSettingAddress += Constant.TYPE_NGU_HANH_SON + ";";
+                }
+                if (chkHoaVang.isChecked()) {
+                    mSettingAddress += Constant.TYPE_HOA_VANG + ";";
+                }
+                if (!"".equals(mSettingAddress) && !"".equals(mSettingJob)) {
+                    //save local
+                    mEditor.putString(Constant.SETTING_ADDRESS, mSettingAddress);
+                    mEditor.putString(Constant.SETTING_JOB, mSettingJob);
+                    mEditor.commit();
+                    MainActivity_.intent(LoginActivity.this).start();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Vui lòng chọn công việc và địa điểm", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         dialog.show();
     }
 

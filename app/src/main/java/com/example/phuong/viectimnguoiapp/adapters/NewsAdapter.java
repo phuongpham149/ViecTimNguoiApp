@@ -40,18 +40,11 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     @Override
     public void onBindViewHolder(NewsHolder holder, final int position) {
         final NewItem item = mNews.get(position);
-        holder.mTvDate.setText(item.getDate().toString());
-        holder.mTvTitle.setText(item.getTitle());
-        holder.mTvDetail.setText(item.getDetail());
+        holder.mTvName.setText(mContext.getResources().getStringArray(R.array.name_category)[item.getIdCat() - 1]);
+        holder.mTvTime.setText(item.getTimeCreated());
+        holder.mTvAddress.setText(item.getAddress() + ", " + mContext.getResources().getStringArray(R.array.name_district)[item.getIdDistrict() - 1]);
 
-        holder.mImgContact.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //save new
-            }
-        });
-
-        holder.mRlNewItem.setOnClickListener(new View.OnClickListener() {
+        holder.mRlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.itemClickListener(position);
@@ -70,19 +63,17 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
 
     public class NewsHolder extends RecyclerView.ViewHolder {
 
-        TextView mTvDate;
-        TextView mTvTitle;
-        TextView mTvDetail;
-        CheckBox mImgContact;
-        RelativeLayout mRlNewItem;
+        TextView mTvName;
+        TextView mTvAddress;
+        TextView mTvTime;
+        RelativeLayout mRlItem;
 
         public NewsHolder(View itemView) {
             super(itemView);
-            mTvDate = (TextView) itemView.findViewById(R.id.tvDateNew);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tvTitleNew);
-            mTvDetail = (TextView) itemView.findViewById(R.id.tvDetailNew);
-            mImgContact = (CheckBox) itemView.findViewById(R.id.imgNewContact);
-            mRlNewItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
+            mTvName = (TextView) itemView.findViewById(R.id.tvName);
+            mTvAddress = (TextView) itemView.findViewById(R.id.tvAddress);
+            mTvTime = (TextView) itemView.findViewById(R.id.tvTime);
+            mRlItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
         }
     }
 }

@@ -10,6 +10,8 @@ public class Constant {
     public static final String ID_USER_LOGIN = "idUser";
     public static final String ROLE_USER_LOGIN = "roleUser";
     public static final String IS_USER_LOGIN = "isLogin";
+    public static final String SETTING_JOB = "setting_job";
+    public static final String SETTING_ADDRESS = "setting_address";
 
     public static final String USER_ACTIVE = "1";
     public static final String USER_INACTIVE = "0";
@@ -24,5 +26,17 @@ public class Constant {
 
     public static String statusUser = "block_account";
 
+    public static final int TYPE_FIX_ELECTRONIC_IN_HOUSE = 1;
+    public static final int TYPE_CLEAN_HOUSE = 2;
+    public static final int TYPE_DO_LAUNDRY = 3;
+    public static final int TYPE_FIX_WATER_PIPE = 4;
+    public static final int TYPE_PAINT_HOUSE = 5;
 
+    public static final int TYPE_HAI_CHAU = 1;
+    public static final int TYPE_CAM_LE = 2;
+    public static final int TYPE_LIEN_CHIEU = 7;
+    public static final int TYPE_THANH_KHE = 3;
+    public static final int TYPE_SON_TRA = 4;
+    public static final int TYPE_NGU_HANH_SON = 5;
+    public static final int TYPE_HOA_VANG = 6;
 }
