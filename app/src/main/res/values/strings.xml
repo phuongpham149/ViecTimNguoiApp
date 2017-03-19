@@ -44,6 +44,7 @@
     <string name="chk_text_ngu_hanh_son">Ngũ Hành Sơn</string>
     <string name="chk_text_hoa_vang">Hòa Vang</string>
     <string name="btn_text_save">Lưu</string>
+    <string name="textview_text_fix_water_pipe">Sửa ống nước</string>
 
     <array name="name_category">
         <item>Sửa điện trong nhà</item>
