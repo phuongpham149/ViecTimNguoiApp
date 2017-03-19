@@ -27,7 +27,7 @@
                 android:layout_below="@id/toolBar" />
         </RelativeLayout>
 
-        <FrameLayout
+        <android.support.v7.widget.RecyclerView
             android:id="@+id/frLeftMenuContainer"
             android:layout_width="@dimen/frame_main_height"
             android:layout_height="match_parent"
