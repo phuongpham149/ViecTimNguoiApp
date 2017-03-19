@@ -41,4 +41,8 @@ public class Constant {
     public static final int TYPE_SON_TRA = 4;
     public static final int TYPE_NGU_HANH_SON = 5;
     public static final int TYPE_HOA_VANG = 6;
+
+    public static final String STATUS_APPROVAL = "1";
+    public static final String STATUS_NEW = "0";
+    public static final String STATUS_PENDING = "2";
 }

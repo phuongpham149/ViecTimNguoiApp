@@ -57,15 +57,8 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @ViewById(R.id.edtRePassword)
     EditText mEdtRePassword;
 
-    @ViewById(R.id.radioHide)
-    RadioButton mRdHide;
-
-    @ViewById(R.id.radioWork)
-    RadioButton mRdWork;
-
     private Validator mValidator;
     private boolean check = true;
-    private String role = Constant.USER_WORK;
     private ProgressDialog pd;
     private Firebase mFirebase;
 
@@ -107,7 +100,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     map.put("address", "");
                     map.put("email", "");
                     map.put("role", Constant.USER_ACTIVE);
-                    map.put("status", role);
+                    map.put("type", Constant.USER_SYSTEM);
                     mFirebase.push().setValue(map);
                     pd.dismiss();
                     showDialogSuccess("Đăng ký thành công.Mời bạn đăng nhập.");
@@ -191,16 +184,6 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
             }
         });
-    }
-
-    @CheckedChange(R.id.radioWork)
-    public void onCheckChangeRadioWork() {
-        role = Constant.USER_WORK;
-    }
-
-    @CheckedChange(R.id.radioHide)
-    public void onCheckChangeRadioHide() {
-        role = Constant.USER_HIDE;
     }
 
     public void showDialogSuccess(String message) {
