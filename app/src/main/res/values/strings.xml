@@ -45,6 +45,13 @@
     <string name="chk_text_hoa_vang">Hòa Vang</string>
     <string name="btn_text_save">Lưu</string>
     <string name="textview_text_fix_water_pipe">Sửa ống nước</string>
+    <string name="textview.text.title.create.new">Tạo bài đăng việc làm</string>
+    <string name="textview.text.job">Công việc</string>
+    <string name="textview.text.note">Ghi chú</string>
+    <string name="textview.text.address">Địa chỉ</string>
+    <string name="btn.post">Đăng Bài</string>
+    <string name="textview.text.deadline">Ngày hết hạn</string>
+    <string name="edt.text.provice">Đà Nẵng</string>
 
     <array name="name_category">
         <item>Sửa điện trong nhà</item>

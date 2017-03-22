@@ -115,5 +115,32 @@
     <dimen name="img_icon_size">30dp</dimen>
     <dimen name="img_icon_margin_top">5dp</dimen>
     <dimen name="textview_time_margin_top">17dp</dimen>
+    <dimen name="textview.text.title.create.new.margin.top">20dp</dimen>
+    <dimen name="textview.text.title.create.view.size">20sp</dimen>
+    <dimen name="textview.text.job.size">18sp</dimen>
+    <dimen name="textview.text.job.margin.left">20dp</dimen>
+    <dimen name="textview.text.job.margin.top">10dp</dimen>
+    <dimen name="spinner.margin.left">20dp</dimen>
+    <dimen name="spinner.margin.right">20dp</dimen>
+    <dimen name="spinner.margin.top">10dp</dimen>
+    <dimen name="textview.text.note.size">18sp</dimen>
+    <dimen name="textview.text.note.margin.left">20dp</dimen>
+    <dimen name="textview.text.note.margin.top">10dp</dimen>
+    <dimen name="edt.note.height">100dp</dimen>
+    <dimen name="edt.note.margin.left">20dp</dimen>
+    <dimen name="edt.note.margin.right">20dp</dimen>
+    <dimen name="edt.note.margin.top">10dp</dimen>
+    <dimen name="textview.text.address.size">18sp</dimen>
+    <dimen name="textview.text.address.margin.top">10dp</dimen>
+    <dimen name="textview.text.address.margin.left">20dp</dimen>
+    <dimen name="edt.address.height">50dp</dimen>
+    <dimen name="edt.address.margin.left">20dp</dimen>
+    <dimen name="edt.address.margin.top">10dp</dimen>
+    <dimen name="btn.post.width">200dp</dimen>
+    <dimen name="btn.post.height">50dp</dimen>
+    <dimen name="btn.post.margin.top">20dp</dimen>
+    <dimen name="edt.provice.width">120dp</dimen>
+    <dimen name="spinner.district.width">180dp</dimen>
+    <dimen name="spinner.district.margin.left">20dp</dimen>
 
 </resources>

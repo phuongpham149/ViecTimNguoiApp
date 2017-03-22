@@ -111,7 +111,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                 Common.createDialog(this, "username đã tồn tại, Vui lòng điền username khác", "", false, pd);
             }
         } else {
-            Common.createDialog(this, "Please check your network", "", false, pd);
+            Common.createDialog(this, "Vui lòng kiếm tra kết nối", "", false, pd);
         }
 
     }

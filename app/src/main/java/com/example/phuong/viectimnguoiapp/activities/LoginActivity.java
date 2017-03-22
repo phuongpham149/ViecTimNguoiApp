@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,13 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +21,6 @@ import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -143,10 +139,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
-                    Log.d("tag123"," object fb "+object);
                     //check xem no da co chua
-                    isCheckExistAccountFacebook(object.getString("name"),object.getString("email"));
-                    if(!check){
+                    isCheckExistAccountFacebook(object.getString("name"), object.getString("email"));
+                    if (!check) {
                         Map<String, String> map = new HashMap<String, String>();
                         map.put("id", UUID.randomUUID().toString());
                         map.put("username", object.getString("name"));
@@ -159,10 +154,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     mEditor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.commit();
-                    if(!mSharedPreferences.getString(Constant.SETTING_ADDRESS,"default").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB,"default").equals("")){
+                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "default").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "default").equals("")) {
                         MainActivity_.intent(LoginActivity.this).start();
-                    }
-                    else {
+                    } else {
                         showDialogSetting();
                     }
 
@@ -207,13 +201,13 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void run() {
                 if (check) {
-                    mEditor.putString(Constant.NAME_USER_LOGIN, mUser.getUsername());
+                    mEditor.putString(Constant.NAME_USER_LOGIN, mEdtUsername.getText().toString());
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
+                    mEditor.putString(Constant.ID_USER_LOGIN, mUser.getId());
                     mEditor.commit();
-                    if(!mSharedPreferences.getString(Constant.SETTING_ADDRESS,"default").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB,"default").equals("")){
+                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "").equals("")) {
                         MainActivity_.intent(LoginActivity.this).start();
-                    }
-                    else{
+                    } else {
                         showDialogSetting();
                     }
                 } else {
@@ -241,6 +235,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                             check = true;
                             mUser = new User();
                             mUser.setUsername(mEdtUsername.getText().toString());
+                            mUser.setId(map.get("id").toString());
                             return;
                         } else {
                             check = false;
@@ -254,7 +249,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 }
 
             }
-
 
 
             @Override
@@ -279,7 +273,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    public void isCheckExistAccountFacebook(final String username,final String emailFb) {
+    public void isCheckExistAccountFacebook(final String username, final String emailFb) {
         check = false;
 
         mFirebase.addChildEventListener(new ChildEventListener() {
@@ -308,7 +302,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 }
 
             }
-
 
 
             @Override

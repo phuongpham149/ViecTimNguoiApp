@@ -65,4 +65,19 @@ public class NewItem implements Parcelable {
         parcel.writeString(idUser);
         parcel.writeInt(status);
     }
+
+    @Override
+    public String toString() {
+        return "NewItem{" +
+                "id='" + id + '\'' +
+                ", idCat=" + idCat +
+                ", timeDeadline='" + timeDeadline + '\'' +
+                ", address='" + address + '\'' +
+                ", timeCreated='" + timeCreated + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", idDistrict=" + idDistrict +
+                ", note='" + note + '\'' +
+                ", status=" + status +
+                '}';
+    }
 }
