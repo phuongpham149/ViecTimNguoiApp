@@ -70,7 +70,7 @@
             android:layout_below="@+id/chkDoLaundry"
             android:layout_marginLeft="@dimen/ll_login_margin"
             android:layout_marginTop="@dimen/textview_text_setting_margin_top"
-            android:text="@dimen/textview_text_fix_water_pipe" />
+            android:text="@string/textview_text_fix_water_pipe" />
 
         <CheckBox
             android:id="@+id/chkPaintHouse"

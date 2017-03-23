@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -26,10 +27,12 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     protected final Context mContext;
     private final List mItems;
     SharedPreferences userLogin;
+    private itemClick mListener;
 
-    public SettingMenuAdapter(List mItems, Context mContext) {
+    public SettingMenuAdapter(List mItems, Context mContext,itemClick listener) {
         this.mItems = mItems;
         this.mContext = mContext;
+        mListener = listener;
         userLogin = mContext.getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
     }
 
@@ -55,7 +58,7 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
             case MENU_HEADER:
                 String username = userLogin.getString(Constant.NAME_USER_LOGIN, "");
@@ -67,6 +70,13 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
                 ItemHolder mItem = (ItemHolder) holder;
                 mItem.mTvMenuItemName.setText(menuItem.getTitle());
                 mItem.mImgIcon.setImageResource(menuItem.getIcon());
+
+                mItem.mRlItem.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        mListener.onItemClickListener(position);
+                    }
+                });
                 break;
         }
     }
@@ -113,11 +123,17 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     public class ItemHolder extends RecyclerView.ViewHolder {
         TextView mTvMenuItemName;
         ImageView mImgIcon;
+        RelativeLayout mRlItem;
 
         public ItemHolder(View itemView) {
             super(itemView);
             mTvMenuItemName = (TextView) itemView.findViewById(R.id.tvMenuItemName);
             mImgIcon = (ImageView) itemView.findViewById(R.id.imgIcon);
+            mRlItem = (RelativeLayout) itemView.findViewById(R.id.rlMenuItem);
         }
+    }
+
+    public interface itemClick{
+        void  onItemClickListener(int position);
     }
 }

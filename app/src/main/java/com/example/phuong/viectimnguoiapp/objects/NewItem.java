@@ -22,6 +22,7 @@ public class NewItem implements Parcelable {
     private String idUser;
     private int idDistrict;
     private String note;
+    private  int status ;
 
     protected NewItem(Parcel in) {
         id = in.readString();
@@ -32,6 +33,7 @@ public class NewItem implements Parcelable {
         address = in.readString();
         idDistrict = in.readInt();
         idUser = in.readString();
+        status = in.readInt();
     }
 
     public static final Creator<NewItem> CREATOR = new Creator<NewItem>() {
@@ -61,5 +63,21 @@ public class NewItem implements Parcelable {
         parcel.writeString(address);
         parcel.writeInt(idDistrict);
         parcel.writeString(idUser);
+        parcel.writeInt(status);
+    }
+
+    @Override
+    public String toString() {
+        return "NewItem{" +
+                "id='" + id + '\'' +
+                ", idCat=" + idCat +
+                ", timeDeadline='" + timeDeadline + '\'' +
+                ", address='" + address + '\'' +
+                ", timeCreated='" + timeCreated + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", idDistrict=" + idDistrict +
+                ", note='" + note + '\'' +
+                ", status=" + status +
+                '}';
     }
 }

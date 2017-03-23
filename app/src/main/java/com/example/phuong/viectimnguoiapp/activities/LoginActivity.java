@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,13 +7,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,8 +49,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by phuong on 23/02/2017.
@@ -91,7 +90,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private CallbackManager callbackManager;
-    private String mRoleUserFaceBook;
 
     private String mSettingJob = "";
     private String mSettingAddress = "";
@@ -141,11 +139,27 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void onCompleted(JSONObject object, GraphResponse response) {
                 try {
+                    //check xem no da co chua
+                    isCheckExistAccountFacebook(object.getString("name"), object.getString("email"));
+                    if (!check) {
+                        Map<String, String> map = new HashMap<String, String>();
+                        map.put("id", UUID.randomUUID().toString());
+                        map.put("username", object.getString("name"));
+                        map.put("password", "");
+                        map.put("address", "");
+                        map.put("email", object.getString("email"));
+                        mFirebase.push().setValue(map);
+                    }
+                    //co roi thi k dang ky -> kiem tra setting -> qua main
                     mEditor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
-                    mEditor.putString(Constant.ROLE_USER_LOGIN, mRoleUserFaceBook);
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.commit();
-                    showDialogSetting();
+                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "default").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "default").equals("")) {
+                        MainActivity_.intent(LoginActivity.this).start();
+                    } else {
+                        showDialogSetting();
+                    }
+
                 } catch (JSONException e) {
                     Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
                     e.printStackTrace();
@@ -166,10 +180,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
                 mValidator.validate();
             } else {
-                Common.createDialog(this, "Please check your network", "", false, null);
+                Common.createDialog(this, "Vui lòng kiểm tra kết nối mạng", "", false, null);
             }
         } else {
-            Common.createDialog(this, "Please check your username or password", "", false, null);
+            Common.createDialog(this, "Tên tài khoản hoặc mật khẩu không đúng", "", false, null);
         }
     }
 
@@ -187,11 +201,15 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void run() {
                 if (check) {
-                    mEditor.putString(Constant.NAME_USER_LOGIN, mUser.getUsername());
-                    mEditor.putString(Constant.ROLE_USER_LOGIN, mUser.getRole());
+                    mEditor.putString(Constant.NAME_USER_LOGIN, mEdtUsername.getText().toString());
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
+                    mEditor.putString(Constant.ID_USER_LOGIN, mUser.getId());
                     mEditor.commit();
-                    showDialogSetting();
+                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "").equals("")) {
+                        MainActivity_.intent(LoginActivity.this).start();
+                    } else {
+                        showDialogSetting();
+                    }
                 } else {
                     if (mStatusBlockUser == 0) {
                         Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
@@ -210,13 +228,14 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 Map map = dataSnapshot.getValue(Map.class);
                 String userName = map.get("username").toString();
                 String passWord = map.get("password").toString();
+                String type = map.get("type").toString();
                 if (!check) {
-                    if (userName.equals(mEdtUsername.getText().toString()) && passWord.equals(mEdtPassword.getText().toString())) {
+                    if (type.equals(Constant.USER_SYSTEM) && userName.equals(mEdtUsername.getText().toString()) && passWord.equals(mEdtPassword.getText().toString())) {
                         if (map.get("status").toString().equals(Constant.USER_ACTIVE)) {
                             check = true;
                             mUser = new User();
                             mUser.setUsername(mEdtUsername.getText().toString());
-                            mUser.setRole(map.get("role").toString());
+                            mUser.setId(map.get("id").toString());
                             return;
                         } else {
                             check = false;
@@ -230,6 +249,60 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 }
 
             }
+
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public void isCheckExistAccountFacebook(final String username, final String emailFb) {
+        check = false;
+
+        mFirebase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Map map = dataSnapshot.getValue(Map.class);
+                String userName = map.get("username").toString();
+                String email = map.get("email").toString();
+                String type = map.get("type").toString();
+                if (!check) {
+                    if (type.equals(Constant.USER_FACEBOOK) && userName.equals(username) && email.equals(emailFb)) {
+                        if (map.get("status").toString().equals(Constant.USER_ACTIVE)) {
+                            check = true;
+                            mUser = new User();
+                            mUser.setUsername(username);
+                            return;
+                        } else {
+                            check = false;
+                            mStatusBlockUser = 1;
+                            Common.createDialog(LoginActivity.this, "Tài khoản của bạn đã bị khóa", "", false, mProgressDialogLoading);
+                            return;
+                        }
+                    } else {
+                        check = false;
+                    }
+                }
+
+            }
+
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -263,40 +336,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Click(R.id.tvLoginFaceBook)
     public void loginWithFacebook() {
-        showDialogChoiceRole();
-    }
-
-    public void showDialogChoiceRole() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_choice_role);
-        final RadioButton rdWork = (RadioButton) dialog.findViewById(R.id.radioWork);
-        RadioButton rdHide = (RadioButton) dialog.findViewById(R.id.radioHide);
-        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
-        Button btnCancel = (Button) dialog.findViewById(R.id.tvBtnCancel);
-
-        btnOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (rdWork.isChecked()) {
-                    mRoleUserFaceBook = Constant.USER_WORK;
-                } else {
-                    mRoleUserFaceBook = Constant.USER_HIDE;
-                }
-
-                dialog.dismiss();
-                LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
-            }
-        });
-
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                dialog.dismiss();
-            }
-        });
-
-        dialog.show();
+        LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
     }
 
     public void showDialogSetting() {

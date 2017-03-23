@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/textview.text.title.create.new.margin.top"
+            android:text="@string/textview.text.title.create.new"
+            android:textColor="@color/textview.text.title.register"
+            android:textSize="@dimen/textview.text.title.create.view.size" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/textview.text.job.margin.left"
+            android:layout_marginTop="@dimen/textview.text.job.margin.top"
+            android:text="@string/textview.text.job"
+            android:textSize="@dimen/textview.text.job.size" />
+
+        <Spinner
+            android:id="@+id/spCatJob"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner.margin.left"
+            android:layout_marginRight="@dimen/spinner.margin.right"
+            android:layout_marginTop="@dimen/spinner.margin.top"></Spinner>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/textview.text.note.margin.left"
+            android:layout_marginTop="@dimen/textview.text.note.margin.top"
+            android:text="@string/textview.text.note"
+            android:textSize="@dimen/textview.text.note.size" />
+
+        <EditText
+            android:id="@+id/edtNote"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edt.note.height"
+            android:layout_marginLeft="@dimen/edt.note.margin.left"
+            android:layout_marginRight="@dimen/edt.note.margin.right"
+            android:layout_marginTop="@dimen/edt.note.margin.top" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/textview.text.address.margin.left"
+            android:layout_marginTop="@dimen/textview.text.address.margin.top"
+            android:text="@string/textview.text.address"
+            android:textSize="@dimen/textview.text.address.size" />
+
+        <EditText
+            android:id="@+id/edtAddress"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/edt.address.height"
+            android:layout_marginLeft="@dimen/edt.address.margin.left"
+            android:layout_marginRight="@dimen/edt.address.margin.left"
+            android:layout_marginTop="@dimen/edt.address.margin.top" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/spDistrict"
+                android:layout_width="@dimen/spinner.district.width"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/spinner.district.margin.left"
+                android:layout_marginTop="@dimen/textview.text.job.margin.top"></Spinner>
+
+            <EditText
+                android:layout_width="@dimen/edt.provice.width"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="@dimen/textview.text.job.margin.left"
+                android:layout_marginTop="@dimen/textview.text.job.margin.top"
+                android:enabled="false"
+                android:text="@string/edt.text.provice" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner.margin.left"
+            android:layout_marginTop="@dimen/textview.text.job.margin.top"
+            android:text="@string/textview.text.deadline"
+            android:textSize="@dimen/textview.text.title.create.view.size" />
+
+        <EditText
+            android:id="@+id/edtTimeDeadline"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/spinner.margin.left"
+            android:layout_marginRight="@dimen/spinner.margin.left"
+            android:layout_marginTop="@dimen/textview.text.job.margin.top"
+            android:drawablePadding="@dimen/textview.text.job.margin.top"
+            android:drawableRight="@drawable/ic_alarm" />
+
+        <Button
+            android:id="@+id/btnPost"
+            android:layout_width="@dimen/btn.post.width"
+            android:layout_height="@dimen/btn.post.height"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/btn.post.margin.top"
+            android:background="@drawable/bg_btn_contact"
+            android:text="@string/btn.post"
+            android:textColor="@color/textview.text.title.register" />
+    </LinearLayout>
+</ScrollView>

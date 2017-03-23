@@ -15,6 +15,8 @@ public class Constant {
 
     public static final String USER_ACTIVE = "1";
     public static final String USER_INACTIVE = "0";
+    public static final String USER_SYSTEM = "1";
+    public static final String USER_FACEBOOK = "0";
     public static final String USER_WORK = "1";
     public static final String USER_HIDE = "0";
 
@@ -39,4 +41,8 @@ public class Constant {
     public static final int TYPE_SON_TRA = 4;
     public static final int TYPE_NGU_HANH_SON = 5;
     public static final int TYPE_HOA_VANG = 6;
+
+    public static final String STATUS_APPROVAL = "1";
+    public static final String STATUS_NEW = "0";
+    public static final String STATUS_PENDING = "2";
 }
