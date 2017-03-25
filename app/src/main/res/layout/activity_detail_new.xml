@@ -6,12 +6,12 @@
 
     <ImageView
         android:id="@+id/imgClose"
-        android:contentDescription="@string/img_close_detail_new"
         android:layout_width="@dimen/img_close_detail_new"
         android:layout_height="@dimen/img_close_detail_new"
         android:layout_alignParentRight="true"
         android:layout_marginRight="@dimen/img_close_detail_new_margin_right"
         android:layout_marginTop="@dimen/img_close_detail_new_margin_top"
+        android:contentDescription="@string/img_close_detail_new"
         android:src="@drawable/ic_close" />
 
     <LinearLayout
@@ -45,6 +45,26 @@
 
         <TextView
             android:id="@+id/tvDetailNewDetail"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_title_new_detail_size" />
+
+        <TextView
+            android:id="@+id/tvDeadlineNew"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@android:color/transparent"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@color/textview_text_title_new_detail"
+            android:textSize="@dimen/textview_text_title_new_detail_size" />
+
+        <TextView
+            android:id="@+id/tvAdrressNew"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -97,8 +117,8 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/button_contact_margin_top"
             android:background="@drawable/bg_btn_contact"
-            android:textColor="@android:color/white"
             android:text="@string/button_contact_detail_new"
+            android:textColor="@android:color/white"
             android:textSize="@dimen/button_contact_text_size" />
     </LinearLayout>
 

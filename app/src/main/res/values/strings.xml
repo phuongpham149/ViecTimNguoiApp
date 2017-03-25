@@ -10,7 +10,7 @@
     <string name="facebook_app_id">1284834688271138</string>
     <string name="img_close_detail_new">icon close</string>
     <string name="button_contact_detail_new">Book</string>
-    <string name="textview_title_user_hider">User hide</string>
+    <string name="textview_title_user_hider">Người đăng bài</string>
     <string name="textview_text_login">Đăng Nhập</string>
     <string name="textview_login_username">Tên tài khoản</string>
     <string name="textview_password">Mật khẩu (ít nhất 8 kí tự)</string>
@@ -23,7 +23,7 @@
     <string name="textview_retype_password">Confirm Password</string>
     <string name="textview_role_register">You are</string>
     <string name="edt_hint_mesage_area">Write a message...</string>
-    <string name="textview_name_app">Việt Tìm Người</string>
+    <string name="textview_name_app">Việc Tìm Người</string>
     <string name="textview_btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
     <string name="textview_user_infor">User Information</string>
@@ -52,6 +52,8 @@
     <string name="btn.post">Đăng Bài</string>
     <string name="textview.text.deadline">Ngày hết hạn</string>
     <string name="edt.text.provice">Đà Nẵng</string>
+    <string name="textview_text.title.dialog.price">Báo giá</string>
+    <string name="textview.text.message.price">Vui lòng nhập báo giá</string>
 
     <array name="name_category">
         <item>Sửa điện trong nhà</item>
