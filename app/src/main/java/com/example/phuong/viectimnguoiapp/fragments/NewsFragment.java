@@ -88,7 +88,7 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
                 }
             });
         } else {
-            Common.createDialog(getActivity(), "Please check your network", "", false, mProgressDialogLoading);
+            Common.createDialog(getActivity(), "Vui lòng kiểm tra kết nối mạng", "", false, mProgressDialogLoading);
         }
     }
 

@@ -3,11 +3,9 @@ package com.example.phuong.viectimnguoiapp.activities;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -27,7 +25,6 @@ import com.mobsandgeeks.saripaar.annotation.Length;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
 import com.squareup.otto.Subscribe;
 
-import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
@@ -99,6 +96,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     map.put("password", Helpers.sha256(mEdtPassword.getText().toString()));
                     map.put("address", "");
                     map.put("email", "");
+                    map.put("phone", "");
                     map.put("role", Constant.USER_ACTIVE);
                     map.put("type", Constant.USER_SYSTEM);
                     mFirebase.push().setValue(map);

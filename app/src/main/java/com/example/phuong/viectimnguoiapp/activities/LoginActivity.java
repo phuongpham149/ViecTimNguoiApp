@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -21,6 +22,7 @@ import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -229,8 +231,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 String userName = map.get("username").toString();
                 String passWord = map.get("password").toString();
                 String type = map.get("type").toString();
+                Log.d("tag12", "pw " + Helpers.sha256(mEdtPassword.getText().toString()));
                 if (!check) {
-                    if (type.equals(Constant.USER_SYSTEM) && userName.equals(mEdtUsername.getText().toString()) && passWord.equals(mEdtPassword.getText().toString())) {
+                    if (type.equals(Constant.USER_SYSTEM) && userName.equals(mEdtUsername.getText().toString()) && passWord.equals(Helpers.sha256(mEdtPassword.getText().toString()))) {
+                        Log.d("tag123", "correct");
                         if (map.get("status").toString().equals(Constant.USER_ACTIVE)) {
                             check = true;
                             mUser = new User();

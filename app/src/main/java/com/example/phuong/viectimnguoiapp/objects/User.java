@@ -18,4 +18,6 @@ public class User {
     private String role;
     private String status;
     private String username;
+    private String phone;
+    private int idDistrict;
 }
