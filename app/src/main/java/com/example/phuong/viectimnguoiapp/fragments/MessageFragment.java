@@ -13,7 +13,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.activities.DetailContactActivity_;
+import com.example.phuong.viectimnguoiapp.activities.SendMessageActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.ContactAdapter;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 
@@ -30,7 +30,7 @@ import java.util.List;
  * Created by phuong on 21/02/2017.
  */
 @EFragment(R.layout.fragment_contact)
-public class ContactFragment extends BaseFragment implements ContactAdapter.onItemClickListener {
+public class MessageFragment extends BaseFragment implements ContactAdapter.onItemClickListener {
     @ViewById(R.id.recyclerViewContact)
     RecyclerView mRecyclerViewContact;
 
@@ -44,7 +44,6 @@ public class ContactFragment extends BaseFragment implements ContactAdapter.onIt
     void inits() {
         mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
-        idUser = "2";
 
         initData();
 
@@ -59,8 +58,10 @@ public class ContactFragment extends BaseFragment implements ContactAdapter.onIt
         final ProgressDialog pd = new ProgressDialog(getContext());
         pd.setMessage("Loading...");
         pd.show();
+
         mContactMessage = new ArrayList<>();
         mUserContact = new ArrayList<>();
+
         StringRequest request = new StringRequest(Request.Method.GET, url, new Response.Listener<String>() {
             @Override
             public void onResponse(String s) {
@@ -110,6 +111,6 @@ public class ContactFragment extends BaseFragment implements ContactAdapter.onIt
 
     @Override
     public void itemClickListener(int position) {
-        DetailContactActivity_.intent(this).idUserContact(mUserContact.get(position)).start();
+        SendMessageActivity_.intent(this).idUserContact(mUserContact.get(position)).start();
     }
 }

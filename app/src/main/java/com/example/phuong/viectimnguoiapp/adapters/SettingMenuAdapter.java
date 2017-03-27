@@ -101,12 +101,10 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     }
 
     public class HeaderHolder extends RecyclerView.ViewHolder {
-        TextView mTvTitle;
         TextView mTvUsername;
 
         public HeaderHolder(View itemView) {
             super(itemView);
-            mTvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
             mTvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
         }
     }

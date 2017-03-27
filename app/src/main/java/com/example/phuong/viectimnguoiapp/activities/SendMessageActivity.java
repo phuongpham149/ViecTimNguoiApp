@@ -2,6 +2,7 @@ package com.example.phuong.viectimnguoiapp.activities;
 
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -28,10 +29,11 @@ import java.util.Map;
 /**
  * Created by phuong on 23/02/2017.
  */
-@EActivity(R.layout.activity_contact_detail)
-public class DetailContactActivity extends BaseActivity {
+@EActivity(R.layout.activity_send_message)
+public class SendMessageActivity extends BaseActivity {
     @Extra
     protected String idUserContact;
+
     @ViewById(R.id.imgBack)
     ImageView mImgBack;
     @ViewById(R.id.scrollView)
@@ -42,26 +44,21 @@ public class DetailContactActivity extends BaseActivity {
     ImageView mImgSend;
     @ViewById(R.id.edtMessageArea)
     EditText mEdtMessageArea;
-    private Firebase mFirebase1;
-    private Firebase mFirebase2;
+
+    private Firebase mFirebaseUser;
+    private Firebase mFirebaseFriend;
     private SharedPreferences mSharedPreferences;
     private String idUser;
-    private ProgressDialog pd;
 
     @Override
     void inits() {
 
-        pd = new ProgressDialog(this);
-        pd.setMessage("Loading...");
-        pd.show();
-
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
-        idUser = "2";
 
         Firebase.setAndroidContext(this);
-        mFirebase1 = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUser + "_" + idUserContact);
-        mFirebase2 = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUserContact + "_" + idUser);
+        mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUser + "_" + idUserContact);
+        mFirebaseFriend = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUserContact + "_" + idUser);
 
 
         mImgSend.setOnClickListener(new View.OnClickListener() {
@@ -73,14 +70,14 @@ public class DetailContactActivity extends BaseActivity {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("message", messageText);
                     map.put("user", idUser);
-                    mFirebase1.push().setValue(map);
-                    mFirebase2.push().setValue(map);
+                    mFirebaseUser.push().setValue(map);
+                    mFirebaseFriend.push().setValue(map);
                     mEdtMessageArea.setText("");
                 }
             }
         });
 
-        mFirebase1.addChildEventListener(new ChildEventListener() {
+        mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
@@ -88,11 +85,10 @@ public class DetailContactActivity extends BaseActivity {
                 String userName = map.get("user").toString();
 
                 if (userName.equals(idUser)) {
-                    addMessageBox("You:\n" + message, 1);
+                    addMessageBox(message, 1);
                 } else {
-                    addMessageBox(idUserContact + ":\n" + message, 2);
+                    addMessageBox(message, 2);
                 }
-                pd.dismiss();
             }
 
             @Override
@@ -118,7 +114,7 @@ public class DetailContactActivity extends BaseActivity {
     }
 
     public void addMessageBox(String message, int type) {
-        TextView textView = new TextView(DetailContactActivity.this);
+        TextView textView = new TextView(SendMessageActivity.this);
         textView.setText(message);
         LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
