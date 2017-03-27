@@ -184,6 +184,11 @@ public class DetailNewActivity extends BaseActivity {
         });
     }
 
+    @Click(R.id.tvUsernameNew)
+    public void ProfileUser(){
+        ProfileUserActivity_.intent(this).idUser(mNewItem.getIdUser()).start();
+    }
+
     public void getDistrictUser(final int idDistrict) {
 
         Firebase firebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts/");

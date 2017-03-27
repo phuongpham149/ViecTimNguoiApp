@@ -22,7 +22,7 @@
     <string name="btn_text_login">Login</string>
     <string name="textview_retype_password">Confirm Password</string>
     <string name="textview_role_register">You are</string>
-    <string name="edt_hint_mesage_area">Write a message...</string>
+    <string name="edt_hint_mesage_area">Viết tin nhắn....</string>
     <string name="textview_name_app">Việc Tìm Người</string>
     <string name="textview_btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
@@ -54,6 +54,8 @@
     <string name="edt.text.provice">Đà Nẵng</string>
     <string name="textview_text.title.dialog.price">Báo giá</string>
     <string name="textview.text.message.price">Vui lòng nhập báo giá</string>
+    <string name="textview.text.contact">Liên Hệ</string>
+    <string name="textview.text.point">Điểm tích lũy</string>
 
     <array name="name_category">
         <item>Sửa điện trong nhà</item>

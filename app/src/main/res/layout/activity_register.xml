@@ -86,13 +86,6 @@
                 android:inputType="textPassword"
                 android:padding="@dimen/edt_password_padding" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/textview_role_register"
-                android:text="@string/textview_role_register"
-                android:textColor="@color/textview_login_username" />
-
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/view_height"

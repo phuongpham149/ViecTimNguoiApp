@@ -20,4 +20,5 @@ public class User {
     private String username;
     private String phone;
     private int idDistrict;
+    private String point;
 }
