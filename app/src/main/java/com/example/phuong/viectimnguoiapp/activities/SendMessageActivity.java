@@ -1,8 +1,7 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
-import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -65,7 +64,6 @@ public class SendMessageActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 String messageText = mEdtMessageArea.getText().toString();
-
                 if (!messageText.equals("")) {
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("message", messageText);
@@ -120,12 +118,14 @@ public class SendMessageActivity extends BaseActivity {
 
 
         if (type == 1) {
-            lp.setMargins(100, 0, 0, 10);
+            lp.setMargins(10, 0, 0, 10);
+            lp.gravity = Gravity.RIGHT;
             textView.setLayoutParams(lp);
             textView.setTextColor(getResources().getColor(R.color.bg_default));
             textView.setBackgroundResource(R.drawable.rounded_corner1);
+
         } else {
-            lp.setMargins(0, 0, 0, 10);
+            lp.setMargins(10, 0, 0, 10);
             textView.setLayoutParams(lp);
             textView.setBackgroundResource(R.drawable.rounded_corner2);
         }
