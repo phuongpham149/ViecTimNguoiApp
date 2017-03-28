@@ -13,6 +13,7 @@ import android.view.animation.TranslateAnimation;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.SettingMenuAdapter;
 import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
@@ -152,6 +153,11 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
             case 4:
                 title="Tin nhắn";
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, MessageFragment_.builder().build()).commit();
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case 6:
+                title="Việc đã đặt chỗ";
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, JobsPingFragment_.builder().build()).commit();
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             default:

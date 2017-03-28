@@ -27,6 +27,7 @@
         <activity android:name=".activities.DetailNewActivity_" />
         <activity android:name=".activities.SendMessageActivity_" />
         <activity android:name=".activities.ProfileUserActivity_"/>
+        <activity android:name=".activities.HistoryPingDetailActivity_"/>
     </application>
 
 </manifest>

@@ -9,110 +9,109 @@
         android:layout_width="@dimen/img_user"
         android:layout_height="@dimen/img_user"
         android:layout_centerHorizontal="true"
-        android:src="@drawable/icon_user"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        />
+        android:src="@drawable/icon_user" />
 
     <TextView
+        android:id="@+id/tvNameUser"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/imgAvartaUser"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/textview.text.name.user.marginTop"
-        android:id="@+id/tvNameUser"
         android:textSize="@dimen/textview.text.name.user" />
+
     <View
-        android:layout_height="1dp"
-        android:layout_width="match_parent"
-        android:background="@color/textview.text.title.register"
-        android:layout_below="@+id/tvNameUser"
         android:id="@+id/viewContact"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvNameUser"
         android:layout_marginTop="@dimen/btn.post.margin.top"
-        />
+        android:background="@color/textview.text.title.register" />
+
     <TextView
+        android:id="@+id/tvContactTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textview.text.contact"
         android:layout_below="@+id/viewContact"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.size"
-        android:id="@+id/tvContactTitle"
-        />
+        android:text="@string/textview.text.contact"
+        android:textSize="@dimen/textview.text.contact.size" />
+
     <TextView
+        android:id="@+id/tvContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvContactTitle"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size"
-        android:id="@+id/tvContact"
-        android:layout_centerHorizontal="true"
-        />
+        android:textSize="@dimen/textview.text.contact.content.size" />
+
     <View
-        android:layout_height="1dp"
-        android:layout_width="match_parent"
-        android:background="@color/textview.text.title.register"
-        android:layout_below="@+id/tvContact"
         android:id="@+id/viewAddress"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvContact"
         android:layout_marginTop="@dimen/btn.post.margin.top"
-        />
+        android:background="@color/textview.text.title.register" />
+
     <TextView
+        android:id="@+id/tvAddressTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textview.text.address"
         android:layout_below="@+id/viewAddress"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.size"
-        android:id="@+id/tvAddressTitle"
-        />
+        android:text="@string/textview.text.address"
+        android:textSize="@dimen/textview.text.contact.size" />
+
     <TextView
+        android:id="@+id/tvAddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvAddressTitle"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size"
-        android:id="@+id/tvAddress"
-        android:layout_centerHorizontal="true"
-        />
+        android:textSize="@dimen/textview.text.contact.content.size" />
+
     <View
-        android:layout_height="1dp"
-        android:layout_width="match_parent"
-        android:background="@color/textview.text.title.register"
-        android:layout_below="@+id/tvAddress"
         android:id="@+id/viewPoint"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/tvAddress"
         android:layout_marginTop="@dimen/btn.post.margin.top"
-        />
+        android:background="@color/textview.text.title.register" />
+
     <TextView
+        android:id="@+id/tvPointTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/textview.text.point"
         android:layout_below="@+id/viewPoint"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.size"
-        android:id="@+id/tvPointTitle"
-        />
+        android:text="@string/textview.text.point"
+        android:textSize="@dimen/textview.text.contact.size" />
+
     <TextView
+        android:id="@+id/tvPoint"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvPointTitle"
+        android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/btn.post.margin.top"
         android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size"
-        android:id="@+id/tvPoint"
-        android:layout_centerHorizontal="true"
-        />
+        android:textSize="@dimen/textview.text.contact.content.size" />
+
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btnSendMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/btn.send.message.margin"
         android:layout_marginBottom="@dimen/btn.send.message.margin"
-        android:src="@android:drawable/ic_dialog_email"
-        android:id="@+id/btnSendMessage"
-        />
+        android:layout_marginRight="@dimen/btn.send.message.margin"
+        android:src="@android:drawable/ic_dialog_email" />
 </RelativeLayout>
