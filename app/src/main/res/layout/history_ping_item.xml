@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/llHistoryPing"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/ll_margin_left_history_ping"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/textview_text_title_job_margin_top"
+        android:textSize="@dimen/textview_text_title_job_size"
+
+        />
+
+    <TextView
+        android:id="@+id/tvTimeCreate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/textview_text_time_margin_top"
+        android:textSize="@dimen/textview_text_time_create_job_size" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height"
+        android:layout_marginRight="@dimen/ll_margin_left_history_ping"
+        android:layout_marginTop="@dimen/textview_text_time_margin_top"
+        android:background="@color/textview.text.title.register" />
+</LinearLayout>

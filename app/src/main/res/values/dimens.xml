@@ -152,5 +152,21 @@
     <dimen name="textview.text.contact.size">20sp</dimen>
     <dimen name="textview.text.contact.content.size">18sp</dimen>
     <dimen name="btn.send.message.margin">10dp</dimen>
+    <dimen name="ll_margin_left_history_ping">20dp</dimen>
+    <dimen name="textview_text_title_job_margin_top">10dp</dimen>
+    <dimen name="textview_text_title_job_size">18sp</dimen>
+    <dimen name="textview_text_time_create_job_size">16sp</dimen>
+    <dimen name="textview_text_time_margin_top">10dp</dimen>
+    <dimen name="textview.text.title.post.margin.top">30dp</dimen>
+    <dimen name="textview.text.title.post.size">20sp</dimen>
+    <dimen name="img.icon.history.ping">40dp</dimen>
+    <dimen name="img.icon.user.margin.top">30dp</dimen>
+    <dimen name="textview.text.user.margin.top">35dp</dimen>
+    <dimen name="textview.text.user.margin.left">30dp</dimen>
+    <dimen name="textview.text.address.history.ping.margin.top">40dp</dimen>
+    <dimen name="textview.text.user">18sp</dimen>
+    <dimen name="img.map.margin.top">20dp</dimen>
+    <dimen name="img.address.margin.top">20dp</dimen>
+    <dimen name="textview.text.note.history.ping.margin.top">35dp</dimen>
 
 </resources>
