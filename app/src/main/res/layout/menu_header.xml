@@ -2,27 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/white"
+    android:background="@drawable/bg_header_menu"
     android:orientation="vertical"
+
     android:paddingBottom="@dimen/menu_header_padding_left_bottom"
     android:paddingLeft="@dimen/menu_header_padding_left_right"
     android:paddingRight="@dimen/menu_header_padding_left_right"
     android:paddingTop="@dimen/rl_register_header_height">
 
     <ImageView
-        android:id="@+id/imgAvarta"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:id="@+id/imgLogo"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="10dp"
         android:src="@drawable/icon_user"
         />
 
     <TextView
         android:id="@+id/tvUsername"
-        android:layout_toRightOf="@+id/imgAvarta"
+        android:layout_toRightOf="@+id/imgLogo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/textview.text.username.login"
-        android:layout_marginLeft="@dimen/textview.username.login.margin.left"
-        android:textColor="@color/textview.text.title.register"
-        android:layout_marginTop="@dimen/textview_user_contact_margin_top" />
+        android:text="Phuong"
+        android:textColor="@android:color/white"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="60dp"
+        />
 </RelativeLayout>

@@ -3,6 +3,7 @@ package com.example.phuong.viectimnguoiapp.activities;
 import android.os.Handler;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -31,7 +32,7 @@ public class ProfileUserActivity extends BaseActivity {
     @ViewById(R.id.tvNameUser)
     TextView mTvNameUser;
 
-    @ViewById(R.id.tvContact)
+    @ViewById(R.id.tvEmail)
     TextView mTvContact;
 
     @ViewById(R.id.tvAddress)
@@ -41,7 +42,7 @@ public class ProfileUserActivity extends BaseActivity {
     TextView mTvPoint;
 
     @ViewById(R.id.btnSendMessage)
-    FloatingActionButton mBtnSendMessage;
+    Button mBtnSendMessage;
 
     private User mUser;
     private Firebase mFirebaseUserInfor;

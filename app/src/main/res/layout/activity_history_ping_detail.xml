@@ -19,7 +19,7 @@
         android:layout_below="@+id/tvTitlePost"
         android:layout_marginLeft="@dimen/img.icon.user.margin.top"
         android:layout_marginTop="@dimen/img.icon.user.margin.top"
-        android:src="@drawable/ic_user_infor" />
+        android:src="@drawable/ic_user" />
 
     <TextView
         android:id="@+id/tvUserPost"

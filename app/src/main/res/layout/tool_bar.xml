@@ -2,41 +2,24 @@
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:background="@android:color/white"
+    android:background="#4CAF50"
     android:gravity="center"
     android:minHeight="?attr/actionBarSize"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="match_parent">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@android:id/title"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center"
-                android:textColor="@color/textview_title_footer"
-                android:textSize="@dimen/textview_text_login_size"
-                android:visibility="gone" />
-        </RelativeLayout>
-
-        <ProgressBar
-            android:id="@+id/progress_bar_header"
+        <TextView
+            android:id="@+id/tvtitleToolbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            android:layout_marginLeft="20dp"
+            android:textColor="@android:color/white"
             android:layout_centerVertical="true"
-            android:layout_marginEnd="@dimen/img_send_padding"
-            android:layout_marginRight="@dimen/img_send_padding"
-            android:visibility="gone" />
+            android:text="abc"
+            android:textSize="20sp" />
 
     </RelativeLayout>
 </android.support.v7.widget.Toolbar>

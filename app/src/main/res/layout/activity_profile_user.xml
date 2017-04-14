@@ -1,117 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/imgAvartaUser"
-        android:layout_width="@dimen/img_user"
-        android:layout_height="@dimen/img_user"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:src="@drawable/icon_user" />
-
-    <TextView
-        android:id="@+id/tvNameUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imgAvartaUser"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/textview.text.name.user.marginTop"
-        android:textSize="@dimen/textview.text.name.user" />
-
-    <View
-        android:id="@+id/viewContact"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tvNameUser"
-        android:layout_marginTop="@dimen/btn.post.margin.top"
-        android:background="@color/textview.text.title.register" />
-
-    <TextView
-        android:id="@+id/tvContactTitle"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/viewContact"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:text="@string/textview.text.contact"
-        android:textSize="@dimen/textview.text.contact.size" />
+        android:padding="10dp"
 
-    <TextView
-        android:id="@+id/tvContact"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvContactTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size" />
+        android:orientation="vertical"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
 
-    <View
-        android:id="@+id/viewAddress"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tvContact"
-        android:layout_marginTop="@dimen/btn.post.margin.top"
-        android:background="@color/textview.text.title.register" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/user" />
 
-    <TextView
-        android:id="@+id/tvAddressTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/viewAddress"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:text="@string/textview.text.address"
-        android:textSize="@dimen/textview.text.contact.size" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:text="Tên tài khoản" />
 
-    <TextView
-        android:id="@+id/tvAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAddressTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size" />
+            <TextView
+                android:id="@+id/tvNameUser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:inputType="text"
+                android:textSize="18sp"
+                android:text="admin" />
+        </LinearLayout>
 
-    <View
-        android:id="@+id/viewPoint"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_below="@+id/tvAddress"
-        android:layout_marginTop="@dimen/btn.post.margin.top"
-        android:background="@color/textview.text.title.register" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvPointTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/viewPoint"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:text="@string/textview.text.point"
-        android:textSize="@dimen/textview.text.contact.size" />
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/email" />
 
-    <TextView
-        android:id="@+id/tvPoint"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tvPointTitle"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/btn.post.margin.top"
-        android:layout_marginTop="@dimen/img.avarta.user.margin.top"
-        android:textSize="@dimen/textview.text.contact.content.size" />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:text="Email" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/btnSendMessage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginBottom="@dimen/btn.send.message.margin"
-        android:layout_marginRight="@dimen/btn.send.message.margin"
-        android:src="@android:drawable/ic_dialog_email" />
-</RelativeLayout>
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="0dp"
+                android:textSize="18sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:inputType="number"
+                android:text="phamthiphuong.cntt@gmail.com" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/phone" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"
+                android:text="Phone" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textSize="18sp"
+                android:text="01262673376" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_location" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:paddingLeft="10dp"
+                android:textSize="18sp"
+                android:text="Địa chỉ" />
+
+            <TextView
+                android:id="@+id/tvAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:textSize="18sp"
+                android:text="54 Nguyễn Lương Bằng, Liên Chiểu" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="center"
+                android:background="@drawable/ic_coin" />
+
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="5"
+                android:textSize="18sp"
+                android:paddingLeft="10dp"
+                android:text="Điểm tích lũy" />
+
+            <TextView
+                android:id="@+id/tvPoint"
+                android:layout_width="0dp"
+                android:textSize="18sp"
+                android:layout_height="wrap_content"
+                android:layout_weight="9"
+                android:text="0" />
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSendMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:text="Đặt Chỗ"
+            android:textColor="@android:color/white"
+            />
+    </LinearLayout>
+</ScrollView>

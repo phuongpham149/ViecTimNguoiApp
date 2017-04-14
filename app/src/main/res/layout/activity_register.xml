@@ -18,7 +18,7 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/rl_register_header_height"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/rl_register_header_margin_top">
 
                 <ImageView
@@ -34,63 +34,147 @@
                     android:layout_centerHorizontal="true"
                     android:layout_centerVertical="true"
                     android:text="@string/btn_register"
-                    android:textColor="@color/textview.text.title.register"
-                    android:textSize="@dimen/textview_title_register"
+                    android:textColor="@android:color/black"
+                    android:textSize="40sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/textview_username_register_margin_top"
-                android:text="@string/textview_login_username"
-                android:textColor="@color/textview_login_username" />
-
-            <EditText
-                android:id="@+id/edtUsername"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edt_username_login_margin_top"
-                android:background="@drawable/bg_message"
-                android:padding="@dimen/edt_username_login_padding" />
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/textview_text_password_margin_top"
-                android:text="@string/textview_password"
-                android:textColor="@color/textview_login_username" />
+                <ImageView
+                    android:layout_width="4dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/user" />
 
-            <EditText
-                android:id="@+id/edtPassword"
+                <EditText
+                    android:id="@+id/edtUsername"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9"
+                    android:hint="Tên tài khoản"
+                    android:inputType="text" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edt_password_margin_top"
-                android:background="@drawable/bg_message"
-                android:inputType="textPassword"
-                android:padding="@dimen/edt_password_padding" />
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/textview_repassword_margin_top"
-                android:text="@string/textview_retype_password"
-                android:textColor="@color/textview_login_username" />
+                <ImageView
+                    android:layout_width="4dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/password" />
 
-            <EditText
-                android:id="@+id/edtRePassword"
+                <EditText
+                    android:id="@+id/edtPassword"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9"
+                    android:hint="Mật khẩu"
+                    android:inputType="textPassword" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/edt_password_margin_top"
-                android:background="@drawable/bg_message"
-                android:inputType="textPassword"
-                android:padding="@dimen/edt_password_padding" />
+                android:orientation="horizontal"
+                android:weightSum="10">
 
-            <View
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/email" />
+
+                <EditText
+                    android:id="@+id/edtEmail"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9"
+                    android:hint="Email"
+                    android:inputType="textEmailAddress" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/view_height"
-                android:layout_marginTop="@dimen/view_register_margin_top"
-                android:background="@drawable/bg_gradient" />
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/phone" />
+
+                <EditText
+                    android:id="@+id/edtPhone"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9"
+                    android:hint="Số điện thoại"
+                    android:inputType="phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="4dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/location" />
+
+                <EditText
+                    android:id="@+id/edtAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9"
+                    android:hint="Địa chỉ"
+                    android:inputType="phone" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:src="@drawable/place" />
+
+                <Spinner
+                    android:id="@+id/spinnerAddress"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:layout_weight="9" />
+            </LinearLayout>
 
             <Button
                 android:id="@+id/btnRegister"
@@ -101,9 +185,9 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/btn_register_margin_bottom"
                 android:layout_marginTop="@dimen/btn_activity_register_margin_top"
-                android:background="@drawable/bg_btn_contact"
+                android:background="#4CAF50"
                 android:text="@string/btn_register"
-                android:textColor="@color/textview.text.title.register"
+                android:textColor="@android:color/white"
                 android:textSize="@dimen/btn_regiter_text_size" />
 
 

@@ -44,11 +44,14 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
 
     @Override
     void inits() {
+
         mProgressDialogLoading = new ProgressDialog(getActivity());
         mProgressDialogLoading.setMessage("Loading...");
         mProgressDialogLoading.show();
+
         Firebase.setAndroidContext(getActivity());
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
+
         mNews = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewNews.setLayoutManager(layoutManager);
@@ -64,6 +67,7 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
                 mProgressDialogLoading.dismiss();
             }
         }, 3000);
+
         mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, Context.MODE_PRIVATE);
         mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
         mSettingAddress = mSharedPreferences.getString(Constant.SETTING_ADDRESS, "");

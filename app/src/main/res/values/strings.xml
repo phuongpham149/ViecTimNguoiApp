@@ -3,7 +3,7 @@
     <string name="openDrawer">Open</string>
     <string name="closeDrawer">Close</string>
     <string name="textview_title_username_header_menu">username</string>
-    <string name="textview_name_app_footer_menu">Người tìm việc - Việc tìm người</string>
+    <string name="textview_name_app_footer_menu">Việc tìm người - Người tìm việc</string>
     <string name="textview.text.work">Người tìm việc</string>
     <string name="textview.text.hider">Nhà tuyển dụng</string>
     <string name="img_contact_detail_description">image back</string>
@@ -18,7 +18,7 @@
     <string name="btn_login_fb_text">Đăng Nhập Bằng Facebook</string>
     <string name="textview_login_fb">Login Using Facebook Account</string>
     <string name="title_name_app">VIỆC TÌM NGƯỜI</string>
-    <string name="btn_register">Register</string>
+    <string name="btn_register">Đăng Ký</string>
     <string name="btn_text_login">Login</string>
     <string name="textview_retype_password">Confirm Password</string>
     <string name="textview_role_register">You are</string>
