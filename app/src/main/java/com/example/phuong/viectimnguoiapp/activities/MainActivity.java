@@ -9,12 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
+import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.SettingMenuAdapter;
 import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
-import com.example.phuong.viectimnguoiapp.fragments.MessageFragment;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
@@ -32,6 +32,7 @@ import java.util.List;
 @EActivity(R.layout.activity_main)
 public class MainActivity extends BaseActivity implements SettingMenuAdapter.itemClick{
     public ActionBarDrawerToggle mDrawerToggle;
+
     @ViewById(R.id.toolBar)
     protected Toolbar mToolbar;
     @ViewById(R.id.drawerLayout)
@@ -40,9 +41,10 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     protected RecyclerView mRecyclerViewMenu;
     @ViewById(R.id.rlContainer)
     protected View mRlContainer;
+
     private CharSequence mDrawerTitle;
-    private CharSequence mTitle;
     private float mLastTranslate = 0.0f;
+    private TextView mTvTitleToolbar;
 
     private List<Object> mItems;
     private SettingMenuAdapter mAdapter;
@@ -55,11 +57,24 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     }
 
     public void initMain() {
-        getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().build()).commit();
+        displayView(1);
     }
 
+    public void setTitleToolbar(String title){
+        if(mTvTitleToolbar != null){
+            mTvTitleToolbar.setText(title);
+        }
+    }
+
+    public String getTitleToolbar(){
+        if(mTvTitleToolbar!=null){
+            return mTvTitleToolbar.getText().toString();
+        }
+        return "";
+    }
     private void initActionbar() {
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
+        mTvTitleToolbar = (TextView) mToolbar.findViewById(R.id.tvtitleToolbar);
         setSupportActionBar(mToolbar);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -72,7 +87,6 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         initsData();
         mAdapter = new SettingMenuAdapter(mItems, this,this);
         mRecyclerViewMenu.setAdapter(mAdapter);
-        mTitle = mDrawerTitle = getTitle();
         mDrawerLayout.setScrimColor(getResources().getColor(R.color.drawerlayout_scrim));
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
             @Override
@@ -124,40 +138,39 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         mItems = new ArrayList<>();
         mItems.add(new String("header"));
         mItems.add(new MenuItem(R.drawable.ic_home, "Việc làm"));
-        mItems.add(new MenuItem(R.drawable.ic_user_infor, "Thông tin cá nhân"));
+        mItems.add(new MenuItem(R.drawable.ic_user, "Thông tin cá nhân"));
         mItems.add(new MenuItem(R.drawable.ic_create, "Tạo bài đăng"));
-        mItems.add(new MenuItem(R.drawable.ic_message, "Tin nhắn"));
+        mItems.add(new MenuItem(R.drawable.ic_chat, "Tin nhắn"));
         mItems.add(new MenuItem(R.drawable.ic_save, "Việc làm đã lưu"));
         mItems.add(new MenuItem(R.drawable.ic_note, "Việc đã tương tác"));
         mItems.add(new MenuItem(R.drawable.ic_settings, "Cài đặt"));
         mItems.add(new MenuItem(R.drawable.ic_feedback, "Phản hồi"));
-        mItems.add(new MenuItem(R.drawable.ic_logout, "Đăng xuất"));
+        mItems.add(new MenuItem(R.drawable.ic_exit, "Đăng xuất"));
         mItems.add(new Integer(1));
     }
 
     private void displayView(int position) {
-        String title = getString(R.string.app_name);
         switch (position) {
             case 1:
-                title = "Bảng tin việc làm";
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().build()).commit();
+                setTitleToolbar("Bảng tin");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 2:
                 break;
             case 3:
-                title="Tạo bài đăng";
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, CreateNewFragment_.builder().build()).commit();
+                setTitleToolbar("Tạo bài đăng");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 4:
-                title="Tin nhắn";
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, MessageFragment_.builder().build()).commit();
+                setTitleToolbar("Tin nhắn");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 6:
-                title="Việc đã đặt chỗ";
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, JobsPingFragment_.builder().build()).commit();
+                setTitleToolbar("Việc đã đặt chỗ");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             default:

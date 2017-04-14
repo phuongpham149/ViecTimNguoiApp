@@ -1,125 +1,263 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="20dp"
     android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/imgClose"
-        android:layout_width="@dimen/img_close_detail_new"
-        android:layout_height="@dimen/img_close_detail_new"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="@dimen/img_close_detail_new_margin_right"
-        android:layout_marginTop="@dimen/img_close_detail_new_margin_top"
-        android:contentDescription="@string/img_close_detail_new"
-        android:src="@drawable/ic_close" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/imgClose"
-        android:layout_marginLeft="@dimen/ll_detail_new_margin"
-        android:layout_marginRight="@dimen/ll_detail_new_margin"
-        android:layout_marginTop="@dimen/ll_detail_new_margin_top"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_alarm" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Đăng lúc"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvDateNew"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview.text.detail.new"
-            android:textSize="@dimen/textview.text.date.detail.new.size"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="04/04/2017 12:00:00"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_work" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Công việc"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvTitletNewDetail"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_title_new_detail_size" />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="Lau nhà"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_create_black" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Mô tả"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvDetailNewDetail"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_title_new_detail_size" />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="Làm việc lúc 20h, làm trong khoảng 2 giờ đồng hồ"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_alarm" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Hết hạn"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvDeadlineNew"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_title_new_detail_size" />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="10/04/2017 12:00:00"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_location" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:paddingLeft="10dp"
+            android:text="Địa chỉ"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvAdrressNew"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_title_new_detail_size" />
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:text="20 Ngô Thị Nhậm, Liên Chiểu"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/View_detail_new_height"
-            android:layout_marginTop="@dimen/View_detail_new_margin_top"
-            android:background="@drawable/bg_gradient" />
+        <ImageButton
+            android:id="@+id/imgGoToMapAndroid"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/direct" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/owner" />
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/textview_text_title_user_hider"
-            android:background="@android:color/transparent"
-            android:text="@string/textview_title_user_hider"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_title_user_hider_size"
-            android:textStyle="bold" />
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Người đăng"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/tvUsernameNew"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/textview_text_user_hider_margin_top"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_user_hider_size" />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="Phương Phạm"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/tvAddressUser"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/textview_text_address_user_hider"
-            android:background="@android:color/transparent"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:textColor="@color/textview_text_title_new_detail"
-            android:textSize="@dimen/textview_text_user_hider_size" />
-
-        <Button
-            android:id="@+id/btnContact"
-            android:layout_width="@dimen/button_contact_width"
-            android:layout_height="@dimen/button_contact_height"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/button_contact_margin_top"
-            android:background="@drawable/bg_btn_contact"
-            android:text="@string/button_contact_detail_new"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/button_contact_text_size" />
+        <ImageButton
+            android:id="@+id/imgGoToUserDetail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_user_detail" />
     </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_coin" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Điểm tích lũy"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvCoin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:text="0"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnContact"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#4CAF50"
+        android:text="@string/button_contact_detail_new"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+</LinearLayout>

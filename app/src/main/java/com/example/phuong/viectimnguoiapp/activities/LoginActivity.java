@@ -77,7 +77,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     EditText mEdtPassword;
 
     @ViewById(R.id.tvLoginFaceBook)
-    Button mTvLoginFacebook;
+    TextView mTvLoginFacebook;
     @ViewById(R.id.btnLogin)
     Button mBtnLogin;
     @ViewById(R.id.tvRegister)
@@ -98,6 +98,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     void inits() {
+        Helpers.hideSoftKeyboard(this,this.getCurrentFocus());
         if (!"".equals(username) && !"".equals(password)) {
             mEdtUsername.setText(username);
             mEdtPassword.setText(password);

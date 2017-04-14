@@ -59,7 +59,7 @@
     <dimen name="ll_register_margin">5dp</dimen>
     <dimen name="rl_register_header_height">20dp</dimen>
     <dimen name="rl_register_header_margin_top">10dp</dimen>
-    <dimen name="img_back_size">40dp</dimen>
+    <dimen name="img_back_size">50dp</dimen>
     <dimen name="textview_title_register">18sp</dimen>
     <dimen name="textview_username_register_margin_top">40dp</dimen>
     <dimen name="edt_username_login_margin_top">5dp</dimen>
@@ -71,7 +71,7 @@
     <dimen name="view_height">1dp</dimen>
     <dimen name="view_register_margin_top">20dp</dimen>
     <dimen name="btn_register_margin_bottom">30dp</dimen>
-    <dimen name="btn_activity_register_margin_top">40dp</dimen>
+    <dimen name="btn_activity_register_margin_top">20dp</dimen>
     <dimen name="btn_regiter_text_size">18sp</dimen>
     <dimen name="ll_contact_item_margin">30dp</dimen>
     <dimen name="textview_user_contact_margin_bottom">5dp</dimen>
@@ -104,7 +104,7 @@
     <dimen name="textview.username.login.margin.left">20dp</dimen>
     <dimen name="ll_footer_padding_bottom">20dp</dimen>
     <dimen name="ll_footer_padding_top">50dp</dimen>
-    <dimen name="img_icon_menu_size">30dp</dimen>
+    <dimen name="img_icon_menu_size">40dp</dimen>
     <dimen name="img_icon_menu_margin_left">20dp</dimen>
     <dimen name="textview_text_name_job">18sp</dimen>
     <dimen name="textview_text_setting_size">20sp</dimen>

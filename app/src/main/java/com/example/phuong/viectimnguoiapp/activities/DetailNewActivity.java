@@ -47,12 +47,10 @@ public class DetailNewActivity extends BaseActivity {
     TextView mTvDetail;
     @ViewById(R.id.btnContact)
     Button mBtnContact;
-    @ViewById(R.id.imgClose)
-    ImageView mImgClose;
     @ViewById(R.id.tvUsernameNew)
     TextView mTvUserName;
-    @ViewById(R.id.tvAddressUser)
-    TextView mTvAddress;
+    @ViewById(R.id.tvCoin)
+    TextView mTvCoin;
     @ViewById(R.id.tvDeadlineNew)
     TextView mTvDeadline;
     @ViewById(R.id.tvAdrressNew)
@@ -84,7 +82,7 @@ public class DetailNewActivity extends BaseActivity {
             if (mNewItem.getIdUser() != "") {
                 getUserInfor(mNewItem.getIdUser());
             } else {
-                mTvAddress.setText("Đang cập nhật");
+                mTvCoin.setText("Đang cập nhật");
                 mTvUserName.setText("Đang cập nhật");
             }
 
@@ -95,10 +93,10 @@ public class DetailNewActivity extends BaseActivity {
                     mTvTitle.setText(mTitleCategory);
                     mTvDetail.setText(mNewItem.getNote());
                     mTvDate.setText(mNewItem.getTimeCreated().toString());
-                    mTvDeadline.setText("Hết hạn: " + mNewItem.getTimeDeadline());
-                    mTvAddressNew.setText("Địa điểm: " + mNewItem.getAddress() + " " + nameDistrictNew);
+                    mTvDeadline.setText(mNewItem.getTimeDeadline());
+                    mTvAddressNew.setText(mNewItem.getAddress() + " " + nameDistrictNew);
                     mTvUserName.setText(mUser.getUsername());
-                    mTvAddress.setText(mUser.getAddress().equals("") ? "Đang cập nhật" : mUser.getAddress() + " " + nameDistrictUser);
+                    mTvCoin.setText("0");
                     mProgressDialogLoading.dismiss();
                 }
             }, 3000);
@@ -184,7 +182,7 @@ public class DetailNewActivity extends BaseActivity {
         });
     }
 
-    @Click(R.id.tvUsernameNew)
+    @Click(R.id.imgGoToUserDetail)
     public void ProfileUser(){
         ProfileUserActivity_.intent(this).idUser(mNewItem.getIdUser()).start();
     }
@@ -356,8 +354,4 @@ public class DetailNewActivity extends BaseActivity {
         }, 1000);
     }
 
-    @Click(R.id.imgClose)
-    public void closeAction() {
-        finish();
-    }
 }

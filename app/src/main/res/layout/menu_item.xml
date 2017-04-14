@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginBottom="@dimen/ll_register_margin"
+    android:layout_marginBottom="10dp"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -26,14 +26,14 @@
             android:background="@android:color/transparent"
             android:gravity="center_vertical"
             android:layout_marginLeft="@dimen/img_icon_menu_margin_left"
-            android:textColor="@color/textview.text.title.register"
-            android:textSize="@dimen/textview_title_footer" />
-
-    </RelativeLayout>
+            android:textColor="#686868"
+            android:textSize="20sp" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="@dimen/view_height"
-        android:background="@color/view_background_separate"
-        android:layout_below="@+id/rlMenuItem"
+        android:layout_height="1dp"
+        android:background="#686868"
+        android:layout_below="@+id/tvMenuItemName"
+        android:layout_marginTop="3dp"
         />
+    </RelativeLayout>
 </RelativeLayout>

@@ -5,12 +5,15 @@ import android.app.ProgressDialog;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
 import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
+import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
@@ -19,6 +22,7 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -29,6 +33,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +49,21 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @ViewById(R.id.edtUsername)
     EditText mEdtUsername;
 
+    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @ViewById(R.id.edtEmail)
+    EditText mEdtEmail;
+
+    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @ViewById(R.id.edtPhone)
+    EditText mEdtPhone;
+
+    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @ViewById(R.id.edtAddress)
+    EditText mEdtAddress;
+
+    @ViewById(R.id.spinnerAddress)
+    Spinner mSpinnerAddress;
+
     @Length(trim = true, min = 8, message = "Mật khẩu ít nhất chứa 8 kí tự")
     @NotEmpty(message = "Vui lòng điền mật khẩu")
     @ViewById(R.id.edtPassword)
@@ -51,21 +71,25 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     @Length(trim = true, min = 8, message = "Mật khẩu ít nhất chứa 8 kí tự")
     @NotEmpty(message = "Vui lòng điền lại mật khẩu")
-    @ViewById(R.id.edtRePassword)
-    EditText mEdtRePassword;
 
     private Validator mValidator;
     private boolean check = true;
     private ProgressDialog pd;
     private Firebase mFirebase;
 
+    private List<District> mDistricts = new ArrayList<>();
+    private Firebase mFirebaseDistrict;
+    private ArrayAdapter<District> mAdapterDistrict;
+
     @Override
     void inits() {
+        Helpers.hideSoftKeyboard(this,this.getCurrentFocus());
         Firebase.setAndroidContext(this);
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
-
+        getDistrics();
+        mSpinnerAddress.setSelection(0);
         BusProvider.getInstance().register(this);
     }
 
@@ -74,6 +98,26 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
         if (netWorkState.getState().equals(Constant.WIFI_ENABLE) || netWorkState.getState().equals(Constant.MOBILE_DATA_ENABLE)) {
             mValidator.validate();
         }
+    }
+
+    public void getDistrics() {
+        mFirebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts");
+        mFirebaseDistrict.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                for (DataSnapshot obj : snapshot.getChildren()) {
+                    District district = obj.getValue(District.class);
+                    mDistricts.add(district);
+                }
+                ArrayAdapter<District> dataAdapter = new ArrayAdapter<District>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
+                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mSpinnerAddress.setAdapter(dataAdapter);
+            }
+
+            @Override
+            public void onCancelled(FirebaseError error) {
+            }
+        });
     }
 
     @Click(R.id.btnRegister)
@@ -87,24 +131,29 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     }
 
     public void doRegister() {
+        District district = null;
         if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
             if (check) {
-                if (mEdtPassword.getText().toString().equals(mEdtRePassword.getText().toString())) {
+                if (!(mSpinnerAddress.getSelectedItem() == null)) {
+                    district = (District) mSpinnerAddress.getSelectedItem();
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("id", UUID.randomUUID().toString());
                     map.put("username", mEdtUsername.getText().toString());
                     map.put("password", Helpers.sha256(mEdtPassword.getText().toString()));
-                    map.put("address", "");
-                    map.put("email", "");
-                    map.put("phone", "");
+                    map.put("address", mEdtAddress.getText().toString());
+                    map.put("idDistrict", district.getId());
+                    map.put("email", mEdtEmail.getText().toString());
+                    map.put("phone", mEdtPhone.getText().toString());
                     map.put("role", Constant.USER_ACTIVE);
                     map.put("type", Constant.USER_SYSTEM);
                     mFirebase.push().setValue(map);
                     pd.dismiss();
                     showDialogSuccess("Đăng ký thành công.Mời bạn đăng nhập.");
-                } else {
-                    Common.createDialog(this, "Đăng ký thất bại", "", false, pd);
+                }else{
+                    showDialogSuccess("Vui lòng chọn huyện.");
                 }
+
+
             } else {
                 Common.createDialog(this, "username đã tồn tại, Vui lòng điền username khác", "", false, pd);
             }
@@ -138,7 +187,6 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                 Common.createDialog(this, messageErrors[0], "", false, pd);
                 mEdtUsername.setText("");
                 mEdtPassword.setText("");
-                mEdtRePassword.setText("");
             }
         }
     }
