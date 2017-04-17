@@ -320,7 +320,7 @@ public class DetailNewActivity extends BaseActivity {
                                     edtPrice.getError();
                                 } else {
                                     if ("".equals(idUser)) {
-                                        Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này", "", false, null);
+                                        Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
                                     } else {
                                         mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNewItem.getIdUser() + "/" + mNewItem.getId() + "/" + idUser);
                                         String messageText = "Tài khoản " + username + " đăng ký làm việc ";
@@ -345,10 +345,10 @@ public class DetailNewActivity extends BaseActivity {
                         });
                         dialog.show();
                     } else {
-                        Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này", "", false, null);
+                        Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này");
                     }
                 } else {
-                    Common.createDialog(DetailNewActivity.this, "Bạn đã đặt chỗ bài viết này.", "", false, null);
+                    Common.createDialog(DetailNewActivity.this, "Bạn đã đặt chỗ bài viết này.");
                 }
             }
         }, 1000);

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
@@ -32,6 +34,8 @@ import java.util.List;
 public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClickListener {
     @ViewById(R.id.recyclerViewNews)
     RecyclerView mRecyclerViewNews;
+    @ViewById(R.id.progressBarLoadingNews)
+    ProgressBar mProgressBarLoadingNews;
 
     private NewsAdapter mAdapter;
     private List<NewItem> mNews;
@@ -45,9 +49,7 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
     @Override
     void inits() {
 
-        mProgressDialogLoading = new ProgressDialog(getActivity());
-        mProgressDialogLoading.setMessage("Loading...");
-        mProgressDialogLoading.show();
+        mProgressBarLoadingNews.setVisibility(View.VISIBLE);
 
         Firebase.setAndroidContext(getActivity());
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
@@ -64,9 +66,9 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
             public void run() {
                 mRecyclerViewNews.setAdapter(mAdapter);
                 mAdapter.notifyDataSetChanged();
-                mProgressDialogLoading.dismiss();
+                mProgressBarLoadingNews.setVisibility(View.GONE);
             }
-        }, 3000);
+        }, 2000);
 
         mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, Context.MODE_PRIVATE);
         mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
@@ -81,8 +83,18 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
                 public void onDataChange(DataSnapshot snapshot) {
                     for (DataSnapshot obj : snapshot.getChildren()) {
                         NewItem newItem = obj.getValue(NewItem.class);
-                        if (newItem.getStatus() == Integer.parseInt(Constant.STATUS_APPROVAL) && mSettingJobs.contains(String.valueOf(newItem.getIdCat())) && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
-                            mNews.add(newItem);
+                        if(newItem.getStatus() == Integer.parseInt(Constant.STATUS_APPROVAL)){
+                            if(!mSettingAddress.equals("")&& !mSettingJobs.equals("")){
+                                mNews.add(newItem);
+                            }
+                            else if(!mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat()))){
+                                mNews.add(newItem);
+                            }
+                            else if(!mSettingAddress.equals("") && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))){
+                                mNews.add(newItem);
+                            } else{
+                                mNews.add(newItem);
+                            }
                         }
                     }
                 }
@@ -92,7 +104,7 @@ public class NewsFragment extends BaseFragment implements NewsAdapter.onItemClic
                 }
             });
         } else {
-            Common.createDialog(getActivity(), "Vui lòng kiểm tra kết nối mạng", "", false, mProgressDialogLoading);
+            Common.createDialog(getActivity(), "Vui lòng kiểm tra kết nối mạng");
         }
     }
 

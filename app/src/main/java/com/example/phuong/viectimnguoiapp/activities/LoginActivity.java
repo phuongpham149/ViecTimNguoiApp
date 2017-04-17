@@ -13,6 +13,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,8 +83,9 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     Button mBtnLogin;
     @ViewById(R.id.tvRegister)
     TextView mTvRegister;
+    @ViewById(R.id.pbLoading)
+    ProgressBar mPbLoading;
 
-    private ProgressDialog mProgressDialogLoading;
     private Validator mValidator;
     private Firebase mFirebase;
     private boolean check;
@@ -92,9 +94,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private CallbackManager callbackManager;
-
-    private String mSettingJob = "";
-    private String mSettingAddress = "";
 
     @Override
     void inits() {
@@ -111,7 +110,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
         if (mSharedPreferences.getString(Constant.IS_USER_LOGIN, "").equals("true")) {
-            MainActivity_.intent(this).start();
+            MainActivity_.intent(this).mIsSetting(true).start();
         }
         BusProvider.getInstance().register(this);
 
@@ -157,14 +156,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     mEditor.putString(Constant.NAME_USER_LOGIN, object.getString("name"));
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.commit();
-                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "default").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "default").equals("")) {
-                        MainActivity_.intent(LoginActivity.this).start();
-                    } else {
-                        showDialogSetting();
-                    }
+                    MainActivity_.intent(LoginActivity.this).start();
 
                 } catch (JSONException e) {
-                    Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
+                    Common.createDialog(LoginActivity.this, "Đăng nhập thất bại");
+                    mPbLoading.setVisibility(View.GONE);
                     e.printStackTrace();
                 }
 
@@ -183,10 +179,12 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
                 mValidator.validate();
             } else {
-                Common.createDialog(this, "Vui lòng kiểm tra kết nối mạng", "", false, null);
+                Common.createDialog(this, "Vui lòng kiểm tra kết nối mạng");
+                mPbLoading.setVisibility(View.GONE);
             }
         } else {
-            Common.createDialog(this, "Tên tài khoản hoặc mật khẩu không đúng", "", false, null);
+            Common.createDialog(this, "Tên tài khoản hoặc mật khẩu không đúng");
+            mPbLoading.setVisibility(View.GONE);
         }
     }
 
@@ -208,14 +206,11 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.putString(Constant.ID_USER_LOGIN, mUser.getId());
                     mEditor.commit();
-                    if (!mSharedPreferences.getString(Constant.SETTING_ADDRESS, "").equals("") || !mSharedPreferences.getString(Constant.SETTING_JOB, "").equals("")) {
-                        MainActivity_.intent(LoginActivity.this).start();
-                    } else {
-                        showDialogSetting();
-                    }
+                    MainActivity_.intent(LoginActivity.this).start();
                 } else {
                     if (mStatusBlockUser == 0) {
-                        Common.createDialog(LoginActivity.this, "Login Fail", "", false, mProgressDialogLoading);
+                        Common.createDialog(LoginActivity.this, "Login Fail");
+                        mPbLoading.setVisibility(View.GONE);
                     }
                 }
             }
@@ -232,10 +227,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                 String userName = map.get("username").toString();
                 String passWord = map.get("password").toString();
                 String type = map.get("type").toString();
-                Log.d("tag12", "pw " + Helpers.sha256(mEdtPassword.getText().toString()));
                 if (!check) {
                     if (type.equals(Constant.USER_SYSTEM) && userName.equals(mEdtUsername.getText().toString()) && passWord.equals(Helpers.sha256(mEdtPassword.getText().toString()))) {
-                        Log.d("tag123", "correct");
                         if (map.get("status").toString().equals(Constant.USER_ACTIVE)) {
                             check = true;
                             mUser = new User();
@@ -245,7 +238,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         } else {
                             check = false;
                             mStatusBlockUser = 1;
-                            Common.createDialog(LoginActivity.this, "Your account had been clock", "", false, mProgressDialogLoading);
+                            Common.createDialog(LoginActivity.this, "Your account had been clock");
+                            mPbLoading.setVisibility(View.GONE);
                             return;
                         }
                     } else {
@@ -298,7 +292,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         } else {
                             check = false;
                             mStatusBlockUser = 1;
-                            Common.createDialog(LoginActivity.this, "Tài khoản của bạn đã bị khóa", "", false, mProgressDialogLoading);
+                            Common.createDialog(LoginActivity.this, "Tài khoản của bạn đã bị khóa");
+                            mPbLoading.setVisibility(View.GONE);
                             return;
                         }
                     } else {
@@ -333,89 +328,13 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     public void onValidationSucceeded() {
-        mProgressDialogLoading = new ProgressDialog(this);
-        mProgressDialogLoading.setMessage("Loading...");
-        mProgressDialogLoading.show();
+        mPbLoading.setVisibility(View.VISIBLE);
         doLogin();
     }
 
     @Click(R.id.tvLoginFaceBook)
     public void loginWithFacebook() {
         LoginManager.getInstance().logInWithReadPermissions(LoginActivity.this, Arrays.asList("public_profile", "user_friends"));
-    }
-
-    public void showDialogSetting() {
-        final Dialog dialog = new Dialog(this);
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_setting_job_and_address);
-        final CheckBox chkFixElectronicInHouse = (CheckBox) dialog.findViewById(R.id.chkFixElectronicInHouse);
-        final CheckBox chkCleanHouse = (CheckBox) dialog.findViewById(R.id.chkCleanHouse);
-        final CheckBox chkDoLaundry = (CheckBox) dialog.findViewById(R.id.chkDoLaundry);
-        final CheckBox chkFixWaterPipe = (CheckBox) dialog.findViewById(R.id.chkFixWaterPipe);
-        final CheckBox chkPaintHouse = (CheckBox) dialog.findViewById(R.id.chkPaintHouse);
-
-        final CheckBox chkHaiChau = (CheckBox) dialog.findViewById(R.id.chkHaiChau);
-        final CheckBox chkCamLe = (CheckBox) dialog.findViewById(R.id.chkCamLe);
-        final CheckBox chkLienChieu = (CheckBox) dialog.findViewById(R.id.chkLienChieu);
-        final CheckBox chkThanhKhe = (CheckBox) dialog.findViewById(R.id.chkThanhKhe);
-        final CheckBox chkSonTra = (CheckBox) dialog.findViewById(R.id.chkSonTra);
-        final CheckBox chkNguHanhSon = (CheckBox) dialog.findViewById(R.id.chkNguHanhSon);
-        final CheckBox chkHoaVang = (CheckBox) dialog.findViewById(R.id.chkHoaVang);
-
-        Button btnSave = (Button) dialog.findViewById(R.id.btnSave);
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (chkFixElectronicInHouse.isChecked()) {
-                    mSettingJob += Constant.TYPE_FIX_ELECTRONIC_IN_HOUSE + ";";
-                }
-                if (chkCleanHouse.isChecked()) {
-                    mSettingJob += Constant.TYPE_CLEAN_HOUSE + ";";
-                }
-                if (chkDoLaundry.isChecked()) {
-                    mSettingJob += Constant.TYPE_DO_LAUNDRY + ";";
-                }
-                if (chkFixWaterPipe.isChecked()) {
-                    mSettingJob += Constant.TYPE_FIX_WATER_PIPE + ";";
-                }
-                if (chkPaintHouse.isChecked()) {
-                    mSettingJob += Constant.TYPE_PAINT_HOUSE + ";";
-                }
-
-                if (chkHaiChau.isChecked()) {
-                    mSettingAddress += Constant.TYPE_HAI_CHAU + ";";
-                }
-                if (chkCamLe.isChecked()) {
-                    mSettingAddress += Constant.TYPE_CAM_LE + ";";
-                }
-                if (chkLienChieu.isChecked()) {
-                    mSettingAddress += Constant.TYPE_LIEN_CHIEU + ";";
-                }
-                if (chkThanhKhe.isChecked()) {
-                    mSettingAddress += Constant.TYPE_THANH_KHE + ";";
-                }
-                if (chkSonTra.isChecked()) {
-                    mSettingAddress += Constant.TYPE_SON_TRA + ";";
-                }
-                if (chkNguHanhSon.isChecked()) {
-                    mSettingAddress += Constant.TYPE_NGU_HANH_SON + ";";
-                }
-                if (chkHoaVang.isChecked()) {
-                    mSettingAddress += Constant.TYPE_HOA_VANG + ";";
-                }
-                if (!"".equals(mSettingAddress) && !"".equals(mSettingJob)) {
-                    //save local
-                    mEditor.putString(Constant.SETTING_ADDRESS, mSettingAddress);
-                    mEditor.putString(Constant.SETTING_JOB, mSettingJob);
-                    mEditor.commit();
-                    MainActivity_.intent(LoginActivity.this).start();
-                } else {
-                    Toast.makeText(LoginActivity.this, "Vui lòng chọn công việc và địa điểm", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        dialog.show();
     }
 
     @Click(R.id.tvRegister)
@@ -429,9 +348,10 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         if (errorMessage != null) {
             String[] messageErrors = errorMessage.split("\n");
             if (messageErrors.length > 0) {
-                Common.createDialog(this, messageErrors[0], "", false, mProgressDialogLoading);
+                Common.createDialog(this, messageErrors[0]);
                 mEdtUsername.setText("");
                 mEdtPassword.setText("");
+                mPbLoading.setVisibility(View.GONE);
             }
         }
     }

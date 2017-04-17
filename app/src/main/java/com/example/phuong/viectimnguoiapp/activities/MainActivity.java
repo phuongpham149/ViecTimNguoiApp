@@ -17,10 +17,12 @@ import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
 import com.example.phuong.viectimnguoiapp.utils.ScreenUtil;
 
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -42,7 +44,9 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     @ViewById(R.id.rlContainer)
     protected View mRlContainer;
 
-    private CharSequence mDrawerTitle;
+    @Extra
+    boolean mIsSetting = false;
+
     private float mLastTranslate = 0.0f;
     private TextView mTvTitleToolbar;
 
@@ -57,7 +61,12 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     }
 
     public void initMain() {
-        displayView(1);
+        if(!mIsSetting) {
+            displayView(7);
+        }
+        else{
+            displayView(1);
+        }
     }
 
     public void setTitleToolbar(String title){
@@ -93,7 +102,6 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
                 mDrawerLayout.openDrawer(GravityCompat.START);
-                getSupportActionBar().setTitle(mDrawerTitle);
             }
 
             @Override
@@ -131,7 +139,6 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
 
         DrawerLayout.LayoutParams params = (DrawerLayout.LayoutParams) mRecyclerViewMenu.getLayoutParams();
         params.width = ScreenUtil.getWidthScreen(this) - ScreenUtil.convertDPToPixels(this, 76);
-
     }
 
     public void initsData() {
@@ -171,6 +178,11 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
             case 6:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, JobsPingFragment_.builder().build()).commit();
                 setTitleToolbar("Việc đã đặt chỗ");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case 7:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, SettingFragment_.builder().build()).commit();
+                setTitleToolbar("Cài đặt");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             default:

@@ -193,9 +193,9 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
             map.put("timeCreated", timeFormat.format(new Date()).toString());
             map.put("timeDeadline", mEdtTimeDeadline.getText().toString());
             mFirebasePost.push().setValue(map);
-            Common.createDialog(getActivity(), "Đăng bài thành công", "", false, mProgressDialogLoading);
+            Common.createDialog(getActivity(), "Đăng bài thành công");
         } else {
-            Common.createDialog(getActivity(), "Vui lòng kiếm tra kết nối", "", false, mProgressDialogLoading);
+            Common.createDialog(getActivity(), "Vui lòng kiếm tra kết nối");
         }
     }
 
@@ -211,7 +211,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
             String[] messageErrors = errorMessage.split("\n");
             if (messageErrors.length > 0) {
 
-                Common.createDialog(getActivity(), messageErrors[0], "", false, mProgressDialogLoading);
+                Common.createDialog(getActivity(), messageErrors[0]);
                 mEdtAddress.requestFocus();
             }
         }
