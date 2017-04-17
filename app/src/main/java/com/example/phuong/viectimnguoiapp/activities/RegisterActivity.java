@@ -1,12 +1,12 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.os.Handler;
 import android.view.View;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -49,15 +49,15 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @ViewById(R.id.edtUsername)
     EditText mEdtUsername;
 
-    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @NotEmpty(message = "Vui lòng điền địa chỉ email")
     @ViewById(R.id.edtEmail)
     EditText mEdtEmail;
 
-    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @NotEmpty(message = "Vui lòng điền số điện thoại")
     @ViewById(R.id.edtPhone)
     EditText mEdtPhone;
 
-    @NotEmpty(message = "Vui lòng điền tên tài khoản")
+    @NotEmpty(message = "Vui lòng điền địa chỉ")
     @ViewById(R.id.edtAddress)
     EditText mEdtAddress;
 
@@ -69,12 +69,11 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @ViewById(R.id.edtPassword)
     EditText mEdtPassword;
 
-    @Length(trim = true, min = 8, message = "Mật khẩu ít nhất chứa 8 kí tự")
-    @NotEmpty(message = "Vui lòng điền lại mật khẩu")
+    @ViewById(R.id.progressBarRegister)
+    ProgressBar mProgressBarRegister;
 
     private Validator mValidator;
     private boolean check = true;
-    private ProgressDialog pd;
     private Firebase mFirebase;
 
     private List<District> mDistricts = new ArrayList<>();
@@ -83,7 +82,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     @Override
     void inits() {
-        Helpers.hideSoftKeyboard(this,this.getCurrentFocus());
+        Helpers.hideSoftKeyboard(this, this.getCurrentFocus());
         Firebase.setAndroidContext(this);
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mValidator = new Validator(this);
@@ -109,9 +108,9 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     District district = obj.getValue(District.class);
                     mDistricts.add(district);
                 }
-                ArrayAdapter<District> dataAdapter = new ArrayAdapter<District>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
-                dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSpinnerAddress.setAdapter(dataAdapter);
+                mAdapterDistrict = new ArrayAdapter<District>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
+                mAdapterDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                mSpinnerAddress.setAdapter(mAdapterDistrict);
             }
 
             @Override
@@ -144,30 +143,29 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     map.put("idDistrict", district.getId());
                     map.put("email", mEdtEmail.getText().toString());
                     map.put("phone", mEdtPhone.getText().toString());
-                    map.put("role", Constant.USER_ACTIVE);
+                    map.put("status", Constant.USER_ACTIVE);
                     map.put("type", Constant.USER_SYSTEM);
+                    map.put("point", "0");
                     mFirebase.push().setValue(map);
-                    pd.dismiss();
+                    mProgressBarRegister.setVisibility(View.GONE);
                     showDialogSuccess("Đăng ký thành công.Mời bạn đăng nhập.");
-                }else{
+                } else {
                     showDialogSuccess("Vui lòng chọn huyện.");
                 }
-
-
             } else {
-                Common.createDialog(this, "username đã tồn tại, Vui lòng điền username khác", "", false, pd);
+                Common.createDialog(this, "username đã tồn tại, Vui lòng điền username khác");
+                mProgressBarRegister.setVisibility(View.GONE);
             }
         } else {
-            Common.createDialog(this, "Vui lòng kiếm tra kết nối", "", false, pd);
+            Common.createDialog(this, "Vui lòng kiếm tra kết nối");
+            mProgressBarRegister.setVisibility(View.GONE);
         }
 
     }
 
     @Override
     public void onValidationSucceeded() {
-        pd = new ProgressDialog(this);
-        pd.setMessage("Loading...");
-        pd.show();
+        mProgressBarRegister.setVisibility(View.VISIBLE);
         isCheckUsername();
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
@@ -184,9 +182,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
         if (errorMessage != null) {
             String[] messageErrors = errorMessage.split("\n");
             if (messageErrors.length > 0) {
-                Common.createDialog(this, messageErrors[0], "", false, pd);
-                mEdtUsername.setText("");
-                mEdtPassword.setText("");
+                Common.createDialog(this, messageErrors[0]);
             }
         }
     }

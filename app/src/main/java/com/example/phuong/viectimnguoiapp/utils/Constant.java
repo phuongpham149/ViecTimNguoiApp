@@ -8,8 +8,8 @@ public class Constant {
     public static final String DATA_NAME_USER_LOGIN = "user_login";
     public static final String NAME_USER_LOGIN = "username";
     public static final String ID_USER_LOGIN = "idUser";
-    public static final String ROLE_USER_LOGIN = "roleUser";
     public static final String IS_USER_LOGIN = "isLogin";
+    public static final String DATA_SETTING = "user_setting";
     public static final String SETTING_JOB = "setting_job";
     public static final String SETTING_ADDRESS = "setting_address";
 
