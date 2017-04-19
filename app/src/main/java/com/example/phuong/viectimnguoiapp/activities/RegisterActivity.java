@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
 import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.District;
@@ -76,9 +77,10 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     private boolean check = true;
     private Firebase mFirebase;
 
-    private List<District> mDistricts = new ArrayList<>();
+    private List<String> mDistricts = new ArrayList<>();
     private Firebase mFirebaseDistrict;
-    private ArrayAdapter<District> mAdapterDistrict;
+    private ArrayAdapter<String> mAdapterDistrict;
+    private RealmHelper mData;
 
     @Override
     void inits() {
@@ -101,14 +103,16 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     public void getDistrics() {
         mFirebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts");
+        mData = new RealmHelper(this);
         mFirebaseDistrict.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 for (DataSnapshot obj : snapshot.getChildren()) {
                     District district = obj.getValue(District.class);
-                    mDistricts.add(district);
+                    mData.addDistrict(district);
+                    mDistricts.add(district.getName());
                 }
-                mAdapterDistrict = new ArrayAdapter<District>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
+                mAdapterDistrict = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
                 mAdapterDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 mSpinnerAddress.setAdapter(mAdapterDistrict);
             }
@@ -130,17 +134,16 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     }
 
     public void doRegister() {
-        District district = null;
         if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
             if (check) {
                 if (!(mSpinnerAddress.getSelectedItem() == null)) {
-                    district = (District) mSpinnerAddress.getSelectedItem();
+                    getDistrictSelected();
                     Map<String, String> map = new HashMap<String, String>();
                     map.put("id", UUID.randomUUID().toString());
                     map.put("username", mEdtUsername.getText().toString());
                     map.put("password", Helpers.sha256(mEdtPassword.getText().toString()));
                     map.put("address", mEdtAddress.getText().toString());
-                    map.put("idDistrict", district.getId());
+                    map.put("idDistrict", getDistrictSelected());
                     map.put("email", mEdtEmail.getText().toString());
                     map.put("phone", mEdtPhone.getText().toString());
                     map.put("status", Constant.USER_ACTIVE);
@@ -148,7 +151,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                     map.put("point", "0");
                     mFirebase.push().setValue(map);
                     mProgressBarRegister.setVisibility(View.GONE);
-                    showDialogSuccess("Đăng ký thành công.Mời bạn đăng nhập.");
+                    showDialogSuccess("Đăng ký thành công");
                 } else {
                     showDialogSuccess("Vui lòng chọn huyện.");
                 }
@@ -161,6 +164,34 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
             mProgressBarRegister.setVisibility(View.GONE);
         }
 
+    }
+
+    public String getDistrictSelected() {
+        String result = "";
+        switch (mSpinnerAddress.getSelectedItemPosition()) {
+            case 0:
+                result = "1";
+                break;
+            case 1:
+                result = "2";
+                break;
+            case 2:
+                result = "7";
+                break;
+            case 3:
+                result = "3";
+                break;
+            case 4:
+                result = "4";
+                break;
+            case 5:
+                result = "5";
+                break;
+            case 6:
+                result = "6";
+                break;
+        }
+        return result;
     }
 
     @Override
