@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "9858042280",
+    "firebase_url": "https://viectimnguoi-469e6.firebaseio.com",
+    "project_id": "viectimnguoi-469e6",
+    "storage_bucket": "viectimnguoi-469e6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:9858042280:android:9a99061a495b71fa",
+        "android_client_info": {
+          "package_name": "com.example.phuong.viectimnguoiapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "9858042280-30megb74qrjshnlmcksrl6v9p335fnca.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.phuong.viectimnguoiapp",
+            "certificate_hash": "648a155535fc13e2f01c8a04f7d047fce8c219ea"
+          }
+        },
+        {
+          "client_id": "9858042280-8to3a310s447q255gkp5sooq3hv8152d.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCJjP9yvjrDwzZr9SZfTZE4uES_dRMDM1Y"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "9858042280-8to3a310s447q255gkp5sooq3hv8152d.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
