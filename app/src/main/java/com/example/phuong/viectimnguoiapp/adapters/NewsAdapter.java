@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -40,9 +39,9 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     @Override
     public void onBindViewHolder(NewsHolder holder, final int position) {
         final NewItem item = mNews.get(position);
-        holder.mTvName.setText(mContext.getResources().getStringArray(R.array.name_category)[item.getIdCat() - 1]);
+        holder.mTvName.setText(mContext.getResources().getStringArray(R.array.name_category)[Integer.parseInt(item.getIdCat()) - 1]);
         holder.mTvTime.setText(item.getTimeCreated());
-        holder.mTvAddress.setText(item.getAddress() + ", " + mContext.getResources().getStringArray(R.array.name_district)[item.getIdDistrict() - 1]);
+        holder.mTvAddress.setText(item.getAddress() + ", " + mContext.getResources().getStringArray(R.array.name_district)[Integer.parseInt(item.getIdDistrict()) - 1]);
 
         holder.mRlItem.setOnClickListener(new View.OnClickListener() {
             @Override

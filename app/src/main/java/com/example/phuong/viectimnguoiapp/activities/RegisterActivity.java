@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
-import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
+import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
@@ -23,7 +23,6 @@ import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -78,14 +77,12 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     private Firebase mFirebase;
 
     private List<String> mDistricts = new ArrayList<>();
-    private Firebase mFirebaseDistrict;
     private ArrayAdapter<String> mAdapterDistrict;
     private RealmHelper mData;
 
     @Override
     void inits() {
         Helpers.hideSoftKeyboard(this, this.getCurrentFocus());
-        Firebase.setAndroidContext(this);
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
@@ -102,25 +99,13 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     }
 
     public void getDistrics() {
-        mFirebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts");
         mData = new RealmHelper(this);
-        mFirebaseDistrict.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                for (DataSnapshot obj : snapshot.getChildren()) {
-                    District district = obj.getValue(District.class);
-                    mData.addDistrict(district);
-                    mDistricts.add(district.getName());
-                }
-                mAdapterDistrict = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
-                mAdapterDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                mSpinnerAddress.setAdapter(mAdapterDistrict);
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {
-            }
-        });
+        for (District district : mData.getDistricts()) {
+            mDistricts.add(district.getName());
+        }
+        mAdapterDistrict = new ArrayAdapter<String>(RegisterActivity.this, android.R.layout.simple_spinner_item, mDistricts);
+        mAdapterDistrict.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerAddress.setAdapter(mAdapterDistrict);
     }
 
     @Click(R.id.btnRegister)

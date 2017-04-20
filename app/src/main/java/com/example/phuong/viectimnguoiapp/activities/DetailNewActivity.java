@@ -1,24 +1,30 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Handler;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
+import com.example.phuong.viectimnguoiapp.utils.Network;
+import com.example.phuong.viectimnguoiapp.utils.TrackGPS;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -38,7 +44,8 @@ import java.util.Map;
 @EActivity(R.layout.activity_detail_new)
 public class DetailNewActivity extends BaseActivity {
     @Extra
-    protected NewItem mNewItem;
+    protected String mId = "";
+
     @ViewById(R.id.tvDateNew)
     TextView mTvDate;
     @ViewById(R.id.tvTitletNewDetail)
@@ -55,57 +62,101 @@ public class DetailNewActivity extends BaseActivity {
     TextView mTvDeadline;
     @ViewById(R.id.tvAdrressNew)
     TextView mTvAddressNew;
+    @ViewById(R.id.toolBarDetail)
+    Toolbar mToolbarDetail;
 
     private User mUser = new User();
-    private Firebase mFirebaseCat;
     private Firebase mFirebaseUserInfo;
     private Firebase mFirebasePing;
     private Firebase mFirebaseHistoryPingByUser;
+
     private SharedPreferences mSharedPreferencesLogin;
-    private String mTitleCategory;
-    private ProgressDialog mProgressDialogLoading;
-    private String nameDistrictNew;
-    private String nameDistrictUser;
+
     private boolean mCheckPing = false;
+    private RealmHelper mData;
+    private NewItem mNew;
+
+    private TextView mTvTitleToolbar;
+    private ProgressBar mProgressBarLoading;
+    private TrackGPS mTrackGPS;
+
+    @Click(R.id.imgGoToMapAndroid)
+    public void goToMapAction() {
+        mTrackGPS = new TrackGPS(this);
+        if (mTrackGPS.canGetLocation()) {
+            if (isGoogleMapsInstalled()) {
+                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                intent.setPackage(getString(R.string.package_map));
+                startActivity(intent);
+            } else {
+                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
+                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                startActivity(intent);
+            }
+        } else {
+            mTrackGPS.showSettingsAlert();
+        }
+    }
+
+    @Click(R.id.btnBack)
+    public void backAction() {
+        finish();
+    }
 
     @Override
     void inits() {
+        mData = new RealmHelper(DetailNewActivity.this);
+        mNew = mData.getItemNew(mId).first();
         Firebase.setAndroidContext(this);
-        mSharedPreferencesLogin = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        mProgressDialogLoading = new ProgressDialog(this);
-        mProgressDialogLoading.setMessage("Loading...");
-        mProgressDialogLoading.show();
-        if (mNewItem != null) {
-            getTitleNew(mNewItem.getIdCat());
 
-            getDistrictNew(mNewItem.getIdDistrict());
-            if (mNewItem.getIdUser() != "") {
-                getUserInfor(mNewItem.getIdUser());
+        mTvTitleToolbar = (TextView) mToolbarDetail.findViewById(R.id.tvtitleToolbar);
+        mProgressBarLoading = (ProgressBar) mToolbarDetail.findViewById(R.id.prograssBarLoading);
+        mTvTitleToolbar.setText("Chi tiết công việc");
+        mProgressBarLoading.setVisibility(View.VISIBLE);
+
+        mSharedPreferencesLogin = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
+
+        if (mNew != null) {
+            if (mNew.getIdUser() != "") {
+                getUserInfor(mNew.getIdUser());
             } else {
                 mTvCoin.setText("Đang cập nhật");
                 mTvUserName.setText("Đang cập nhật");
             }
+            mTvTitle.setText(mData.getCategoryJobItem(mNew.getIdCat()).first().getName());
+            mTvDetail.setText(mNew.getNote());
+            mTvDate.setText(mNew.getTimeCreated());
+            mTvDeadline.setText(mNew.getTimeDeadline());
+            mTvAddressNew.setText(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName());
 
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    mTvTitle.setText(mTitleCategory);
-                    mTvDetail.setText(mNewItem.getNote());
-                    mTvDate.setText(mNewItem.getTimeCreated().toString());
-                    mTvDeadline.setText(mNewItem.getTimeDeadline());
-                    mTvAddressNew.setText(mNewItem.getAddress() + " " + nameDistrictNew);
-                    mTvUserName.setText(mUser.getUsername());
-                    mTvCoin.setText("0");
-                    mProgressDialogLoading.dismiss();
-                }
-            }, 3000);
-
-
-        } else {
-            Log.d("tag11", "du lieu null");
+            if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+                Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mTvUserName.setText(mUser.getUsername());
+                        mTvCoin.setText(mUser.getPoint());
+                        mProgressBarLoading.setVisibility(View.GONE);
+                    }
+                }, 1000);
+            } else {
+                mTvUserName.setText("Đang cập nhật");
+                mTvCoin.setText("Đang cập nhật");
+                mProgressBarLoading.setVisibility(View.GONE);
+            }
         }
     }
+
+    public boolean isGoogleMapsInstalled() {
+        try {
+            ApplicationInfo info = getPackageManager().getApplicationInfo(getString(R.string.package_map), 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
 
     public void getUserInfor(final String idUser) {
         mFirebaseUserInfo = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
@@ -120,43 +171,9 @@ public class DetailNewActivity extends BaseActivity {
                     mUser.setPhone(map.get("phone").toString());
                     mUser.setAddress(map.get("address").toString());
                     mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
-                    getDistrictUser(mUser.getIdDistrict());
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
-    public void getDistrictNew(final int idDistrict) {
-
-        Firebase firebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts/");
-
-        firebaseDistrict.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                int id = Integer.parseInt(map.get("id").toString());
-                if (id == idDistrict) {
-                    nameDistrictNew = map.get("name").toString();
+                    mUser.setPoint(map.get("point").toString());
+                    mUser.setType(map.get("type").toString());
+                    mUser.setStatus(map.get("status").toString());
                 }
             }
 
@@ -183,78 +200,8 @@ public class DetailNewActivity extends BaseActivity {
     }
 
     @Click(R.id.imgGoToUserDetail)
-    public void ProfileUser(){
-        ProfileUserActivity_.intent(this).idUser(mNewItem.getIdUser()).start();
-    }
-
-    public void getDistrictUser(final int idDistrict) {
-
-        Firebase firebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts/");
-
-        firebaseDistrict.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                int id = Integer.parseInt(map.get("id").toString());
-                if (id == idDistrict) {
-                    nameDistrictUser = map.get("name").toString();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
-    }
-
-    public void getTitleNew(final int idCat) {
-        mFirebaseCat = new Firebase("https://viectimnguoi-469e6.firebaseio.com/categoryJobs");
-        mFirebaseCat.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                String idCategory = map.get("id").toString();
-                if (Integer.parseInt(idCategory) == idCat) {
-                    mTitleCategory = map.get("name").toString();
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-        });
+    public void ProfileUser() {
+        ProfileUserActivity_.intent(this).idUser(mNew.getIdUser()).start();
     }
 
     public void checkUserPing() {
@@ -262,7 +209,7 @@ public class DetailNewActivity extends BaseActivity {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
-                if (map.get("idPost").toString().equals(mNewItem.getId())) {
+                if (map.get("idPost").toString().equals(mNew.getId())) {
                     mCheckPing = true;
                 }
             }
@@ -302,7 +249,7 @@ public class DetailNewActivity extends BaseActivity {
             @Override
             public void run() {
                 if (!mCheckPing) {
-                    if (!idUser.equals(mNewItem.getIdUser())) {
+                    if (!idUser.equals(mNew.getIdUser())) {
                         //show dialog bao gia
                         final Dialog dialog = new Dialog(DetailNewActivity.this);
                         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -322,7 +269,7 @@ public class DetailNewActivity extends BaseActivity {
                                     if ("".equals(idUser)) {
                                         Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
                                     } else {
-                                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNewItem.getIdUser() + "/" + mNewItem.getId() + "/" + idUser);
+                                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
                                         String messageText = "Tài khoản " + username + " đăng ký làm việc ";
                                         Map<String, String> map = new HashMap<>();
                                         map.put("message", messageText);
@@ -331,7 +278,7 @@ public class DetailNewActivity extends BaseActivity {
 
 
                                         Map<String, String> mapHistory = new HashMap<>();
-                                        mapHistory.put("idPost", mNewItem.getId());
+                                        mapHistory.put("idPost", mNew.getId());
                                         mapHistory.put("price", edtPrice.getText().toString() + "VNĐ");
                                         mFirebaseHistoryPingByUser.push().setValue(mapHistory);
 

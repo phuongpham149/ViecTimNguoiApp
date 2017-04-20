@@ -10,7 +10,7 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
+import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.Setting;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;

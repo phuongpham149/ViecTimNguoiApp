@@ -1,25 +1,21 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
-import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
+import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
@@ -91,6 +87,8 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     private boolean check;
     private User mUser;
     private int mStatusBlockUser = 0;
+    private RealmHelper mData;
+
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private CallbackManager callbackManager;
@@ -102,7 +100,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             mEdtUsername.setText(username);
             mEdtPassword.setText(password);
         }
-        Firebase.setAndroidContext(this);
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
@@ -202,6 +199,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void run() {
                 if (check) {
+
                     mEditor.putString(Constant.NAME_USER_LOGIN, mEdtUsername.getText().toString());
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.putString(Constant.ID_USER_LOGIN, mUser.getId());
@@ -234,6 +232,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                             mUser = new User();
                             mUser.setUsername(mEdtUsername.getText().toString());
                             mUser.setId(map.get("id").toString());
+                            getUserInfor(mUser.getId());
                             return;
                         } else {
                             check = false;
@@ -249,6 +248,49 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
             }
 
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+    }
+
+    public void getUserInfor(final String idUser){
+        mData = new RealmHelper(this);
+        mFirebase.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                Map map = dataSnapshot.getValue(Map.class);
+                String id = map.get("id").toString();
+                if (id.equals(idUser)) {
+                    mUser.setId(idUser);
+                    mUser.setUsername(map.get("username").toString());
+                    mUser.setEmail(map.get("email").toString());
+                    mUser.setPhone(map.get("phone").toString());
+                    mUser.setAddress(map.get("address").toString());
+                    mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
+                    mUser.setPoint(map.get("point").toString());
+                    mUser.setType(map.get("type").toString());
+                    mUser.setStatus(map.get("status").toString());
+                    mData.addUser(mUser);
+                }
+            }
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {

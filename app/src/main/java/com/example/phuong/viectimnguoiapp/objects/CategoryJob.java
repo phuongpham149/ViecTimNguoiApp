@@ -1,21 +1,38 @@
 package com.example.phuong.viectimnguoiapp.objects;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by phuong on 14/03/2017.
  */
-@AllArgsConstructor(suppressConstructorProperties = true)
-@NoArgsConstructor
-@Data
-public class CategoryJob {
+
+public class CategoryJob extends RealmObject {
+    @PrimaryKey
     private String id;
     private String name;
 
-    @Override
-    public String toString() {
+    public CategoryJob(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public CategoryJob() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

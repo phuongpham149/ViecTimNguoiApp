@@ -73,4 +73,11 @@
         <item>Hoà Vang</item>
         <item>Liên Chiểu</item>
     </array>
+    <string name="package_map">com.google.android.apps.maps</string>
+    <string name="message_not_found_address">Không tìm được địa chỉ</string>
+    <string name="message_no_service_provider_available">Không có dịch vụ gps</string>
+    <string name="title_GPS_Not_Enabled">Dịch vụ GPS không khả dụng</string>
+    <string name="message_Do_you_wants_to_turn_On_GPS">Vui lòng bật GPS</string>
+    <string name="message_Yes">Ok</string>
+    <string name="message_No">Đóng</string>
 </resources>

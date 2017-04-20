@@ -2,15 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolBarDetail"
+        layout="@layout/toolbar_activity" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -33,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:text="04/04/2017 12:00:00"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -41,9 +45,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -66,7 +71,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:text="Lau nhà"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -74,9 +78,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -99,7 +104,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:text="Làm việc lúc 20h, làm trong khoảng 2 giờ đồng hồ"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -107,9 +111,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -132,7 +137,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:text="10/04/2017 12:00:00"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -140,9 +144,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -165,7 +170,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="6"
-            android:text="20 Ngô Thị Nhậm, Liên Chiểu"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -180,9 +184,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -193,7 +198,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="3"
+            android:layout_weight="4"
             android:paddingLeft="10dp"
             android:text="Người đăng"
             android:textColor="@android:color/black"
@@ -204,8 +209,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_weight="5"
-            android:text="Phương Phạm"
+            android:layout_weight="6"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -214,15 +218,16 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_gravity="center"
-            android:background="@drawable/ic_user_detail" />
+            android:background="@drawable/ic_person_pin" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
         android:gravity="center"
         android:orientation="horizontal"
-        android:paddingBottom="10dp">
+        android:paddingBottom="20dp">
 
         <ImageView
             android:layout_width="24dp"
@@ -235,7 +240,7 @@
             android:layout_gravity="center"
             android:layout_weight="3"
             android:paddingLeft="10dp"
-            android:text="Điểm tích lũy"
+            android:text="Điểm"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
 
@@ -245,7 +250,6 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="5"
-            android:text="0"
             android:textColor="@android:color/black"
             android:textSize="18sp" />
     </LinearLayout>
@@ -255,8 +259,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_marginTop="20dp"
         android:background="#4CAF50"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:text="@string/button_contact_detail_new"
         android:textColor="@android:color/white"
         android:textSize="18sp" />

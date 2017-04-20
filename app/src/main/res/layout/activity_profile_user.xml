@@ -1,176 +1,190 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/toolBarDetail"
+        layout="@layout/toolbar_activity" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:paddingLeft="10dp"
+            android:text="Tên tài khoản"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvNameUser"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
-        android:orientation="vertical"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/email" />
+
+        <TextView
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal">
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Email"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
 
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:background="@drawable/user" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:text="Tên tài khoản" />
-
-            <TextView
-                android:id="@+id/tvNameUser"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:inputType="text"
-                android:textSize="18sp"
-                android:text="admin" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/tvEmail"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:background="@drawable/email" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:text="Email" />
-
-            <TextView
-                android:id="@+id/tvEmail"
-                android:layout_width="0dp"
-                android:textSize="18sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:inputType="number"
-                android:text="phamthiphuong.cntt@gmail.com" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:background="@drawable/phone" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:textSize="18sp"
-                android:paddingLeft="10dp"
-                android:text="Phone" />
-
-            <TextView
-                android:id="@+id/tvPhone"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:textSize="18sp"
-                android:text="01262673376" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_location" />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:text="Địa chỉ" />
-
-            <TextView
-                android:id="@+id/tvAddress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:textSize="18sp"
-                android:text="54 Nguyễn Lương Bằng, Liên Chiểu" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_coin" />
-
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="5"
-                android:textSize="18sp"
-                android:paddingLeft="10dp"
-                android:text="Điểm tích lũy" />
-
-            <TextView
-                android:id="@+id/tvPoint"
-                android:layout_width="0dp"
-                android:textSize="18sp"
-                android:layout_height="wrap_content"
-                android:layout_weight="9"
-                android:text="0" />
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/btnSendMessage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#4CAF50"
-            android:text="Đặt Chỗ"
-            android:textColor="@android:color/white"
-            />
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/phone" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Điện thoại"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPhone"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_location" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Địa chỉ"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvAddress"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_coin" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:paddingLeft="10dp"
+            android:text="Điểm"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPoint"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btnSendMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dp"
+        android:background="#4CAF50"
+        android:text="Nhắn tin"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+</LinearLayout>
