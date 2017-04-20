@@ -18,6 +18,7 @@ import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.UpdateInformationFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
 import com.example.phuong.viectimnguoiapp.utils.ScreenUtil;
 
@@ -32,7 +33,7 @@ import java.util.List;
  * Created by phuong on 20/02/2017.
  */
 @EActivity(R.layout.activity_main)
-public class MainActivity extends BaseActivity implements SettingMenuAdapter.itemClick{
+public class MainActivity extends BaseActivity implements SettingMenuAdapter.itemClick {
     public ActionBarDrawerToggle mDrawerToggle;
 
     @ViewById(R.id.toolBar)
@@ -61,26 +62,26 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     }
 
     public void initMain() {
-        if(!mIsSetting) {
+        if (!mIsSetting) {
             displayView(7);
-        }
-        else{
+        } else {
             displayView(1);
         }
     }
 
-    public void setTitleToolbar(String title){
-        if(mTvTitleToolbar != null){
+    public void setTitleToolbar(String title) {
+        if (mTvTitleToolbar != null) {
             mTvTitleToolbar.setText(title);
         }
     }
 
-    public String getTitleToolbar(){
-        if(mTvTitleToolbar!=null){
+    public String getTitleToolbar() {
+        if (mTvTitleToolbar != null) {
             return mTvTitleToolbar.getText().toString();
         }
         return "";
     }
+
     private void initActionbar() {
         mToolbar.setNavigationIcon(R.drawable.ic_menu);
         mTvTitleToolbar = (TextView) mToolbar.findViewById(R.id.tvtitleToolbar);
@@ -94,7 +95,7 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerViewMenu.setLayoutManager(layoutManager);
         initsData();
-        mAdapter = new SettingMenuAdapter(mItems, this,this);
+        mAdapter = new SettingMenuAdapter(mItems, this, this);
         mRecyclerViewMenu.setAdapter(mAdapter);
         mDrawerLayout.setScrimColor(getResources().getColor(R.color.drawerlayout_scrim));
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, mToolbar, R.string.openDrawer, R.string.closeDrawer) {
@@ -164,6 +165,9 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 2:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, UpdateInformationFragment_.builder().build()).commit();
+                setTitleToolbar("Thông tin cá nhân");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 3:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, CreateNewFragment_.builder().build()).commit();

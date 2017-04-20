@@ -80,4 +80,7 @@ dependencies {
     compile 'com.mobsandgeeks:android-saripaar:2.0.3'
     compile 'com.facebook.android:facebook-android-sdk:[4,5)'
     compile 'io.realm:realm-android:0.82.1'
+
+    //google map
+    compile 'com.google.android.gms:play-services-maps:10.0.1'
 }

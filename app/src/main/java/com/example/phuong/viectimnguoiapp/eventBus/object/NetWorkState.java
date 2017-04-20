@@ -1,4 +1,4 @@
-package com.example.phuong.viectimnguoiapp.eventBus.objet;
+package com.example.phuong.viectimnguoiapp.eventBus.object;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

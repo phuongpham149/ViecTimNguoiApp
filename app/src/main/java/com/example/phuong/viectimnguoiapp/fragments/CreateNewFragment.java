@@ -10,7 +10,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.eventBus.objet.NetWorkState;
+import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
