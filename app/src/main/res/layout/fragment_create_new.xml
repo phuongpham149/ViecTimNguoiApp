@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="wrap_content">
 
-        <TextView
+        <ProgressBar
+            android:id="@+id/prograssBarLoading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/textview.text.title.create.new.margin.top"
-            android:text="@string/textview.text.title.create.new"
-            android:textColor="@color/textview.text.title.register"
-            android:textSize="@dimen/textview.text.title.create.view.size" />
+            android:layout_alignParentRight="true"
+            android:visibility="gone" />
 
         <TextView
+            android:id="@+id/tvJob"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/textview.text.job.margin.left"
             android:layout_marginTop="@dimen/textview.text.job.margin.top"
+            android:layout_toLeftOf="@+id/prograssBarLoading"
             android:text="@string/textview.text.job"
             android:textSize="@dimen/textview.text.job.size" />
 
@@ -29,13 +29,16 @@
             android:id="@+id/spCatJob"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tvJob"
             android:layout_marginLeft="@dimen/spinner.margin.left"
             android:layout_marginRight="@dimen/spinner.margin.right"
             android:layout_marginTop="@dimen/spinner.margin.top"></Spinner>
 
         <TextView
+            android:id="@+id/tvNote"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/spCatJob"
             android:layout_marginLeft="@dimen/textview.text.note.margin.left"
             android:layout_marginTop="@dimen/textview.text.note.margin.top"
             android:text="@string/textview.text.note"
@@ -45,13 +48,18 @@
             android:id="@+id/edtNote"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt.note.height"
+            android:layout_below="@+id/tvNote"
             android:layout_marginLeft="@dimen/edt.note.margin.left"
             android:layout_marginRight="@dimen/edt.note.margin.right"
-            android:layout_marginTop="@dimen/edt.note.margin.top" />
+            android:layout_marginTop="@dimen/edt.note.margin.top"
+            android:background="@drawable/bg_btn_contact"
+            android:inputType="text" />
 
         <TextView
+            android:id="@+id/tvAddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/edtNote"
             android:layout_marginLeft="@dimen/textview.text.address.margin.left"
             android:layout_marginTop="@dimen/textview.text.address.margin.top"
             android:text="@string/textview.text.address"
@@ -61,13 +69,17 @@
             android:id="@+id/edtAddress"
             android:layout_width="match_parent"
             android:layout_height="@dimen/edt.address.height"
+            android:layout_below="@+id/tvAddress"
             android:layout_marginLeft="@dimen/edt.address.margin.left"
             android:layout_marginRight="@dimen/edt.address.margin.left"
-            android:layout_marginTop="@dimen/edt.address.margin.top" />
+            android:layout_marginTop="@dimen/edt.address.margin.top"
+            android:inputType="text" />
 
         <LinearLayout
+            android:id="@+id/llDistrict"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/edtAddress"
             android:orientation="horizontal">
 
             <Spinner
@@ -81,38 +93,56 @@
                 android:layout_width="@dimen/edt.provice.width"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
                 android:layout_marginLeft="@dimen/textview.text.job.margin.left"
                 android:layout_marginTop="@dimen/textview.text.job.margin.top"
+                android:background="@drawable/bg_btn_contact"
                 android:enabled="false"
+                android:inputType="text"
+                android:paddingBottom="5dp"
+                android:paddingTop="10dp"
                 android:text="@string/edt.text.provice" />
         </LinearLayout>
 
         <TextView
+            android:id="@+id/tvDeadline"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/llDistrict"
             android:layout_marginLeft="@dimen/spinner.margin.left"
             android:layout_marginTop="@dimen/textview.text.job.margin.top"
             android:text="@string/textview.text.deadline"
-            android:textSize="@dimen/textview.text.title.create.view.size" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/edtTimeDeadline"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/tvDeadline"
             android:layout_marginLeft="@dimen/spinner.margin.left"
             android:layout_marginRight="@dimen/spinner.margin.left"
             android:layout_marginTop="@dimen/textview.text.job.margin.top"
+            android:background="@drawable/bg_btn_contact"
             android:drawablePadding="@dimen/textview.text.job.margin.top"
-            android:drawableRight="@drawable/ic_alarm" />
+            android:drawableRight="@drawable/ic_alarm_add"
+            android:focusable="false"
+            android:inputType="text"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp" />
 
         <Button
             android:id="@+id/btnPost"
-            android:layout_width="@dimen/btn.post.width"
-            android:layout_height="@dimen/btn.post.height"
-            android:layout_gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/edtTimeDeadline"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginTop="@dimen/btn.post.margin.top"
-            android:background="@drawable/bg_btn_contact"
+            android:background="#4CAF50"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
             android:text="@string/btn.post"
-            android:textColor="@color/textview.text.title.register" />
-    </LinearLayout>
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
 </ScrollView>
