@@ -57,6 +57,10 @@ public class RealmHelper {
         return mRealm.where(NewItem.class).findAll();
     }
 
+    public List<CategoryJob> getCategoryJobs() {
+        return mRealm.where(CategoryJob.class).findAll();
+    }
+
     public RealmResults<NewItem> getItemNew(String id) {
         return mRealm.where(NewItem.class).equalTo("id", id).findAll();
     }
