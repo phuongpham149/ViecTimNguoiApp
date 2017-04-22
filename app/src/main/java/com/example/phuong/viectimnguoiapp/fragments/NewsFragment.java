@@ -1,15 +1,19 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
+import android.app.Dialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
+import com.example.phuong.viectimnguoiapp.activities.LoginActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
@@ -21,6 +25,7 @@ import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -35,6 +40,8 @@ public class NewsFragment extends BaseFragment {
     RecyclerView mRecyclerViewNews;
     @ViewById(R.id.progressBarLoadingNews)
     ProgressBar mProgressBarLoadingNews;
+    @FragmentArg
+    public boolean isLogout = false;
 
     private NewsAdapter mAdapter;
     private List<NewItem> mNews;
@@ -43,10 +50,22 @@ public class NewsFragment extends BaseFragment {
     private String mSettingJobs;
     private String mSettingAddress;
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
     private RealmHelper mData;
 
     @Override
     void inits() {
+        mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, Context.MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
+
+        if (isLogout) {
+            showDialogLogout();
+        } else {
+            getDataNews();
+        }
+    }
+
+    public void getDataNews() {
         mProgressBarLoadingNews.setVisibility(View.VISIBLE);
 
         Firebase.setAndroidContext(getActivity());
@@ -55,9 +74,35 @@ public class NewsFragment extends BaseFragment {
         mNews = new ArrayList<>();
         initsData();
 
-        mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, Context.MODE_PRIVATE);
         mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
         mSettingAddress = mSharedPreferences.getString(Constant.SETTING_ADDRESS, "");
+    }
+
+    public void showDialogLogout() {
+        final Dialog dialog = new Dialog(getActivity());
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_logout);
+        dialog.setCanceledOnTouchOutside(false);
+        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mEditor.putString(Constant.IS_USER_LOGIN, "false");
+                mEditor.apply();
+                LoginActivity_.intent(getActivity()).start();
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                getDataNews();
+            }
+        });
+
+        dialog.show();
     }
 
     public void initsData() {

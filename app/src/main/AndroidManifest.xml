@@ -6,30 +6,36 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:name=".App"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
-        <activity android:name=".activities.SplashActivity_" android:noHistory="true">
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+        <activity
+            android:name=".activities.SplashActivity_"
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.LoginActivity_" android:noHistory="true"/>
+        <activity
+            android:name=".activities.LoginActivity_"
+            android:noHistory="true" />
         <activity android:name=".activities.RegisterActivity_" />
-        <activity android:name=".activities.MainActivity_">
-
-        </activity>
+        <activity android:name=".activities.MainActivity_" />
         <activity android:name=".activities.DetailNewActivity_" />
         <activity android:name=".activities.SendMessageActivity_" />
-        <activity android:name=".activities.ProfileUserActivity_"/>
-        <activity android:name=".activities.HistoryPingDetailActivity_"/>
+        <activity android:name=".activities.ProfileUserActivity_" />
+        <activity android:name=".activities.HistoryPingDetailActivity_" />
     </application>
 
 </manifest>

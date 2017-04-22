@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
 
     @Override
     void inits() {
-        Helpers.hideSoftKeyboard(this,this.getCurrentFocus());
+        Helpers.hideSoftKeyboard(this, this.getCurrentFocus());
         if (!"".equals(username) && !"".equals(password)) {
             mEdtUsername.setText(username);
             mEdtPassword.setText(password);
@@ -237,7 +237,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         } else {
                             check = false;
                             mStatusBlockUser = 1;
-                            Common.createDialog(LoginActivity.this, "Your account had been clock");
+                            Common.createDialog(LoginActivity.this, "Tài khoản của bạn đã bị khóa");
                             mPbLoading.setVisibility(View.GONE);
                             return;
                         }
@@ -271,7 +271,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
         });
     }
 
-    public void getUserInfor(final String idUser){
+    public void getUserInfor(final String idUser) {
         mData = new RealmHelper(this);
         mFirebase.addChildEventListener(new ChildEventListener() {
             @Override
@@ -391,7 +391,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             String[] messageErrors = errorMessage.split("\n");
             if (messageErrors.length > 0) {
                 Common.createDialog(this, messageErrors[0]);
-                mEdtUsername.setText("");
                 mEdtPassword.setText("");
                 mPbLoading.setVisibility(View.GONE);
             }
