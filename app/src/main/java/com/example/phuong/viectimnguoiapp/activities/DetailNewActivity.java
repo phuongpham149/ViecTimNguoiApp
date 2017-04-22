@@ -3,8 +3,6 @@ package com.example.phuong.viectimnguoiapp.activities;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -82,21 +80,26 @@ public class DetailNewActivity extends BaseActivity {
 
     @Click(R.id.imgGoToMapAndroid)
     public void goToMapAction() {
-        mTrackGPS = new TrackGPS(this);
-        if (mTrackGPS.canGetLocation()) {
-            if (isGoogleMapsInstalled()) {
-                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                intent.setPackage(getString(R.string.package_map));
-                startActivity(intent);
+        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+            mTrackGPS = new TrackGPS(this);
+            if (mTrackGPS.canGetLocation()) {
+                if (Common.isGoogleMapsInstalled(this)) {
+                    String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                    intent.setPackage(getString(R.string.package_map));
+                    startActivity(intent);
+                } else {
+                    String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
+                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
+                    startActivity(intent);
+                }
             } else {
-                String uri = "http://maps.google.com/maps?f=d&hl=en&saddr=" + mTrackGPS.getLatitude() + "," + mTrackGPS.getLongitude() + "&daddr=" + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).latitude + "," + Common.getRoomLocation(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName(), this).longitude;
-                Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri));
-                startActivity(intent);
+                mTrackGPS.showSettingsAlert();
             }
         } else {
-            mTrackGPS.showSettingsAlert();
+            Common.createDialog(DetailNewActivity.this, "Vui lòng kiểm tra kết nối mạng");
         }
+
     }
 
     @Click(R.id.btnBack)
@@ -145,15 +148,6 @@ public class DetailNewActivity extends BaseActivity {
                 mTvCoin.setText("Đang cập nhật");
                 mProgressBarLoading.setVisibility(View.GONE);
             }
-        }
-    }
-
-    public boolean isGoogleMapsInstalled() {
-        try {
-            ApplicationInfo info = getPackageManager().getApplicationInfo(getString(R.string.package_map), 0);
-            return true;
-        } catch (PackageManager.NameNotFoundException e) {
-            return false;
         }
     }
 
@@ -238,67 +232,72 @@ public class DetailNewActivity extends BaseActivity {
 
     @Click(R.id.btnContact)
     public void contactAction() {
-        final String idUser = mSharedPreferencesLogin.getString(Constant.ID_USER_LOGIN, "");
-        final String username = mSharedPreferencesLogin.getString(Constant.NAME_USER_LOGIN, "");
+        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+            final String idUser = mSharedPreferencesLogin.getString(Constant.ID_USER_LOGIN, "");
+            final String username = mSharedPreferencesLogin.getString(Constant.NAME_USER_LOGIN, "");
 
-        mFirebaseHistoryPingByUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser/" + idUser);
-        // kiem tra da ping chưa, chưa thì cho ping
-        checkUserPing();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if (!mCheckPing) {
-                    if (!idUser.equals(mNew.getIdUser())) {
-                        //show dialog bao gia
-                        final Dialog dialog = new Dialog(DetailNewActivity.this);
-                        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                        dialog.setContentView(R.layout.dialog_rate_price);
-                        final EditText edtPrice = (EditText) dialog.findViewById(R.id.edtPrice);
-                        edtPrice.requestFocus();
-                        Helpers.showSoftKeyboard(DetailNewActivity.this, DetailNewActivity.this.getCurrentFocus());
+            mFirebaseHistoryPingByUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser/" + idUser);
+            // kiem tra da ping chưa, chưa thì cho ping
+            checkUserPing();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (!mCheckPing) {
+                        if (!idUser.equals(mNew.getIdUser())) {
+                            //show dialog bao gia
+                            final Dialog dialog = new Dialog(DetailNewActivity.this);
+                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                            dialog.setContentView(R.layout.dialog_rate_price);
+                            final EditText edtPrice = (EditText) dialog.findViewById(R.id.edtPrice);
+                            edtPrice.requestFocus();
+                            Helpers.showSoftKeyboard(DetailNewActivity.this, DetailNewActivity.this.getCurrentFocus());
 
-                        TextView btnOk = (TextView) dialog.findViewById(R.id.tvBtnOk);
+                            TextView btnOk = (TextView) dialog.findViewById(R.id.tvBtnOk);
 
-                        btnOk.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                if ("".equals(edtPrice.getText().toString())) {
-                                    edtPrice.getError();
-                                } else {
-                                    if ("".equals(idUser)) {
-                                        Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
+                            btnOk.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if ("".equals(edtPrice.getText().toString())) {
+                                        edtPrice.getError();
                                     } else {
-                                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
-                                        String messageText = "Tài khoản " + username + " đăng ký làm việc ";
-                                        Map<String, String> map = new HashMap<>();
-                                        map.put("message", messageText);
-                                        map.put("price", edtPrice.getText().toString() + "VNĐ");
-                                        mFirebasePing.push().setValue(map);
+                                        if ("".equals(idUser)) {
+                                            Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
+                                        } else {
+                                            mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
+                                            String messageText = "Tài khoản " + username + " đăng ký làm việc ";
+                                            Map<String, String> map = new HashMap<>();
+                                            map.put("message", messageText);
+                                            map.put("price", edtPrice.getText().toString() + "VNĐ");
+                                            mFirebasePing.push().setValue(map);
 
 
-                                        Map<String, String> mapHistory = new HashMap<>();
-                                        mapHistory.put("idPost", mNew.getId());
-                                        mapHistory.put("price", edtPrice.getText().toString() + "VNĐ");
-                                        mFirebaseHistoryPingByUser.push().setValue(mapHistory);
+                                            Map<String, String> mapHistory = new HashMap<>();
+                                            mapHistory.put("idPost", mNew.getId());
+                                            mapHistory.put("price", edtPrice.getText().toString() + "VNĐ");
+                                            mFirebaseHistoryPingByUser.push().setValue(mapHistory);
 
-                                        Toast.makeText(DetailNewActivity.this, "Bạn đã đặt chỗ thành công", Toast.LENGTH_SHORT).show();
+                                            Toast.makeText(DetailNewActivity.this, "Bạn đã đặt chỗ thành công", Toast.LENGTH_SHORT).show();
+                                        }
+
                                     }
+                                    dialog.dismiss();
 
                                 }
-                                dialog.dismiss();
-
-                            }
-                        });
-                        dialog.show();
+                            });
+                            dialog.show();
+                        } else {
+                            Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này");
+                        }
                     } else {
-                        Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này");
+                        Common.createDialog(DetailNewActivity.this, "Bạn đã đặt chỗ bài viết này.");
                     }
-                } else {
-                    Common.createDialog(DetailNewActivity.this, "Bạn đã đặt chỗ bài viết này.");
                 }
-            }
-        }, 1000);
+            }, 1000);
+        } else {
+            Common.createDialog(DetailNewActivity.this, "Vui lòng kiểm tra kết nối mạng");
+        }
+
     }
 
 }

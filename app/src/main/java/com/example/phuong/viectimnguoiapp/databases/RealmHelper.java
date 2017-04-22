@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.District;
+import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.objects.User;
 
@@ -49,6 +50,16 @@ public class RealmHelper {
         mRealm.commitTransaction();
     }
 
+    public void addHistoryPing(HistoryPing historyPing) {
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(historyPing);
+        mRealm.commitTransaction();
+    }
+
+    public List<HistoryPing> getHistoryPings() {
+        return mRealm.where(HistoryPing.class).findAll();
+    }
+
     public List<District> getDistricts() {
         return mRealm.where(District.class).findAll();
     }
@@ -75,5 +86,8 @@ public class RealmHelper {
 
     public RealmResults<User> getUser(String id) {
         return mRealm.where(User.class).equalTo("id", id).findAll();
+    }
+    public RealmResults<HistoryPing> getHistoryPing(String id) {
+        return mRealm.where(HistoryPing.class).equalTo("idPost", id).findAll();
     }
 }

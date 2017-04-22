@@ -107,7 +107,7 @@ public class ProfileUserActivity extends BaseActivity {
 
     @Click(R.id.btnSendMessage)
     public void sendMessage() {
-        SendMessageActivity_.intent(this).idUserContact(mUser.getId()).start();
+        SendMessageActivity_.intent(this).idUserContact(mUser.getId()).mNameUserContact(mUser.getUsername()).start();
     }
 
     public void getUserInfor() {
