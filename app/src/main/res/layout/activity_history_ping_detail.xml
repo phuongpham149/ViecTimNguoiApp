@@ -1,90 +1,223 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/tvTitlePost"
-        android:layout_width="wrap_content"
+    <include
+        android:id="@+id/toolBarDetailPing"
+        layout="@layout/toolbar_activity" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/textview.text.title.post.margin.top"
-        android:textSize="@dimen/textview.text.title.post.size" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/imgUser"
-        android:layout_width="@dimen/img.icon.history.ping"
-        android:layout_height="@dimen/img.icon.history.ping"
-        android:layout_below="@+id/tvTitlePost"
-        android:layout_marginLeft="@dimen/img.icon.user.margin.top"
-        android:layout_marginTop="@dimen/img.icon.user.margin.top"
-        android:src="@drawable/ic_user" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_work" />
 
-    <TextView
-        android:id="@+id/tvUserPost"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Công việc"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvTitlePost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTitlePost"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/textview.text.user.margin.top"
-        android:layout_toRightOf="@+id/imgUser"
-        android:textSize="@dimen/textview.text.user" />
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/imgAddress"
-        android:layout_width="@dimen/img.icon.history.ping"
-        android:layout_height="@dimen/img.icon.history.ping"
-        android:layout_below="@+id/imgUser"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/img.map.margin.top"
-        android:src="@drawable/ic_map" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_create_black" />
 
-    <TextView
-        android:id="@+id/tvAddressPost"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Mô tả"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvNotePost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvUserPost"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/textview.text.address.history.ping.margin.top"
-        android:layout_toRightOf="@+id/imgAddress"
-        android:textSize="@dimen/textview.text.user" />
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/imgNote"
-        android:layout_width="@dimen/img.icon.history.ping"
-        android:layout_height="@dimen/img.icon.history.ping"
-        android:layout_below="@+id/imgAddress"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/img.address.margin.top"
-        android:src="@drawable/ic_create" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_alarm" />
 
-    <TextView
-        android:id="@+id/tvNotePost"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Hết hạn"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvDeadlineNew"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAddressPost"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/textview.text.note.history.ping.margin.top"
-        android:layout_toRightOf="@+id/imgUser"
-        android:textSize="@dimen/textview.text.user" />
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
 
-    <ImageView
-        android:id="@+id/imgPrice"
-        android:layout_width="@dimen/img.icon.history.ping"
-        android:layout_height="@dimen/img.icon.history.ping"
-        android:layout_below="@+id/imgNote"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/img.address.margin.top"
-        android:src="@drawable/ic_create" />
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_location" />
 
-    <TextView
-        android:id="@+id/tvPrice"
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:paddingLeft="10dp"
+            android:text="Địa chỉ"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvAddressPost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/imgGoToMapAndroid"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/direct" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvNotePost"
-        android:layout_marginLeft="@dimen/textview.text.user.margin.left"
-        android:layout_marginTop="@dimen/textview.text.user.margin.left"
-        android:layout_toRightOf="@+id/imgPrice"
-        android:textSize="@dimen/textview.text.user" />
-</RelativeLayout>
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/owner" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="4"
+            android:paddingLeft="10dp"
+            android:text="Người đăng"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvUserPost"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="6"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <ImageButton
+            android:id="@+id/imgGoToUserDetail"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:background="@drawable/ic_person_pin" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingBottom="20dp">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_coin" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="3"
+            android:paddingLeft="10dp"
+            android:text="Báo giá"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="5"
+            android:textColor="@android:color/black"
+            android:textSize="18sp" />
+    </LinearLayout>
+</LinearLayout>

@@ -2,6 +2,8 @@ package com.example.phuong.viectimnguoiapp.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.view.View;
@@ -58,5 +60,14 @@ public class Common {
             }
         }
         return null;
+    }
+
+    public static boolean isGoogleMapsInstalled(Context context) {
+        try {
+            ApplicationInfo info = context.getPackageManager().getApplicationInfo(context.getString(R.string.package_map), 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 }

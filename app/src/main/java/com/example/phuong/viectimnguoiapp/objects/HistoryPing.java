@@ -1,65 +1,96 @@
 package com.example.phuong.viectimnguoiapp.objects;
 
-import android.os.Parcel;
-import android.os.Parcelable;
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  * Created by asiantech on 27/03/2017.
  */
-@NoArgsConstructor
-@AllArgsConstructor(suppressConstructorProperties = true)
-@Data
-public class HistoryPing implements Parcelable {
+
+public class HistoryPing extends RealmObject {
+    @PrimaryKey
     private String idPost;
     private String titlePost;
-    private String timeCreated;
+    private String timeDeadline;
     private String price;
     private String note;
     private String address;
     private String userOwner;
+    private String idUser;
     private String nameDistrict;
 
-    protected HistoryPing(Parcel in) {
-        idPost = in.readString();
-        titlePost = in.readString();
-        timeCreated = in.readString();
-        price = in.readString();
-        note = in.readString();
-        address = in.readString();
-        userOwner = in.readString();
-        nameDistrict = in.readString();
+    public String getIdUser() {
+        return idUser;
     }
 
-    public static final Creator<HistoryPing> CREATOR = new Creator<HistoryPing>() {
-        @Override
-        public HistoryPing createFromParcel(Parcel in) {
-            return new HistoryPing(in);
-        }
-
-        @Override
-        public HistoryPing[] newArray(int size) {
-            return new HistoryPing[size];
-        }
-    };
-
-    @Override
-    public int describeContents() {
-        return 0;
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
-    @Override
-    public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(idPost);
-        parcel.writeString(titlePost);
-        parcel.writeString(timeCreated);
-        parcel.writeString(price);
-        parcel.writeString(note);
-        parcel.writeString(address);
-        parcel.writeString(userOwner);
-        parcel.writeString(nameDistrict);
+    public HistoryPing() {
+    }
+
+    public String getIdPost() {
+        return idPost;
+    }
+
+    public void setIdPost(String idPost) {
+        this.idPost = idPost;
+    }
+
+    public String getTitlePost() {
+        return titlePost;
+    }
+
+    public void setTitlePost(String titlePost) {
+        this.titlePost = titlePost;
+    }
+
+    public String getTimeDeadline() {
+        return timeDeadline;
+    }
+
+    public void setTimeDeadline(String timeDeadline) {
+        this.timeDeadline = timeDeadline;
+    }
+
+    public String getPrice() {
+        return price;
+    }
+
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getNote() {
+        return note;
+    }
+
+    public void setNote(String note) {
+        this.note = note;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getUserOwner() {
+        return userOwner;
+    }
+
+    public void setUserOwner(String userOwner) {
+        this.userOwner = userOwner;
+    }
+
+    public String getNameDistrict() {
+        return nameDistrict;
+    }
+
+    public void setNameDistrict(String nameDistrict) {
+        this.nameDistrict = nameDistrict;
     }
 }

@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -36,11 +36,12 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
     public void onBindViewHolder(ItemHolder holder, int position) {
         final HistoryPing historyPing = mHistoryPings.get(position);
         holder.mTvTitle.setText(historyPing.getTitlePost());
-        holder.mTvTimeCreate.setText(historyPing.getTimeCreated());
+        holder.mTvTimeCreate.setText(historyPing.getTimeDeadline());
+        holder.mTvAddress.setText(historyPing.getAddress() + ", " + historyPing.getNameDistrict());
         holder.mLlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                HistoryPingDetailActivity_.intent(mContext).mHistoryPing(historyPing).start();
+                HistoryPingDetailActivity_.intent(mContext).mIdPost(historyPing.getIdPost()).start();
             }
         });
     }
@@ -52,13 +53,15 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
 
     public class ItemHolder extends RecyclerView.ViewHolder {
         TextView mTvTitle;
-        LinearLayout mLlItem;
+        RelativeLayout mLlItem;
         TextView mTvTimeCreate;
+        TextView mTvAddress;
 
         public ItemHolder(View itemView) {
             super(itemView);
             mTvTitle = (TextView) itemView.findViewById(R.id.tvTitle);
-            mLlItem = (LinearLayout) itemView.findViewById(R.id.llHistoryPing);
+            mTvAddress = (TextView) itemView.findViewById(R.id.tvAddress);
+            mLlItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
             mTvTimeCreate = (TextView) itemView.findViewById(R.id.tvTimeCreate);
 
         }
