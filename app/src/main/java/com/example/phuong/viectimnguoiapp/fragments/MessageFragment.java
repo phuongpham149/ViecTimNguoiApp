@@ -10,7 +10,11 @@ import android.widget.ProgressBar;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.SendMessageActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.SendMessageAdapter;
+import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
+import com.example.phuong.viectimnguoiapp.objects.UserChat;
+import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -33,44 +37,50 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     @ViewById(R.id.prograssBarLoading)
     ProgressBar mProgressBarLoading;
 
-    private List<String> mUserContact = new ArrayList<>();
-    private List<String> mUserNameContact = new ArrayList<>();
+    private List<UserChat> mUserChat = new ArrayList<>();
     private SendMessageAdapter mAdapter;
     private String idUser;
     private SharedPreferences mSharedPreferences;
-    private Firebase mFirebaseMessage;
-    private Firebase mFirebaseUser;
+    private RealmHelper mData;
 
     @Override
     void inits() {
+        mData = new RealmHelper(getActivity());
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
         mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
 
-        getListContactMessage();
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                getDataUserName();
-            }
-        }, 2000);
+        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+            getListContactMessage();
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    getDataUserName();
+                }
+            }, 2000);
+        } else {
+            mUserChat = mData.getUserChats();
+        }
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewContact.setLayoutManager(layoutManager);
-        mAdapter = new SendMessageAdapter(mUserNameContact, getContext(), this);
+        mAdapter = new SendMessageAdapter(mUserChat, getContext(), this);
         mRecyclerViewContact.setAdapter(mAdapter);
+        mProgressBarLoading.setVisibility(View.GONE);
     }
 
     public void getListContactMessage() {
-        mFirebaseMessage = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages");
+        Firebase mFirebaseMessage = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages");
         mFirebaseMessage.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 String[] user = dataSnapshot.getKey().split("_");
                 if (user[0].trim().equals(idUser)) {
-                    mUserContact.add(user[1]);
+                    UserChat userChat = new UserChat();
+                    userChat.setIdUser(user[1]);
+                    mUserChat.add(userChat);
                 }
             }
 
@@ -98,19 +108,24 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
 
     @Override
     public void itemClickListener(int position) {
-        SendMessageActivity_.intent(this).idUserContact(mUserContact.get(position)).mNameUserContact(mUserNameContact.get(position)).start();
+        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+            SendMessageActivity_.intent(this).idUserContact(mUserChat.get(position).getIdUser()).mNameUserContact(mUserChat.get(position).getUsername()).start();
+        } else {
+            Common.createDialog(getActivity(), "Vui lòng kiểm tra kết nối mạng");
+        }
     }
 
     public void getDataUserName() {
-        mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        Firebase mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
-                for (String idUser : mUserContact) {
-                    if (idUser.equals(map.get("id").toString())) {
-                        mUserNameContact.add(map.get("username").toString());
+                for (UserChat userChat : mUserChat) {
+                    if (userChat.getIdUser().equals(map.get("id").toString())) {
+                        userChat.setUsername(map.get("username").toString());
                     }
+                    mData.addUserChat(userChat);
                 }
                 mAdapter.notifyDataSetChanged();
                 mProgressBarLoading.setVisibility(View.GONE);

@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.objects.UserChat;
 
 import java.util.List;
 import java.util.Random;
@@ -19,12 +20,12 @@ import java.util.Random;
  */
 
 public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.ContactHolder> {
-    private List<String> mUsers;
+    private List<UserChat> mUsers;
     private Context mContext;
     private onItemClickListener mListener;
     private int[] mIcons = {R.drawable.ic_user_blue, R.drawable.ic_user_gray, R.drawable.ic_user_green, R.drawable.ic_user_yellow};
 
-    public SendMessageAdapter(List<String> mUsers, Context mContext, onItemClickListener listener) {
+    public SendMessageAdapter(List<UserChat> mUsers, Context mContext, onItemClickListener listener) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         mListener = listener;
@@ -38,7 +39,7 @@ public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.
 
     @Override
     public void onBindViewHolder(ContactHolder holder, final int position) {
-        holder.mTvUserContact.setText(mUsers.get(position));
+        holder.mTvUserContact.setText(mUsers.get(position).getUsername());
         int randomAvarta = (new Random().nextInt(4));
         holder.mImgAvarta.setImageResource(mIcons[randomAvarta]);
         holder.mLlContactItem.setOnClickListener(new View.OnClickListener() {
