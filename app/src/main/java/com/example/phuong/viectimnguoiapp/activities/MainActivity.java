@@ -189,6 +189,16 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
                 setTitleToolbar("Cài đặt");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
+            case 8:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, SettingFragment_.builder().build()).commit();
+                setTitleToolbar("Phản hồi");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case 9:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().isLogout(true).build()).commit();
+                setTitleToolbar("Bảng tin");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
             default:
                 break;
         }
