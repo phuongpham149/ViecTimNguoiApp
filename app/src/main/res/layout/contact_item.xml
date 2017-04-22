@@ -1,22 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/llContactItem"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/ll_contact_item_margin"
-    android:layout_marginRight="@dimen/ll_contact_item_margin"
-    android:orientation="vertical">
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/imgAvartar"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:src="@drawable/ic_user_blue" />
 
     <TextView
         android:id="@+id/tvUserContact"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/textview_user_contact_margin_bottom"
-        android:layout_marginTop="@dimen/textview_user_contact_margin_top"
-        android:textSize="@dimen/textview_user_contact_text_size" />
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="25dp"
+        android:layout_toRightOf="@+id/imgAvartar"
+        android:text="Phuong Pham"
+        android:textColor="#333333"
+        android:textSize="20sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/view_height"
-        android:background="@drawable/bg_gradient" />
-</LinearLayout>
+        android:layout_below="@+id/tvUserContact"
+        android:layout_marginTop="10dp"
+        android:background="#BFBFBF" />
+</RelativeLayout>

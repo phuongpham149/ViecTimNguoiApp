@@ -1,12 +1,15 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.content.SharedPreferences;
+import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.SendMessageActivity_;
-import com.example.phuong.viectimnguoiapp.adapters.ContactAdapter;
+import com.example.phuong.viectimnguoiapp.adapters.SendMessageAdapter;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
@@ -24,13 +27,15 @@ import java.util.Map;
  * Created by phuong on 21/02/2017.
  */
 @EFragment(R.layout.fragment_contact)
-public class MessageFragment extends BaseFragment implements ContactAdapter.onItemClickListener {
+public class MessageFragment extends BaseFragment implements SendMessageAdapter.onItemClickListener {
     @ViewById(R.id.recyclerViewContact)
     RecyclerView mRecyclerViewContact;
+    @ViewById(R.id.prograssBarLoading)
+    ProgressBar mProgressBarLoading;
 
     private List<String> mUserContact = new ArrayList<>();
     private List<String> mUserNameContact = new ArrayList<>();
-    private ContactAdapter mAdapter;
+    private SendMessageAdapter mAdapter;
     private String idUser;
     private SharedPreferences mSharedPreferences;
     private Firebase mFirebaseMessage;
@@ -38,12 +43,23 @@ public class MessageFragment extends BaseFragment implements ContactAdapter.onIt
 
     @Override
     void inits() {
+        mProgressBarLoading.setVisibility(View.VISIBLE);
+
         mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
+
         getListContactMessage();
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                getDataUserName();
+            }
+        }, 2000);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         mRecyclerViewContact.setLayoutManager(layoutManager);
-        mAdapter = new ContactAdapter(mUserNameContact, getContext(), this);
+        mAdapter = new SendMessageAdapter(mUserNameContact, getContext(), this);
         mRecyclerViewContact.setAdapter(mAdapter);
     }
 
@@ -56,7 +72,6 @@ public class MessageFragment extends BaseFragment implements ContactAdapter.onIt
                 if (user[0].trim().equals(idUser)) {
                     mUserContact.add(user[1]);
                 }
-                getDataUserName();
             }
 
             @Override
@@ -83,21 +98,22 @@ public class MessageFragment extends BaseFragment implements ContactAdapter.onIt
 
     @Override
     public void itemClickListener(int position) {
-        SendMessageActivity_.intent(this).idUserContact(mUserContact.get(position)).start();
+        SendMessageActivity_.intent(this).idUserContact(mUserContact.get(position)).mNameUserContact(mUserNameContact.get(position)).start();
     }
 
-    public void getDataUserName(){
+    public void getDataUserName() {
         mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Map map = dataSnapshot.getValue(Map.class);
-                for(String idUser : mUserContact){
-                    if(idUser.equals(map.get("id").toString())){
+                for (String idUser : mUserContact) {
+                    if (idUser.equals(map.get("id").toString())) {
                         mUserNameContact.add(map.get("username").toString());
                     }
                 }
                 mAdapter.notifyDataSetChanged();
+                mProgressBarLoading.setVisibility(View.GONE);
             }
 
             @Override
