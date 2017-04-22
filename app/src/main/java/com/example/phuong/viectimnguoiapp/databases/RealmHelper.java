@@ -7,6 +7,7 @@ import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.objects.User;
+import com.example.phuong.viectimnguoiapp.objects.UserChat;
 
 import java.util.List;
 
@@ -56,12 +57,22 @@ public class RealmHelper {
         mRealm.commitTransaction();
     }
 
+    public void addUserChat(UserChat userChat) {
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(userChat);
+        mRealm.commitTransaction();
+    }
+
     public List<HistoryPing> getHistoryPings() {
         return mRealm.where(HistoryPing.class).findAll();
     }
 
     public List<District> getDistricts() {
         return mRealm.where(District.class).findAll();
+    }
+
+    public List<UserChat> getUserChats() {
+        return mRealm.where(UserChat.class).findAll();
     }
 
     public List<NewItem> getNews() {
