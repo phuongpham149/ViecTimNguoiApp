@@ -2,25 +2,29 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/bg_btn_contact"
     android:gravity="bottom"
-    android:background="@drawable/bg_message"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingBottom="5dp"
+    android:paddingTop="5dp">
 
     <EditText
-        android:layout_width="0dp"
-        android:layout_weight="4"
-        android:layout_height="wrap_content"
-        android:hint="@string/edt_hint_mesage_area"
         android:id="@+id/edtMessageArea"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:background="@drawable/bg_message"
+        android:hint="@string/edt_hint_mesage_area"
         android:maxHeight="@dimen/edt_message_area_max_height"
-        />
+        android:paddingBottom="5dp"
+        android:paddingTop="5dp" />
 
     <ImageView
+        android:id="@+id/imgSend"
         android:layout_width="0dp"
-        android:layout_weight="1"
-        android:layout_gravity="center_vertical"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
         android:padding="@dimen/img_send_padding"
-        android:src="@drawable/ic_send_message"
-        android:id="@+id/imgSend"/>
+        android:src="@drawable/ic_send_message" />
 </LinearLayout>

@@ -1,6 +1,7 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
 import android.content.SharedPreferences;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,9 +33,9 @@ import java.util.Map;
 public class SendMessageActivity extends BaseActivity {
     @Extra
     protected String idUserContact;
+    @Extra
+    protected String mNameUserContact;
 
-    @ViewById(R.id.imgBack)
-    ImageView mImgBack;
     @ViewById(R.id.scrollView)
     ScrollView mScrollView;
     @ViewById(R.id.layoutContact)
@@ -43,22 +44,30 @@ public class SendMessageActivity extends BaseActivity {
     ImageView mImgSend;
     @ViewById(R.id.edtMessageArea)
     EditText mEdtMessageArea;
+    @ViewById(R.id.toolBarChat)
+    Toolbar mToolbarChat;
 
+    private TextView mTvTitle;
     private Firebase mFirebaseUser;
     private Firebase mFirebaseFriend;
     private SharedPreferences mSharedPreferences;
     private String idUser;
 
+    @Click(R.id.btnBack)
+    public void backAction() {
+        finish();
+    }
+
     @Override
     void inits() {
+        mTvTitle = (TextView) mToolbarChat.findViewById(R.id.tvtitleToolbar);
+        mTvTitle.setText(mNameUserContact);
 
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
 
-        Firebase.setAndroidContext(this);
         mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUser + "_" + idUserContact);
         mFirebaseFriend = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUserContact + "_" + idUser);
-
 
         mImgSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,21 +130,19 @@ public class SendMessageActivity extends BaseActivity {
             lp.setMargins(10, 0, 0, 10);
             lp.gravity = Gravity.RIGHT;
             textView.setLayoutParams(lp);
+            textView.setTextSize(18);
+            textView.setPadding(5, 10, 5, 10);
             textView.setTextColor(getResources().getColor(R.color.bg_default));
             textView.setBackgroundResource(R.drawable.rounded_corner1);
 
         } else {
             lp.setMargins(10, 0, 0, 10);
+            textView.setTextSize(18);
             textView.setLayoutParams(lp);
             textView.setBackgroundResource(R.drawable.rounded_corner2);
         }
 
         mLlContact.addView(textView);
         mScrollView.fullScroll(View.FOCUS_DOWN);
-    }
-
-    @Click(R.id.imgBack)
-    public void backAction() {
-        finish();
     }
 }

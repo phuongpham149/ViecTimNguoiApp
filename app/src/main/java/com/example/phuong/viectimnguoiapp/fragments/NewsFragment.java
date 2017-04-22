@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -49,7 +48,6 @@ public class NewsFragment extends BaseFragment {
     @Override
     void inits() {
         mProgressBarLoadingNews.setVisibility(View.VISIBLE);
-        Log.d("tag123", "show pb 1");
 
         Firebase.setAndroidContext(getActivity());
         mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
@@ -73,19 +71,15 @@ public class NewsFragment extends BaseFragment {
                         if (newItem.getStatus() == Integer.parseInt(Constant.STATUS_APPROVAL)) {
                             if (!mSettingAddress.equals("") && !mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat())) && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
                                 mNews.add(newItem);
-                                Log.d("tag123", "1 " + newItem.toString());
                                 mData.addNew(newItem);
                             } else if (!mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat()))) {
                                 mNews.add(newItem);
-                                Log.d("tag123", "2");
                                 mData.addNew(newItem);
                             } else if (!mSettingAddress.equals("") && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
                                 mNews.add(newItem);
-                                Log.d("tag123", "3");
                                 mData.addNew(newItem);
                             } else {
                                 mNews.add(newItem);
-                                Log.d("tag123", "4");
                                 mData.addNew(newItem);
                             }
                         }
@@ -113,7 +107,6 @@ public class NewsFragment extends BaseFragment {
                     }
                 });
                 mRecyclerViewNews.setAdapter(mAdapter);
-                Log.d("tag123", "show data " + mNews.toString());
                 mAdapter.notifyDataSetChanged();
                 mProgressBarLoadingNews.setVisibility(View.GONE);
             }

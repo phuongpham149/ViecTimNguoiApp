@@ -22,7 +22,7 @@
     <string name="btn_text_login">Login</string>
     <string name="textview_retype_password">Confirm Password</string>
     <string name="textview_role_register">You are</string>
-    <string name="edt_hint_mesage_area">Viết tin nhắn....</string>
+    <string name="edt_hint_mesage_area">Aa</string>
     <string name="textview_name_app">Việc Tìm Người</string>
     <string name="textview_btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>

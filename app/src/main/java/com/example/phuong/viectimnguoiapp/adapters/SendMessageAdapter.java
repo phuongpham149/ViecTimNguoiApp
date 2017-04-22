@@ -5,23 +5,26 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by phuong on 22/02/2017.
  */
 
-public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactHolder> {
+public class SendMessageAdapter extends RecyclerView.Adapter<SendMessageAdapter.ContactHolder> {
     private List<String> mUsers;
     private Context mContext;
     private onItemClickListener mListener;
+    private int[] mIcons = {R.drawable.ic_user_blue, R.drawable.ic_user_gray, R.drawable.ic_user_green, R.drawable.ic_user_yellow};
 
-    public ContactAdapter(List<String> mUsers, Context mContext, onItemClickListener listener) {
+    public SendMessageAdapter(List<String> mUsers, Context mContext, onItemClickListener listener) {
         this.mUsers = mUsers;
         this.mContext = mContext;
         mListener = listener;
@@ -36,12 +39,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
     @Override
     public void onBindViewHolder(ContactHolder holder, final int position) {
         holder.mTvUserContact.setText(mUsers.get(position));
+        int randomAvarta = (new Random().nextInt(4));
+        holder.mImgAvarta.setImageResource(mIcons[randomAvarta]);
         holder.mLlContactItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mListener.itemClickListener(position);
             }
         });
+
     }
 
     @Override
@@ -54,13 +60,15 @@ public class ContactAdapter extends RecyclerView.Adapter<ContactAdapter.ContactH
     }
 
     public class ContactHolder extends RecyclerView.ViewHolder {
+        ImageView mImgAvarta;
         TextView mTvUserContact;
-        LinearLayout mLlContactItem;
+        RelativeLayout mLlContactItem;
 
         public ContactHolder(View itemView) {
             super(itemView);
             mTvUserContact = (TextView) itemView.findViewById(R.id.tvUserContact);
-            mLlContactItem = (LinearLayout) itemView.findViewById(R.id.llContactItem);
+            mImgAvarta = (ImageView) itemView.findViewById(R.id.imgAvartar);
+            mLlContactItem = (RelativeLayout) itemView.findViewById(R.id.llContactItem);
         }
     }
 }
