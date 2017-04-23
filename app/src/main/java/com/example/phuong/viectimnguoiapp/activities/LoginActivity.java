@@ -199,7 +199,6 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             @Override
             public void run() {
                 if (check) {
-
                     mEditor.putString(Constant.NAME_USER_LOGIN, mEdtUsername.getText().toString());
                     mEditor.putString(Constant.IS_USER_LOGIN, "true");
                     mEditor.putString(Constant.ID_USER_LOGIN, mUser.getId());

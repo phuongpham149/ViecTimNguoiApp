@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.SettingMenuAdapter;
 import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.FeedbackFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
@@ -190,7 +191,7 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 8:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, SettingFragment_.builder().build()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, FeedbackFragment_.builder().build()).commit();
                 setTitleToolbar("Phản hồi");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
