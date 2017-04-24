@@ -53,7 +53,12 @@
             android:layout_marginRight="@dimen/edt.note.margin.right"
             android:layout_marginTop="@dimen/edt.note.margin.top"
             android:background="@drawable/bg_btn_contact"
-            android:inputType="text" />
+            android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:lines="8"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp"
+            android:scrollHorizontally="false" />
 
         <TextView
             android:id="@+id/tvAddress"
