@@ -246,46 +246,7 @@ public class DetailNewActivity extends BaseActivity {
                     if (!mCheckPing) {
                         if (!idUser.equals(mNew.getIdUser())) {
                             //show dialog bao gia
-                            final Dialog dialog = new Dialog(DetailNewActivity.this);
-                            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                            dialog.setContentView(R.layout.dialog_rate_price);
-                            final EditText edtPrice = (EditText) dialog.findViewById(R.id.edtPrice);
-                            edtPrice.requestFocus();
-                            Helpers.showSoftKeyboard(DetailNewActivity.this, DetailNewActivity.this.getCurrentFocus());
-
-                            TextView btnOk = (TextView) dialog.findViewById(R.id.tvBtnOk);
-
-                            btnOk.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    if ("".equals(edtPrice.getText().toString())) {
-                                        edtPrice.getError();
-                                    } else {
-                                        if ("".equals(idUser)) {
-                                            Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
-                                        } else {
-                                            mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
-                                            String messageText = "Tài khoản " + username + " đăng ký làm việc ";
-                                            Map<String, String> map = new HashMap<>();
-                                            map.put("message", messageText);
-                                            map.put("price", edtPrice.getText().toString() + "VNĐ");
-                                            mFirebasePing.push().setValue(map);
-
-
-                                            Map<String, String> mapHistory = new HashMap<>();
-                                            mapHistory.put("idPost", mNew.getId());
-                                            mapHistory.put("price", edtPrice.getText().toString() + "VNĐ");
-                                            mFirebaseHistoryPingByUser.push().setValue(mapHistory);
-
-                                            Toast.makeText(DetailNewActivity.this, "Bạn đã đặt chỗ thành công", Toast.LENGTH_SHORT).show();
-                                        }
-
-                                    }
-                                    dialog.dismiss();
-
-                                }
-                            });
-                            dialog.show();
+                            showDialogRatePrice(idUser, username);
                         } else {
                             Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này");
                         }
@@ -297,7 +258,57 @@ public class DetailNewActivity extends BaseActivity {
         } else {
             Common.createDialog(DetailNewActivity.this, "Vui lòng kiểm tra kết nối mạng");
         }
+    }
 
+    public void showDialogRatePrice(final String idUser, final String username) {
+        final Dialog dialog = new Dialog(DetailNewActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_rate_price);
+        final EditText edtPrice = (EditText) dialog.findViewById(R.id.edtPrice);
+        edtPrice.requestFocus();
+        Helpers.showSoftKeyboard(DetailNewActivity.this, DetailNewActivity.this.getCurrentFocus());
+
+        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("".equals(edtPrice.getText().toString())) {
+                    edtPrice.getError();
+                } else {
+                    if ("".equals(idUser)) {
+                        Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
+                    } else {
+                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
+                        String messageText = "Tài khoản " + username + " đăng ký làm việc ";
+                        Map<String, String> map = new HashMap<>();
+                        map.put("message", messageText);
+                        map.put("price", edtPrice.getText().toString() + "VNĐ");
+                        mFirebasePing.push().setValue(map);
+
+
+                        Map<String, String> mapHistory = new HashMap<>();
+                        mapHistory.put("idPost", mNew.getId());
+                        mapHistory.put("price", edtPrice.getText().toString() + "VNĐ");
+                        mFirebaseHistoryPingByUser.push().setValue(mapHistory);
+
+                        Toast.makeText(DetailNewActivity.this, "Bạn đã đặt chỗ thành công", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                dialog.dismiss();
+
+            }
+        });
+        dialog.show();
     }
 
 }
