@@ -83,4 +83,6 @@ dependencies {
 
     //google map
     compile 'com.google.android.gms:play-services-maps:10.0.1'
+
+    compile "com.daimajia.swipelayout:library:1.2.0@aar"
 }

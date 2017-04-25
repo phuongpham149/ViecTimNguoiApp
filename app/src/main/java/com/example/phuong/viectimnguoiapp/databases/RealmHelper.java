@@ -6,6 +6,7 @@ import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
+import com.example.phuong.viectimnguoiapp.objects.NewSave;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.objects.UserChat;
 
@@ -45,6 +46,12 @@ public class RealmHelper {
         mRealm.commitTransaction();
     }
 
+    public void addNewSave(NewSave newSave) {
+        mRealm.beginTransaction();
+        mRealm.copyToRealmOrUpdate(newSave);
+        mRealm.commitTransaction();
+    }
+
     public void addCategoryJob(CategoryJob categoryJob) {
         mRealm.beginTransaction();
         mRealm.copyToRealmOrUpdate(categoryJob);
@@ -63,6 +70,10 @@ public class RealmHelper {
         mRealm.commitTransaction();
     }
 
+    public List<NewSave> getNewSaves() {
+        return mRealm.where(NewSave.class).findAll();
+    }
+
     public List<HistoryPing> getHistoryPings() {
         return mRealm.where(HistoryPing.class).findAll();
     }
@@ -73,6 +84,13 @@ public class RealmHelper {
 
     public List<UserChat> getUserChats() {
         return mRealm.where(UserChat.class).findAll();
+    }
+
+    public void deleteNewSave(String idNewSave) {
+        mRealm.beginTransaction();
+        RealmResults<NewSave> result = mRealm.where(NewSave.class).equalTo("id", idNewSave).findAll();
+        result.clear();
+        mRealm.commitTransaction();
     }
 
     public List<NewItem> getNews() {
@@ -98,6 +116,7 @@ public class RealmHelper {
     public RealmResults<User> getUser(String id) {
         return mRealm.where(User.class).equalTo("id", id).findAll();
     }
+
     public RealmResults<HistoryPing> getHistoryPing(String id) {
         return mRealm.where(HistoryPing.class).equalTo("idPost", id).findAll();
     }
