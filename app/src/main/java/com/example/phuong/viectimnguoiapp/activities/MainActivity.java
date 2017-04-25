@@ -18,6 +18,7 @@ import com.example.phuong.viectimnguoiapp.fragments.FeedbackFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.PostSavedFrament_;
 import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.UpdateInformationFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
@@ -178,6 +179,11 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
             case 4:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, MessageFragment_.builder().build()).commit();
                 setTitleToolbar("Tin nhắn");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case 5:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, PostSavedFrament_.builder().build()).commit();
+                setTitleToolbar("Bài đăng đã lưu");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 6:

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
+import com.example.phuong.viectimnguoiapp.objects.NewSave;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
@@ -34,6 +36,7 @@ import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -76,7 +79,9 @@ public class DetailNewActivity extends BaseActivity {
 
     private TextView mTvTitleToolbar;
     private ProgressBar mProgressBarLoading;
+    private ImageView mImgSave;
     private TrackGPS mTrackGPS;
+    private boolean mCheckSave = false;
 
     @Click(R.id.imgGoToMapAndroid)
     public void goToMapAction() {
@@ -115,6 +120,7 @@ public class DetailNewActivity extends BaseActivity {
 
         mTvTitleToolbar = (TextView) mToolbarDetail.findViewById(R.id.tvtitleToolbar);
         mProgressBarLoading = (ProgressBar) mToolbarDetail.findViewById(R.id.prograssBarLoading);
+        mImgSave = (ImageView) mToolbarDetail.findViewById(R.id.imgSave);
         mTvTitleToolbar.setText("Chi tiết công việc");
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
@@ -141,12 +147,40 @@ public class DetailNewActivity extends BaseActivity {
                         mTvUserName.setText(mUser.getUsername());
                         mTvCoin.setText(mUser.getPoint());
                         mProgressBarLoading.setVisibility(View.GONE);
+                        setStatusSaveOfPost();
                     }
                 }, 1000);
             } else {
                 mTvUserName.setText("Đang cập nhật");
                 mTvCoin.setText("Đang cập nhật");
                 mProgressBarLoading.setVisibility(View.GONE);
+                setStatusSaveOfPost();
+            }
+        }
+    }
+
+    @Click(R.id.imgSave)
+    public void SavePostAction() {
+        setStatusSaveOfPost();
+        if (mCheckSave) {
+            Toast.makeText(this, "Bạn đã lưu bài đăng này", Toast.LENGTH_SHORT).show();
+        } else {
+            NewSave newSave = new NewSave(mNew.getId(), mNew.getIdCat(), mNew.getTimeDeadline(), mNew.getAddress(), mNew.getTimeCreated(), mNew.getIdUser(), mNew.getIdDistrict(), mNew.getNote(), mNew.getStatus());
+            mData.addNewSave(newSave);
+            Toast.makeText(this, "Lưu thành công", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void setStatusSaveOfPost() {
+        mImgSave.setVisibility(View.VISIBLE);
+        List<NewSave> mNewSaves = mData.getNewSaves();
+        mImgSave.setImageResource(R.drawable.ic_star_save);
+        if (mNewSaves != null && mNewSaves.size() > 0) {
+            for (NewSave newSave : mNewSaves) {
+                if (newSave.getId().equals(mNew.getId())) {
+                    mImgSave.setImageResource(R.drawable.ic_star_saved);
+                    mCheckSave = true;
+                }
             }
         }
     }
