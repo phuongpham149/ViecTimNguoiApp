@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewSaveAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewSave;
@@ -36,6 +37,7 @@ public class PostSavedFrament extends BaseFragment implements NewSaveAdapter.onI
 
     @Override
     public void itemClickListener(int position) {
-
+        DetailNewActivity_.intent(getActivity()).mId(mNewSaves.get(position).getId()).start();
+        getActivity().overridePendingTransition(R.anim.anim_slide_bottom_top, R.anim.anim_nothing);
     }
 }
