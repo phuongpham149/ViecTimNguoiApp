@@ -19,6 +19,7 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.objects.NewSave;
+import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
@@ -323,10 +324,11 @@ public class DetailNewActivity extends BaseActivity {
                     } else {
                         mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
                         String messageText = "Tài khoản " + username + " đăng ký làm việc ";
-                        Map<String, String> map = new HashMap<>();
-                        map.put("message", messageText);
-                        map.put("price", edtPrice.getText().toString() + "VNĐ");
-                        mFirebasePing.push().setValue(map);
+                        Ping ping = new Ping();
+                        ping.setUsername(username);
+                        ping.setPrice(edtPrice.getText().toString() + "VNĐ");
+                        ping.setMessage(messageText);
+                        mFirebasePing.setValue(ping);
 
 
                         Map<String, String> mapHistory = new HashMap<>();
