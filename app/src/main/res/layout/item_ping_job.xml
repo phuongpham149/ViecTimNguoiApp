@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rlNewItem"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/rlMenuItem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/ll_detail_new_margin_top"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/textview_text_user_hider_margin_top"
+        android:textStyle="bold">
+
+        <ImageView
+            android:id="@+id/imgAvartar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/ic_user_blue" />
+
+        <TextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="@dimen/textview_text_user_hider_margin_top"
+            android:layout_toRightOf="@+id/imgAvartar"
+            android:textColor="#000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvName"
+            android:layout_marginLeft="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@+id/imgAvartar"
+            android:textColor="@android:color/holo_red_dark"
+            android:textSize="@dimen/button_contact_text_size" />
+
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/viewLineBottom"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view_height"
+        android:layout_below="@+id/rlMenuItem"
+        android:layout_marginTop="3dp"
+        android:background="#BFBFBF" />
+
+</RelativeLayout>
