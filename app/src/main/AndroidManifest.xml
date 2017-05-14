@@ -19,17 +19,14 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".activities.SplashActivity_"
-            android:noHistory="true">
+            android:name=".activities.SplashActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activities.LoginActivity1_"
-            android:noHistory="true" />
+        <activity android:name=".activities.LoginActivity1_" />
         <activity android:name=".activities.RegisterActivity_" />
         <activity android:name=".activities.MainActivity_" />
         <activity android:name=".activities.DetailNewActivity_" />

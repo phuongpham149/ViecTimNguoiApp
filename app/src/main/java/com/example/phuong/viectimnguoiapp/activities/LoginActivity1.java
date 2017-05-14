@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.utils.DialogLoading;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -31,6 +32,8 @@ import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
+import java.util.Arrays;
+
 /**
  * Copyright@ AsianTech.Inc
  * Created by ly.ho on 21/02/2017.
@@ -46,19 +49,15 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
 
     @AfterViews
     void init() {
-       /* if (AppConfig.getInstance().isLogin(this)) {
-            MainActivity_.intent(this).start();
-            finish();
-        } else {*/
-        configAuthFireBase();
-        configLoginGoogle();
-        configLoginFacebook();
-        // }
-    }
-
-    private void configAuthFireBase() {
         mFireBaseAuth = FirebaseAuth.getInstance();
-        mFireBaseAuth.addAuthStateListener(this);
+        if (mFireBaseAuth.getCurrentUser() != null) {
+            MainActivity_.intent(LoginActivity1.this).start();
+            finish();
+        } else {
+            mFireBaseAuth.addAuthStateListener(this);
+            configLoginGoogle();
+            configLoginFacebook();
+        }
     }
 
     private void configLoginGoogle() {
@@ -110,7 +109,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             Toast.makeText(this, R.string.toast_text_connection_internet, Toast.LENGTH_SHORT).show();
             return;
         }*/
-        //LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(PERMISSION_FB));
+        LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(PERMISSION_FB));
     }
 
     @Override
@@ -127,25 +126,25 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
     }
 
     private void fireBaseAuthWithGoogle(GoogleSignInAccount account) {
-        ///  DialogUtils.getInstance().showProgressDialog(this, getString(R.string.dialog_messenger_connect));
+        DialogLoading.getInstance().showProgressDialog(this, getString(R.string.dialog_messenger_connect));
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         mFireBaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // DialogUtils.getInstance().dismissProgressDialog();
+                        DialogLoading.getInstance().dismissProgressDialog();
                     }
                 });
     }
 
     private void fireBaseAuthWithFacebook(AccessToken accessToken) {
-        //  DialogUtils.getInstance().showProgressDialog(this, getString(R.string.dialog_messenger_connect));
+        DialogLoading.getInstance().showProgressDialog(this, getString(R.string.dialog_messenger_connect));
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         mFireBaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        // DialogUtils.getInstance().dismissProgressDialog();
+                        DialogLoading.getInstance().dismissProgressDialog();
                     }
                 });
     }
@@ -161,12 +160,10 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
         Log.d(TAG, "onAuthStateChanged: ");
         if (firebaseUser != null) {
             requestLogOutGoogle();
-            //   ActivityLoadData_.intent(this).start();
-            // Start activity
-
-          //  MainActivity_.intent(LoginActivity1.this).start();
-
-        }else {
+            Log.d(TAG, "onAuthStateChanged: suscces login");
+            MainActivity_.intent(LoginActivity1.this).start();
+            finish();
+        } else {
             Log.d(TAG, "onAuthStateChanged: null");
         }
     }

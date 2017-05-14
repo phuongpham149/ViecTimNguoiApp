@@ -13,12 +13,18 @@ import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
-import com.example.phuong.viectimnguoiapp.activities.LoginActivity_;
+import com.example.phuong.viectimnguoiapp.activities.LoginActivity1_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
+import com.facebook.AccessToken;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.HttpMethod;
+import com.facebook.login.LoginManager;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -90,7 +96,10 @@ public class NewsFragment extends BaseFragment {
             public void onClick(View view) {
                 mEditor.putString(Constant.IS_USER_LOGIN, "false");
                 mEditor.apply();
-                LoginActivity_.intent(getActivity()).start();
+                //TODO logout here, you must clear data current user befor logout
+                FirebaseAuth.getInstance().signOut();
+                logoutFacebook();
+                LoginActivity1_.intent(getActivity()).start();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -156,5 +165,14 @@ public class NewsFragment extends BaseFragment {
                 mProgressBarLoadingNews.setVisibility(View.GONE);
             }
         }, 3000);
+    }
+    private void logoutFacebook() {
+        new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
+                .Callback() {
+            @Override
+            public void onCompleted(GraphResponse graphResponse) {
+                LoginManager.getInstance().logOut();
+            }
+        }).executeAsync();
     }
 }
