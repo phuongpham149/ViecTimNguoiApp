@@ -26,10 +26,11 @@ import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.TrackGPS;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -68,9 +69,9 @@ public class DetailNewActivity extends BaseActivity {
     Toolbar mToolbarDetail;
 
     private User mUser = new User();
-    private Firebase mFirebaseUserInfo;
-    private Firebase mFirebasePing;
-    private Firebase mFirebaseHistoryPingByUser;
+    private DatabaseReference mFirebaseUserInfo;
+    private DatabaseReference mFirebasePing;
+    private DatabaseReference mFirebaseHistoryPingByUser;
 
     private SharedPreferences mSharedPreferencesLogin;
 
@@ -117,7 +118,6 @@ public class DetailNewActivity extends BaseActivity {
     void inits() {
         mData = new RealmHelper(DetailNewActivity.this);
         mNew = mData.getItemNew(mId).first();
-        Firebase.setAndroidContext(this);
 
         mTvTitleToolbar = (TextView) mToolbarDetail.findViewById(R.id.tvtitleToolbar);
         mProgressBarLoading = (ProgressBar) mToolbarDetail.findViewById(R.id.prograssBarLoading);
@@ -188,7 +188,7 @@ public class DetailNewActivity extends BaseActivity {
 
 
     public void getUserInfor(final String idUser) {
-        mFirebaseUserInfo = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebaseUserInfo = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUserInfo.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -222,7 +222,7 @@ public class DetailNewActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -259,7 +259,7 @@ public class DetailNewActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
 
             }
         });
@@ -271,7 +271,7 @@ public class DetailNewActivity extends BaseActivity {
             final String idUser = mSharedPreferencesLogin.getString(Constant.ID_USER_LOGIN, "");
             final String username = mSharedPreferencesLogin.getString(Constant.NAME_USER_LOGIN, "");
 
-            mFirebaseHistoryPingByUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser/" + idUser);
+            mFirebaseHistoryPingByUser = FirebaseDatabase.getInstance().getReference("/historyPingByUser/" + idUser);
             // kiem tra da ping chưa, chưa thì cho ping
             checkUserPing();
             Handler handler = new Handler();
@@ -322,7 +322,7 @@ public class DetailNewActivity extends BaseActivity {
                     if ("".equals(idUser)) {
                         Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
                     } else {
-                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
+                        mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
                         String messageText = "Tài khoản " + username + " đăng ký làm việc ";
                         Ping ping = new Ping();
                         ping.setUsername(username);

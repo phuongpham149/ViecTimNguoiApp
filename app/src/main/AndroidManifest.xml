@@ -28,7 +28,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.LoginActivity_"
+            android:name=".activities.LoginActivity1_"
             android:noHistory="true" />
         <activity android:name=".activities.RegisterActivity_" />
         <activity android:name=".activities.MainActivity_" />

@@ -30,10 +30,11 @@ import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -83,7 +84,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     ProgressBar mPbLoading;
 
     private Validator mValidator;
-    private Firebase mFirebase;
+    private DatabaseReference mFirebase;
     private boolean check;
     private User mUser;
     private int mStatusBlockUser = 0;
@@ -100,7 +101,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             mEdtUsername.setText(username);
             mEdtPassword.setText(password);
         }
-        mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebase = FirebaseDatabase.getInstance().getReference("/users");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -244,9 +245,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         check = false;
                     }
                 }
-
             }
-
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -264,7 +263,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -307,7 +306,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -341,9 +340,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
                         check = false;
                     }
                 }
-
             }
-
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -361,7 +358,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

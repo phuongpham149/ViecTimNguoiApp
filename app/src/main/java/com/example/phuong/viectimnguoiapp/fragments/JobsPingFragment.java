@@ -14,10 +14,11 @@ import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -40,11 +41,11 @@ public class JobsPingFragment extends BaseFragment {
     TextView mTvNotifyNoData;
 
     private List<HistoryPing> mHistoryPings;
-    private Firebase mFirebaseHistoryPings;
+    private DatabaseReference mFirebaseHistoryPings;
     private SharedPreferences mSharedPreferencesUser;
 
-    private Firebase mFirebasePost;
-    private Firebase mFirebaseUser;
+    private DatabaseReference mFirebasePost;
+    private DatabaseReference mFirebaseUser;
     private JobsPingAdapter mAdapter;
     private RealmHelper mData;
 
@@ -91,7 +92,7 @@ public class JobsPingFragment extends BaseFragment {
     }
 
     public void getDataHistoryPing() {
-        mFirebaseHistoryPings = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser");
+        mFirebaseHistoryPings = FirebaseDatabase.getInstance().getReference("/historyPingByUser");
 
         mFirebaseHistoryPings.addChildEventListener(new ChildEventListener() {
             @Override
@@ -121,14 +122,15 @@ public class JobsPingFragment extends BaseFragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
     }
 
     public void getDataPost() {
-        mFirebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
+        mFirebasePost = FirebaseDatabase.getInstance().getReference("/posts");
         mFirebasePost.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -163,14 +165,15 @@ public class JobsPingFragment extends BaseFragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
     }
 
     public void getNameOwner() {
-        mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebaseUser = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -198,9 +201,10 @@ public class JobsPingFragment extends BaseFragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
+
         });
     }
 

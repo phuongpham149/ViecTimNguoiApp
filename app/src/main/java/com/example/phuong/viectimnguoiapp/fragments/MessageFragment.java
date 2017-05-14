@@ -15,10 +15,11 @@ import com.example.phuong.viectimnguoiapp.objects.UserChat;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -72,7 +73,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     }
 
     public void getListContactMessage() {
-        Firebase mFirebaseMessage = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages");
+        DatabaseReference mFirebaseMessage = FirebaseDatabase.getInstance().getReference("/messages");
         mFirebaseMessage.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -100,7 +101,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -116,7 +117,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     }
 
     public void getDataUserName() {
-        Firebase mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        DatabaseReference mFirebaseUser = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -147,7 +148,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

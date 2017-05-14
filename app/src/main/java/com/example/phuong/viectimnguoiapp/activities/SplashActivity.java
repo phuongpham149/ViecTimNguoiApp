@@ -6,10 +6,11 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.District;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EActivity;
 
@@ -19,8 +20,8 @@ import org.androidannotations.annotations.EActivity;
 @EActivity(R.layout.activity_splash)
 public class SplashActivity extends BaseActivity {
 
-    private Firebase mFirebaseDistrict;
-    private Firebase mFirebaseCategoryJob;
+    private DatabaseReference mFirebaseDistrict;
+    private DatabaseReference mFirebaseCategoryJob;
     private RealmHelper mData;
 
     @Override
@@ -33,13 +34,13 @@ public class SplashActivity extends BaseActivity {
             public void run() {
                 getDataDistrict();
                 getDataCategoryJob();
-                LoginActivity_.intent(SplashActivity.this).start();
+                LoginActivity1_.intent(SplashActivity.this).start();
             }
         }, 3000);
     }
 
     public void getDataDistrict() {
-        mFirebaseDistrict = new Firebase("https://viectimnguoi-469e6.firebaseio.com/districts");
+        mFirebaseDistrict = FirebaseDatabase.getInstance().getReference("/districts");
         mFirebaseDistrict.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -50,14 +51,14 @@ public class SplashActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
     public void getDataCategoryJob() {
-        mFirebaseCategoryJob = new Firebase("https://viectimnguoi-469e6.firebaseio.com/categoryJobs");
+        mFirebaseCategoryJob = FirebaseDatabase.getInstance().getReference("/categoryJobs");
         mFirebaseCategoryJob.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -68,7 +69,7 @@ public class SplashActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

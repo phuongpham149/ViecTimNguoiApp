@@ -6,7 +6,8 @@ import android.widget.EditText;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -24,7 +25,7 @@ public class FeedbackFragment extends BaseFragment {
     @ViewById(R.id.edtFeedback)
     EditText mEdtFeekback;
 
-    private Firebase mFirebaseFeedback;
+    private DatabaseReference mFirebaseFeedback;
     private SharedPreferences mSharedPreferencesUserLogin;
 
     @Click(R.id.btnFeedback)
@@ -43,6 +44,6 @@ public class FeedbackFragment extends BaseFragment {
     @Override
     void inits() {
         mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        mFirebaseFeedback = new Firebase("https://viectimnguoi-469e6.firebaseio.com/feedback/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        mFirebaseFeedback = FirebaseDatabase.getInstance().getReference("/feedback/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
     }
 }

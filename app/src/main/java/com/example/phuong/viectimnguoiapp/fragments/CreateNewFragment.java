@@ -18,7 +18,8 @@ import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.Firebase;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -67,7 +68,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
 
     private List<String> mCategoryJobs = new ArrayList<>();
     private List<String> mDistricts = new ArrayList<>();
-    private Firebase mFirebasePost;
+    private DatabaseReference mFirebasePost;
 
     private SharedPreferences mSharedPreferencesUser;
     private ArrayAdapter<String> mAdapterCatJob;
@@ -82,7 +83,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     void inits() {
         mData = new RealmHelper(getActivity());
         timeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        mFirebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
+        mFirebasePost= FirebaseDatabase.getInstance().getReference("/posts");
         mSharedPreferencesUser = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);

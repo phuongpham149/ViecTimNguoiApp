@@ -19,10 +19,11 @@ import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Length;
@@ -74,7 +75,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
 
     private Validator mValidator;
     private boolean check = true;
-    private Firebase mFirebase;
+    private DatabaseReference mFirebase;
 
     private List<String> mDistricts = new ArrayList<>();
     private ArrayAdapter<String> mAdapterDistrict;
@@ -83,7 +84,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     @Override
     void inits() {
         Helpers.hideSoftKeyboard(this, this.getCurrentFocus());
-        mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebase = FirebaseDatabase.getInstance().getReference("/users");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
         getDistrics();
@@ -219,7 +220,6 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
                         check = true;
                     }
                 }
-
             }
 
             @Override
@@ -238,7 +238,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

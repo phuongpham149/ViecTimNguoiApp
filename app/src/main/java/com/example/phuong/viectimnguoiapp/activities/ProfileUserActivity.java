@@ -13,10 +13,11 @@ import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -59,7 +60,7 @@ public class ProfileUserActivity extends BaseActivity {
     private ProgressBar mProgressBarLoading;
 
     private User mUser;
-    private Firebase mFirebaseUserInfor;
+    private DatabaseReference mFirebaseUserInfor;
     private RealmHelper mData;
     private String mNameDistrict;
 
@@ -111,7 +112,7 @@ public class ProfileUserActivity extends BaseActivity {
     }
 
     public void getUserInfor() {
-        mFirebaseUserInfor = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebaseUserInfor = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUserInfor.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -144,7 +145,7 @@ public class ProfileUserActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

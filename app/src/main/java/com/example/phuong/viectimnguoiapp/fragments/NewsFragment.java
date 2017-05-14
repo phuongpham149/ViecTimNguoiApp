@@ -19,10 +19,11 @@ import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -45,7 +46,7 @@ public class NewsFragment extends BaseFragment {
 
     private NewsAdapter mAdapter;
     private List<NewItem> mNews;
-    private Firebase mFirebase;
+    private DatabaseReference mFirebase;
 
     private String mSettingJobs;
     private String mSettingAddress;
@@ -67,9 +68,7 @@ public class NewsFragment extends BaseFragment {
 
     public void getDataNews() {
         mProgressBarLoadingNews.setVisibility(View.VISIBLE);
-
-        Firebase.setAndroidContext(getActivity());
-        mFirebase = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
+        mFirebase = FirebaseDatabase.getInstance().getReference("/posts");
 
         mNews = new ArrayList<>();
         initsData();
@@ -110,8 +109,8 @@ public class NewsFragment extends BaseFragment {
         if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
             mFirebase.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot snapshot) {
-                    for (DataSnapshot obj : snapshot.getChildren()) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot obj : dataSnapshot.getChildren()) {
                         NewItem newItem = obj.getValue(NewItem.class);
                         if (newItem.getStatus() == Integer.parseInt(Constant.STATUS_APPROVAL)) {
                             if (!mSettingAddress.equals("") && !mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat())) && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
@@ -132,7 +131,8 @@ public class NewsFragment extends BaseFragment {
                 }
 
                 @Override
-                public void onCancelled(FirebaseError error) {
+                public void onCancelled(DatabaseError databaseError) {
+
                 }
             });
         } else {

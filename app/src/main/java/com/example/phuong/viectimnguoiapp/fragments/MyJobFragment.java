@@ -12,10 +12,11 @@ import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -36,7 +37,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     @ViewById(R.id.tvNoPost)
     protected TextView mTvNoPost;
 
-    private Firebase mFirebasePing;
+    private DatabaseReference mFirebasePing;
     private SharedPreferences mSharedPreferencesUserLogin;
 
     private List<String> mNewContact = new ArrayList<>();
@@ -49,7 +50,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
         mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/");
+        mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         getDataPostByUser(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
         mAdapter = new NewsAdapter(mNewItems, getActivity(), this);
@@ -73,13 +74,14 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
 
     public void getDataPostByUser(final String idUser) {
-        Firebase firebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts/");
+        DatabaseReference firebasePost = FirebaseDatabase.getInstance().getReference("/posts/");
         firebasePost.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -94,7 +96,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -110,7 +112,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
 
             }
         });

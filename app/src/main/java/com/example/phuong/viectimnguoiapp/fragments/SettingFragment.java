@@ -14,10 +14,11 @@ import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.Setting;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.otto.Subscribe;
 
 import org.androidannotations.annotations.CheckedChange;
@@ -73,8 +74,8 @@ public class SettingFragment extends BaseFragment {
     @ViewById(R.id.progressBarSave)
     protected ProgressBar mProgressBarSave;
 
-    private Firebase mFirebaseSetting;
-    private Firebase mFirebaseCheckSetting;
+    private DatabaseReference mFirebaseSetting;
+    private DatabaseReference mFirebaseCheckSetting;
     private SharedPreferences mSharedPreferencesSetting;
     private SharedPreferences mSharedPreferencesUserLogin;
     private String mSettingJob = "";
@@ -153,8 +154,8 @@ public class SettingFragment extends BaseFragment {
 
         mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         ;
-        mFirebaseSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/");
-        mFirebaseCheckSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/setting/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        mFirebaseSetting = FirebaseDatabase.getInstance().getReference("/");
+        mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
         mSharedPreferencesSetting = getActivity().getSharedPreferences(Constant.DATA_SETTING, 0);
 
         if (!mSharedPreferencesSetting.getString(Constant.SETTING_JOB, "defaul").equals("defaul") || !mSharedPreferencesSetting.getString(Constant.SETTING_ADDRESS, "defaul").equals("defaul")) {
@@ -214,7 +215,7 @@ public class SettingFragment extends BaseFragment {
     }
 
     public void checkFirebaseForSetting() {
-        Firebase mFirebaseCheckSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/setting/");
+        DatabaseReference mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/");
         mFirebaseCheckSetting.child(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
         mFirebaseCheckSetting.addChildEventListener(new ChildEventListener() {
             @Override
@@ -241,7 +242,7 @@ public class SettingFragment extends BaseFragment {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

@@ -13,10 +13,11 @@ import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -48,8 +49,8 @@ public class SendMessageActivity extends BaseActivity {
     Toolbar mToolbarChat;
 
     private TextView mTvTitle;
-    private Firebase mFirebaseUser;
-    private Firebase mFirebaseFriend;
+    private DatabaseReference mFirebaseUser;
+    private DatabaseReference mFirebaseFriend;
     private SharedPreferences mSharedPreferences;
     private String idUser;
 
@@ -66,8 +67,8 @@ public class SendMessageActivity extends BaseActivity {
         mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
 
-        mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUser + "_" + idUserContact);
-        mFirebaseFriend = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages/" + idUserContact + "_" + idUser);
+        mFirebaseUser = FirebaseDatabase.getInstance().getReference("/messages/" + idUser + "_" + idUserContact);
+        mFirebaseFriend = FirebaseDatabase.getInstance().getReference("/messages/" + idUserContact + "_" + idUser);
 
         mImgSend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +115,7 @@ public class SendMessageActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
