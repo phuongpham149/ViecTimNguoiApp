@@ -2,7 +2,6 @@ package com.example.phuong.viectimnguoiapp.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -22,7 +21,6 @@ import com.example.phuong.viectimnguoiapp.objects.NewSave;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.TrackGPS;
@@ -74,8 +72,6 @@ public class DetailNewActivity extends BaseActivity {
     private DatabaseReference mFirebasePing;
     private DatabaseReference mFirebaseHistoryPingByUser;
 
-    private SharedPreferences mSharedPreferencesLogin;
-
     private boolean mCheckPing = false;
     private RealmHelper mData;
     private NewItem mNew;
@@ -125,8 +121,6 @@ public class DetailNewActivity extends BaseActivity {
         mImgSave = (ImageView) mToolbarDetail.findViewById(R.id.imgSave);
         mTvTitleToolbar.setText("Chi tiết công việc");
         mProgressBarLoading.setVisibility(View.VISIBLE);
-
-        mSharedPreferencesLogin = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
 
         if (mNew != null) {
             if (mNew.getIdUser() != "") {

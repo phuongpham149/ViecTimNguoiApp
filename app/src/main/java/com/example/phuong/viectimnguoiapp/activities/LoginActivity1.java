@@ -1,10 +1,8 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -13,6 +11,7 @@ import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.DialogLoading;
 import com.example.phuong.viectimnguoiapp.utils.Network;
+import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -53,7 +52,6 @@ import java.util.Map;
  */
 @EActivity(R.layout.activity_login_2)
 public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener {
-    private static final String TAG = LoginActivity1.class.getSimpleName();
     private static final String[] PERMISSION_FB = {"email", "public_profile", "user_posts"};
     private static final int RC_SIGN_IN = 1;
     private CallbackManager mCallbackManager;
@@ -61,20 +59,14 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
     private FirebaseAuth mFireBaseAuth;
     private RealmHelper mData;
 
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
-
     @AfterViews
     void init() {
         mFireBaseAuth = FirebaseAuth.getInstance();
-        mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, MODE_PRIVATE);
-        mEditor = mSharedPreferences.edit();
 
         if (mFireBaseAuth.getCurrentUser() != null) {
-            Log.d("tag112", "1" + mFireBaseAuth.getCurrentUser().getDisplayName());
             //luu share
-            mEditor.putString(Constant.IS_USER_LOGIN, "true");
-            mEditor.commit();
+            SharedPreferencesUtils.getInstance().setUserLogin(getApplicationContext());
+
             MainActivity_.intent(LoginActivity1.this).start();
             finish();
         } else {
@@ -82,6 +74,22 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             configLoginGoogle();
             configLoginFacebook();
         }
+    }
+
+    public void getSetting() {
+        DatabaseReference mFirebaseSetting = FirebaseDatabase.getInstance().getReference("/setting");
+        mFirebaseSetting.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public void getUserInfor() {
@@ -150,7 +158,6 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                //  Log.d(TAG, "onSuccess: aaaaaaaaaaaaa");
                 fireBaseAuthWithFacebook(loginResult.getAccessToken());
             }
 
@@ -219,7 +226,6 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        Log.d(TAG, "onComplete: aaaaaaaaaaa");
                         DialogLoading.getInstance().dismissProgressDialog();
                     }
                 });
@@ -227,17 +233,16 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
 
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-        Log.d(TAG, "onConnectionFailed: ");
     }
 
     @Override
     public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
-        Log.d(TAG, "onAuthStateChanged: ");
         if (firebaseUser != null) {
             requestLogOutGoogle();
             MainActivity_.intent(LoginActivity1.this).start();
             getUserInfor();
+            getSetting();
             finish();
         } else {
         }

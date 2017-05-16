@@ -1,7 +1,6 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -71,7 +70,6 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     private List<String> mDistricts = new ArrayList<>();
     private DatabaseReference mFirebasePost;
 
-    private SharedPreferences mSharedPreferencesUser;
     private ArrayAdapter<String> mAdapterCatJob;
     private ArrayAdapter<String> mAdapterDistrict;
 
@@ -85,7 +83,6 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
         mData = new RealmHelper(getActivity());
         timeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         mFirebasePost= FirebaseDatabase.getInstance().getReference("/posts");
-        mSharedPreferencesUser = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 

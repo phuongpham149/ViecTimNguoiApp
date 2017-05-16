@@ -1,13 +1,10 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.app.Dialog;
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,7 +16,6 @@ import com.example.phuong.viectimnguoiapp.activities.LoginActivity1_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
 import com.facebook.AccessToken;
@@ -60,15 +56,10 @@ public class NewsFragment extends BaseFragment {
 
     private String mSettingJobs;
     private String mSettingAddress;
-    private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
     private RealmHelper mData;
 
     @Override
     void inits() {
-        mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, Context.MODE_PRIVATE);
-        mEditor = mSharedPreferences.edit();
-
         if (isLogout) {
             showDialogLogout();
         } else {
@@ -86,6 +77,7 @@ public class NewsFragment extends BaseFragment {
 
     public void showDialogLogout() {
         final Dialog dialog = new Dialog(getActivity());
+        mData = new RealmHelper(getActivity());
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_logout);
         dialog.setCanceledOnTouchOutside(false);
@@ -114,10 +106,8 @@ public class NewsFragment extends BaseFragment {
     }
 
     public void initsData() {
-        mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
-        mSettingAddress = mSharedPreferences.getString(Constant.SETTING_ADDRESS, "");
-        Log.d("initsData: ", mSettingJobs);
-        Log.d("initsData aa: ", mSettingAddress);
+        mSettingJobs = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
+        mSettingAddress = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
         mData = new RealmHelper(getActivity());
         if (Network.checkNetWork(getActivity())) {
             mFirebase.addValueEventListener(new ValueEventListener() {
@@ -143,7 +133,6 @@ public class NewsFragment extends BaseFragment {
                     if ((TextUtils.isEmpty(mSettingJobs) && !TextUtils.isEmpty(mSettingAddress))) {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
-                            Log.d("onDataChange: ", "aaa");
                             if (mSettingAddress.contains(data.get("idDistrict").toString())) {
                                 NewItem newItem = new NewItem();
                                 newItem.setId(data.get("id").toString());
@@ -162,7 +151,6 @@ public class NewsFragment extends BaseFragment {
                     if ((!TextUtils.isEmpty(mSettingJobs) && TextUtils.isEmpty(mSettingAddress))) {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
-                            Log.d("onDataChange: ", "aaa");
                             if (mSettingJobs.contains(data.get("idCat").toString())) {
                                 NewItem newItem = new NewItem();
                                 newItem.setId(data.get("id").toString());
@@ -181,7 +169,6 @@ public class NewsFragment extends BaseFragment {
                     if ((!TextUtils.isEmpty(mSettingJobs) && !TextUtils.isEmpty(mSettingAddress))) {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
-                            Log.d("onDataChange: ", "aaa");
                             if (mSettingAddress.contains(data.get("idDistrict").toString()) && mSettingJobs.contains(data.get("idCat").toString())) {
                                 NewItem newItem = new NewItem();
                                 newItem.setId(data.get("id").toString());

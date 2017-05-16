@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +10,7 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +38,6 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     protected TextView mTvNoPost;
 
     private DatabaseReference mFirebasePing;
-    private SharedPreferences mSharedPreferencesUserLogin;
 
     private List<String> mNewContact = new ArrayList<>();
     private List<NewItem> mNewItems = new ArrayList<>();
@@ -50,15 +48,14 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     @Override
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
-        mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        getDataPostByUser(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        getDataPostByUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mAdapter = new NewsAdapter(mNewItems, getActivity(), this);
         mRecyclerViewMyJob.setLayoutManager(layoutManager);
         mRecyclerViewMyJob.setAdapter(mAdapter);
 
-        checkUserPost(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        checkUserPost(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     public void checkUserPost(final String idUser) {
@@ -114,7 +111,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     }
 
     public void getData() {
-        mFirebasePing.child(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, "")).addValueEventListener(new ValueEventListener() {
+        mFirebasePing.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
