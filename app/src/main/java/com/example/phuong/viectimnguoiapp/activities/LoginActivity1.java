@@ -82,7 +82,9 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                if (map != null) {
+                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                }
             }
 
             @Override

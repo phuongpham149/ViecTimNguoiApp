@@ -214,10 +214,14 @@ public class SettingFragment extends BaseFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
-                    String jobSetting = map.get("jobSetting").toString();
-                    String addressSetting = map.get("addressSetting").toString();
-                    setViewSetting(jobSetting, addressSetting);
+                    if (FirebaseAuth.getInstance().getCurrentUser().getUid().equals(data.getKey())) {
+                        HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                        if (map != null) {
+                            String jobSetting = map.get("jobSetting").toString();
+                            String addressSetting = map.get("addressSetting").toString();
+                            setViewSetting(jobSetting, addressSetting);
+                        }
+                    }
                 }
             }
 
