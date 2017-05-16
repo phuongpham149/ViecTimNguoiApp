@@ -20,8 +20,8 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by asiantech on 27/04/2017.
@@ -64,7 +64,7 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    Map map = data.getValue(Map.class);
+                    HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
                     Ping ping = new Ping();
                     ping.setUsername(map.get("username").toString());
                     ping.setMessage(map.get("message").toString());

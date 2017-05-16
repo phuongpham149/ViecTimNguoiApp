@@ -2,6 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/rlNewItem"
     android:layout_width="match_parent"
+    android:background="@android:color/white"
     android:layout_height="wrap_content">
 
     <RelativeLayout
@@ -41,6 +42,29 @@
             android:layout_toRightOf="@+id/imgAvartar"
             android:textColor="@android:color/holo_red_dark"
             android:textSize="@dimen/button_contact_text_size" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            >
+            <CheckBox
+                android:layout_width="35dp"
+                android:layout_height="35dp"
+                android:button="@drawable/choice_user_contact"
+                android:id="@+id/chkContact"
+                />
+            <ImageView
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:src="@drawable/ic_report_red_900_36dp"
+                android:layout_marginLeft="20dp"
+                android:id="@+id/imgReport"
+                />
+        </LinearLayout>
 
     </RelativeLayout>
 

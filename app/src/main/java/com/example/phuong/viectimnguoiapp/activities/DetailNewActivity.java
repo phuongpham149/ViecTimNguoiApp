@@ -187,16 +187,19 @@ public class DetailNewActivity extends BaseActivity {
         mFirebaseUserInfo.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                HashMap<String,Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                String id = map.get("id").toString();
-                if (id.equals(idUser)) {
-                    mUser.setUsername(map.get("username").toString());
-                    mUser.setEmail(map.get("email").toString());
-                    mUser.setPhone(map.get("phone").toString());
-                    mUser.setAddress(map.get("address").toString());
-                    mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
-                    mUser.setPoint(map.get("point").toString());
-                    mUser.setStatus(map.get("status").toString());
+                HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+
+                if (map.get("id").toString() != null) {
+                    String id = map.get("id").toString();
+                    if (id.equals(idUser)) {
+                        mUser.setUsername(map.get("username").toString());
+                        mUser.setEmail(map.get("email").toString());
+                        mUser.setPhone(map.get("phone").toString());
+                        mUser.setAddress(map.get("address").toString());
+                        mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
+                        mUser.setPoint(map.get("point").toString());
+                        mUser.setStatus(map.get("status").toString());
+                    }
                 }
             }
 
@@ -231,7 +234,7 @@ public class DetailNewActivity extends BaseActivity {
         mFirebaseHistoryPingByUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                HashMap<String,Object> map = (HashMap<String,Object>)dataSnapshot.getValue();
+                HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 if (map.get("idPost").toString().equals(mNew.getId())) {
                     mCheckPing = true;
                 }
