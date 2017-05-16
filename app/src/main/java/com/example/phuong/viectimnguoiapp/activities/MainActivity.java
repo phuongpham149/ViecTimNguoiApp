@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.animation.TranslateAnimation;
 import android.widget.TextView;
@@ -14,7 +15,6 @@ import android.widget.TextView;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.SettingMenuAdapter;
 import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
-import com.example.phuong.viectimnguoiapp.fragments.FeedbackFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MyJobFragment_;
@@ -24,6 +24,8 @@ import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.UpdateInformationFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
 import com.example.phuong.viectimnguoiapp.utils.ScreenUtil;
+import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
@@ -65,10 +67,13 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
     }
 
     public void initMain() {
-        if (!mIsSetting) {
-            displayView(7);
-        } else {
+        String currentId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        String lastId = SharedPreferencesUtils.getInstance().getLastUserId(this);
+        if (TextUtils.equals(currentId, lastId)) {
             displayView(1);
+        } else {
+            SharedPreferencesUtils.getInstance().setLastUserId(this, currentId);
+            displayView(8);
         }
     }
 
@@ -152,11 +157,10 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         mItems.add(new MenuItem(R.drawable.ic_user, "Thông tin cá nhân"));
         mItems.add(new MenuItem(R.drawable.ic_create, "Tạo bài đăng"));
         mItems.add(new MenuItem(R.drawable.ic_chat, "Tin nhắn"));
-        mItems.add(new MenuItem(R.drawable.ic_work, "Việc làm của tôi"));
+        mItems.add(new MenuItem(R.drawable.ic_work_menu, "Việc làm của tôi"));
         mItems.add(new MenuItem(R.drawable.ic_save, "Việc làm đã lưu"));
         mItems.add(new MenuItem(R.drawable.ic_note, "Việc đã tương tác"));
         mItems.add(new MenuItem(R.drawable.ic_settings, "Cài đặt"));
-        mItems.add(new MenuItem(R.drawable.ic_feedback, "Phản hồi"));
         mItems.add(new MenuItem(R.drawable.ic_exit, "Đăng xuất"));
         mItems.add(new Integer(1));
     }
@@ -204,11 +208,6 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 9:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, FeedbackFragment_.builder().build()).commit();
-                setTitleToolbar("Phản hồi");
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                break;
-            case 10:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().isLogout(true).build()).commit();
                 setTitleToolbar("Bảng tin");
                 mDrawerLayout.closeDrawer(GravityCompat.START);

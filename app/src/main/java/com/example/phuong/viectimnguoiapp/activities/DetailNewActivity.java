@@ -2,7 +2,6 @@ package com.example.phuong.viectimnguoiapp.activities;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Handler;
 import android.support.v7.widget.Toolbar;
@@ -22,14 +21,15 @@ import com.example.phuong.viectimnguoiapp.objects.NewSave;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Helpers;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.TrackGPS;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
@@ -68,11 +68,9 @@ public class DetailNewActivity extends BaseActivity {
     Toolbar mToolbarDetail;
 
     private User mUser = new User();
-    private Firebase mFirebaseUserInfo;
-    private Firebase mFirebasePing;
-    private Firebase mFirebaseHistoryPingByUser;
-
-    private SharedPreferences mSharedPreferencesLogin;
+    private DatabaseReference mFirebaseUserInfo;
+    private DatabaseReference mFirebasePing;
+    private DatabaseReference mFirebaseHistoryPingByUser;
 
     private boolean mCheckPing = false;
     private RealmHelper mData;
@@ -86,7 +84,7 @@ public class DetailNewActivity extends BaseActivity {
 
     @Click(R.id.imgGoToMapAndroid)
     public void goToMapAction() {
-        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(this)) {
             mTrackGPS = new TrackGPS(this);
             if (mTrackGPS.canGetLocation()) {
                 if (Common.isGoogleMapsInstalled(this)) {
@@ -117,15 +115,12 @@ public class DetailNewActivity extends BaseActivity {
     void inits() {
         mData = new RealmHelper(DetailNewActivity.this);
         mNew = mData.getItemNew(mId).first();
-        Firebase.setAndroidContext(this);
 
         mTvTitleToolbar = (TextView) mToolbarDetail.findViewById(R.id.tvtitleToolbar);
         mProgressBarLoading = (ProgressBar) mToolbarDetail.findViewById(R.id.prograssBarLoading);
         mImgSave = (ImageView) mToolbarDetail.findViewById(R.id.imgSave);
         mTvTitleToolbar.setText("Chi tiết công việc");
         mProgressBarLoading.setVisibility(View.VISIBLE);
-
-        mSharedPreferencesLogin = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
 
         if (mNew != null) {
             if (mNew.getIdUser() != "") {
@@ -140,7 +135,7 @@ public class DetailNewActivity extends BaseActivity {
             mTvDeadline.setText(mNew.getTimeDeadline());
             mTvAddressNew.setText(mNew.getAddress() + " " + mData.getDistrictItem(mNew.getIdDistrict()).first().getName());
 
-            if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+            if (Network.checkNetWork(this)) {
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -188,11 +183,11 @@ public class DetailNewActivity extends BaseActivity {
 
 
     public void getUserInfor(final String idUser) {
-        mFirebaseUserInfo = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        mFirebaseUserInfo = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUserInfo.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
+                HashMap<String,Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 String id = map.get("id").toString();
                 if (id.equals(idUser)) {
                     mUser.setUsername(map.get("username").toString());
@@ -201,7 +196,6 @@ public class DetailNewActivity extends BaseActivity {
                     mUser.setAddress(map.get("address").toString());
                     mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
                     mUser.setPoint(map.get("point").toString());
-                    mUser.setType(map.get("type").toString());
                     mUser.setStatus(map.get("status").toString());
                 }
             }
@@ -222,7 +216,7 @@ public class DetailNewActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -237,7 +231,7 @@ public class DetailNewActivity extends BaseActivity {
         mFirebaseHistoryPingByUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
+                HashMap<String,Object> map = (HashMap<String,Object>)dataSnapshot.getValue();
                 if (map.get("idPost").toString().equals(mNew.getId())) {
                     mCheckPing = true;
                 }
@@ -259,7 +253,7 @@ public class DetailNewActivity extends BaseActivity {
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
 
             }
         });
@@ -267,11 +261,11 @@ public class DetailNewActivity extends BaseActivity {
 
     @Click(R.id.btnContact)
     public void contactAction() {
-        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
-            final String idUser = mSharedPreferencesLogin.getString(Constant.ID_USER_LOGIN, "");
-            final String username = mSharedPreferencesLogin.getString(Constant.NAME_USER_LOGIN, "");
+        if (Network.checkNetWork(this)) {
+            final String idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
+            final String username = FirebaseAuth.getInstance().getCurrentUser().getDisplayName();
 
-            mFirebaseHistoryPingByUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser/" + idUser);
+            mFirebaseHistoryPingByUser = FirebaseDatabase.getInstance().getReference("/historyPingByUser/" + idUser);
             // kiem tra da ping chưa, chưa thì cho ping
             checkUserPing();
             Handler handler = new Handler();
@@ -320,9 +314,9 @@ public class DetailNewActivity extends BaseActivity {
                     edtPrice.getError();
                 } else {
                     if ("".equals(idUser)) {
-                        Common.createDialog(DetailNewActivity.this, "Hiện không có thông tin về người dùng nên không thực hiện được chức năng này");
+                        Common.createDialog(DetailNewActivity.this, "Bạn không thực hiện được chức năng này");
                     } else {
-                        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
+                        mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/" + mNew.getIdUser() + "/" + mNew.getId() + "/" + idUser);
                         String messageText = "Tài khoản " + username + " đăng ký làm việc ";
                         Ping ping = new Ping();
                         ping.setUsername(username);

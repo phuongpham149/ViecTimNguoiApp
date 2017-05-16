@@ -70,6 +70,12 @@ public class RealmHelper {
         mRealm.commitTransaction();
     }
 
+    public void clearData() {
+        mRealm.beginTransaction();
+        mRealm.deleteAll();
+        mRealm.commitTransaction();
+    }
+
     public List<NewSave> getNewSaves() {
         return mRealm.where(NewSave.class).findAll();
     }
@@ -113,8 +119,11 @@ public class RealmHelper {
         return mRealm.where(District.class).equalTo("id", id).findAll();
     }
 
-    public RealmResults<User> getUser(String id) {
-        return mRealm.where(User.class).equalTo("id", id).findAll();
+    public User getUser(String id) {
+        mRealm.beginTransaction();
+        User user = mRealm.where(User.class).equalTo("id", id).findFirst();
+        mRealm.commitTransaction();
+        return user;
     }
 
     public RealmResults<HistoryPing> getHistoryPing(String id) {

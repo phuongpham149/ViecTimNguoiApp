@@ -15,7 +15,8 @@ public class Setting {
     }
 
     public Setting( String jobSetting,String addressSetting) {
-        this.addressSetting = addressSetting;
         this.jobSetting = jobSetting;
+        this.addressSetting = addressSetting;
+
     }
 }

@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -9,11 +8,12 @@ import android.widget.ProgressBar;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.PingJobAdapter;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
@@ -41,12 +41,10 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
 
     private PingJobAdapter mAdapter;
     private List<Ping> mPings;
-    private SharedPreferences mSharedPreferencesUserLogin;
 
     @Override
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
-        mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         getDataPing();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         mAdapter = new PingJobAdapter(mPings, getContext(), this);
@@ -55,9 +53,14 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
     }
 
     public void getDataPing() {
-        Firebase mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, "") + "/" + idPost);
+        DatabaseReference mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + idPost);
         mPings = new ArrayList<>();
         mFirebasePing.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -72,10 +75,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
                 mProgressBarLoading.setVisibility(View.GONE);
             }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
         });
 
     }

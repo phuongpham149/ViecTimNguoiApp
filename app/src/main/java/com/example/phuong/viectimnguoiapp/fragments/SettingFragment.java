@@ -1,9 +1,7 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -14,16 +12,20 @@ import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.Setting;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.otto.Subscribe;
 
-import org.androidannotations.annotations.CheckedChange;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
+
+import java.util.HashMap;
 
 /**
  * Created by asiantech on 15/04/2017.
@@ -73,22 +75,60 @@ public class SettingFragment extends BaseFragment {
     @ViewById(R.id.progressBarSave)
     protected ProgressBar mProgressBarSave;
 
-    private Firebase mFirebaseSetting;
-    private Firebase mFirebaseCheckSetting;
-    private SharedPreferences mSharedPreferencesSetting;
-    private SharedPreferences mSharedPreferencesUserLogin;
-    private String mSettingJob = "";
-    private String mSettingAddress = "";
+    private DatabaseReference mFirebaseSetting;
+    private DatabaseReference mFirebaseCheckSetting;
 
     @Click(R.id.btnSave)
     public void saveAction() {
         mProgressBarSave.setVisibility(View.VISIBLE);
-        SharedPreferences.Editor mEditor = mSharedPreferencesUserLogin.edit();
-        mEditor.putString(Constant.SETTING_JOB, mSettingJob);
-        mEditor.putString(Constant.SETTING_ADDRESS, mSettingAddress);
-        mEditor.apply();
-
+        SharedPreferencesUtils.getInstance().setSetting(getContext(), getSettingAddress(), getSettingJob());
         pushDataSetting();
+    }
+
+    public String getSettingAddress() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (mChkHaiChau.isChecked()) {
+            stringBuilder.append("1");
+        }
+        if (mChkLienChieu.isChecked()) {
+            stringBuilder.append("7");
+        }
+        if (mChkCamLe.isChecked()) {
+            stringBuilder.append("2");
+        }
+        if (mChkThanhKhe.isChecked()) {
+            stringBuilder.append("3");
+        }
+        if (mChkSonTra.isChecked()) {
+            stringBuilder.append("4");
+        }
+        if (mChkNguHanhSon.isChecked()) {
+            stringBuilder.append("5");
+        }
+        if (mChkHoaVang.isChecked()) {
+            stringBuilder.append("6");
+        }
+        return stringBuilder.toString();
+    }
+
+    public String getSettingJob() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if (mChkFixElectronicInHouse.isChecked()) {
+            stringBuilder.append("1");
+        }
+        if (mChkCleanHouse.isChecked()) {
+            stringBuilder.append("2");
+        }
+        if (mChkDoLaundry.isChecked()) {
+            stringBuilder.append("3");
+        }
+        if (mChkFixWaterPipe.isChecked()) {
+            stringBuilder.append("4");
+        }
+        if (mChkPaintHouse.isChecked()) {
+            stringBuilder.append("5");
+        }
+        return stringBuilder.toString();
     }
 
     @Subscribe
@@ -100,75 +140,29 @@ public class SettingFragment extends BaseFragment {
     }
 
     public void pushDataSetting() {
-        Setting setting = new Setting(mSettingJob, mSettingAddress);
-        mFirebaseSetting.child("setting").child(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, "")).setValue(setting);
+        Setting setting = new Setting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()), SharedPreferencesUtils.getInstance().getSettingAddress(getContext()));
+        mFirebaseSetting.child("setting").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(setting);
         mProgressBarSave.setVisibility(View.GONE);
         Common.createDialog(getActivity(), "Lưu cài đặt thành công");
     }
 
-    @CheckedChange({R.id.chkHaiChau, R.id.chkLienChieu, R.id.chkCamLe, R.id.chkThanhKhe, R.id.chkSonTra, R.id.chkNguHanhSon, R.id.chkHoaVang, R.id.chkFixElectronicInHouse, R.id.chkCleanHouse, R.id.chkDoLaundry, R.id.chkFixWaterPipe, R.id.chkPaintHouse})
-    public void checkSettingJob(CompoundButton v) {
-        switch (v.getId()) {
-            case R.id.chkHaiChau:
-                mSettingAddress += "1,";
-                break;
-            case R.id.chkLienChieu:
-                mSettingAddress += "7,";
-                break;
-            case R.id.chkCamLe:
-                mSettingAddress += "2,";
-                break;
-            case R.id.chkThanhKhe:
-                mSettingAddress += "3,";
-                break;
-            case R.id.chkSonTra:
-                mSettingAddress += "4,";
-                break;
-            case R.id.chkNguHanhSon:
-                mSettingAddress += "5,";
-                break;
-            case R.id.chkHoaVang:
-                mSettingAddress += "6,";
-                break;
-            case R.id.chkFixElectronicInHouse:
-                mSettingJob += "1,";
-                break;
-            case R.id.chkCleanHouse:
-                mSettingJob += "2,";
-                break;
-            case R.id.chkDoLaundry:
-                mSettingJob += "3,";
-                break;
-            case R.id.chkFixWaterPipe:
-                mSettingJob += "4,";
-                break;
-            case R.id.chkPaintHouse:
-                mSettingJob += "5,";
-                break;
-        }
-    }
-
     @Override
     void inits() {
+        mFirebaseSetting = FirebaseDatabase.getInstance().getReference("/");
+        mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        ;
-        mFirebaseSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/");
-        mFirebaseCheckSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/setting/" + mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
-        mSharedPreferencesSetting = getActivity().getSharedPreferences(Constant.DATA_SETTING, 0);
-
-        if (!mSharedPreferencesSetting.getString(Constant.SETTING_JOB, "defaul").equals("defaul") || !mSharedPreferencesSetting.getString(Constant.SETTING_ADDRESS, "defaul").equals("defaul")) {
-            setViewSetting(mSharedPreferencesSetting.getString(Constant.SETTING_JOB, ""), mSharedPreferencesSetting.getString(Constant.SETTING_ADDRESS, ""));
+        if ((!SharedPreferencesUtils.getInstance().getSettingJob(getContext()).equals("") || !SharedPreferencesUtils.getInstance().getSettingAddress(getContext()).equals(""))) {
+            setViewSetting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()), SharedPreferencesUtils.getInstance().getSettingAddress(getContext()));
         } else {
             checkFirebaseForSetting();
         }
     }
 
     public void setViewSetting(String jobSetting, String addressSetting) {
-        String[] jobs = jobSetting.split(",");
-        String[] addresses = addressSetting.split(",");
-        for (String job : jobs) {
-            switch (Integer.parseInt(job)) {
+        char[] jobs = jobSetting.toCharArray();
+        char[] addresses = addressSetting.toCharArray();
+        for (char job : jobs) {
+            switch (Integer.parseInt(String.valueOf(job))) {
                 case 1:
                     mChkFixElectronicInHouse.setChecked(true);
                     break;
@@ -186,8 +180,8 @@ public class SettingFragment extends BaseFragment {
                     break;
             }
         }
-        for (String address : addresses) {
-            switch (Integer.parseInt(address)) {
+        for (char address : addresses) {
+            switch (Integer.parseInt(String.valueOf(address))) {
                 case 1:
                     mChkHaiChau.setChecked(true);
                     break;
@@ -214,34 +208,21 @@ public class SettingFragment extends BaseFragment {
     }
 
     public void checkFirebaseForSetting() {
-        Firebase mFirebaseCheckSetting = new Firebase("https://viectimnguoi-469e6.firebaseio.com/setting/");
-        mFirebaseCheckSetting.child(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
-        mFirebaseCheckSetting.addChildEventListener(new ChildEventListener() {
+        DatabaseReference mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/");
+        mFirebaseCheckSetting.child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        mFirebaseCheckSetting.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Setting setting = dataSnapshot.getValue(Setting.class);
-                String jobSetting = setting.getJobSetting();
-                String addressSetting = setting.getAddressSetting();
-                setViewSetting(jobSetting, addressSetting);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                    String jobSetting = map.get("jobSetting").toString();
+                    String addressSetting = map.get("addressSetting").toString();
+                    setViewSetting(jobSetting, addressSetting);
+                }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

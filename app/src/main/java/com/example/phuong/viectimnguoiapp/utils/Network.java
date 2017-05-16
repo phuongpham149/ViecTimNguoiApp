@@ -13,21 +13,10 @@ public class Network {
     public static int TYPE_MOBILE = 2;
     public static int TYPE_NOT_CONNECTED = 0;
 
-    public static boolean checkNetWork(Context context, int typeCheck) {
-        ConnectivityManager connManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo;
-        if (typeCheck == Constant.TYPE_WIFI) {
-            networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-            if (networkInfo.isConnected()) {
-                return true;
-            } else return false;
-        } else if (typeCheck == Constant.TYPE_NETWORK) {
-            networkInfo = connManager.getActiveNetworkInfo();
-            if (networkInfo != null && networkInfo.isConnectedOrConnecting()) {
-                return true;
-            } else return false;
-        }
-        return false;
+    public static boolean checkNetWork(Context context) {
+        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = connectivityManager.getActiveNetworkInfo();
+        return netInfo != null && netInfo.isConnectedOrConnecting();
     }
 
     public static int getConnectivityStatus(Context context) {

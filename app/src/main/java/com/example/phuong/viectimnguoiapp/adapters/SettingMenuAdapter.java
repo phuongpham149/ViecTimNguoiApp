@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
@@ -61,9 +62,9 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
         switch (holder.getItemViewType()) {
             case MENU_HEADER:
-                String username = userLogin.getString(Constant.NAME_USER_LOGIN, "");
+               ///* String username = userLogin.getString(Constant.NA*/ME_USER_LOGIN, ""s);
                 HeaderHolder mHeader = (HeaderHolder) holder;
-                mHeader.mTvUsername.setText(username);
+                mHeader.mTvUsername.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                 break;
             case MENU_ITEM_INFORMATION:
                 MenuItem menuItem = (MenuItem) mItems.get(position);

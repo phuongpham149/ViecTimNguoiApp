@@ -1,7 +1,6 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,7 +17,9 @@ import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.Firebase;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mobsandgeeks.saripaar.ValidationError;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.NotEmpty;
@@ -67,9 +68,8 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
 
     private List<String> mCategoryJobs = new ArrayList<>();
     private List<String> mDistricts = new ArrayList<>();
-    private Firebase mFirebasePost;
+    private DatabaseReference mFirebasePost;
 
-    private SharedPreferences mSharedPreferencesUser;
     private ArrayAdapter<String> mAdapterCatJob;
     private ArrayAdapter<String> mAdapterDistrict;
 
@@ -82,8 +82,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     void inits() {
         mData = new RealmHelper(getActivity());
         timeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        mFirebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
-        mSharedPreferencesUser = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
+        mFirebasePost= FirebaseDatabase.getInstance().getReference("/posts");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -126,10 +125,12 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         dateDeadline = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                        if (dateDeadline.compareTo(dateCurrent) > 0) {
+                        if (dateDeadline.compareTo(dateCurrent) < 0) {
                             Common.createDialog(getActivity(), "Thời gian hết hạn chưa chính xác");
-                            mEdtTimeDeadline.setText(dateDeadline);
+                            mEdtTimeDeadline.setText("");
+                            return;
                         }
+                        mEdtTimeDeadline.setText(dateDeadline);
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -150,13 +151,13 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     public void doCreateNew() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("id", UUID.randomUUID().toString());
             map.put("idCat", getCạtobSelected());
             map.put("idDistrict", getDistrictSelected());
             map.put("address", mEdtAddress.getText().toString());
-            map.put("idUser", mSharedPreferencesUser.getString(Constant.ID_USER_LOGIN, ""));
+            map.put("idUser", FirebaseAuth.getInstance().getCurrentUser().getUid());
             map.put("note", mEdtNote.getText().toString());
             map.put("status", Constant.STATUS_NEW);
             map.put("timeCreated", timeFormat.format(new Date()));

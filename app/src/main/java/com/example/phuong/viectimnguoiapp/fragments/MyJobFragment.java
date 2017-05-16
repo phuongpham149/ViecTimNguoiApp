@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,16 +10,18 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -36,8 +37,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     @ViewById(R.id.tvNoPost)
     protected TextView mTvNoPost;
 
-    private Firebase mFirebasePing;
-    private SharedPreferences mSharedPreferencesUserLogin;
+    private DatabaseReference mFirebasePing;
 
     private List<String> mNewContact = new ArrayList<>();
     private List<NewItem> mNewItems = new ArrayList<>();
@@ -48,15 +48,14 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
     @Override
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
-        mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        mFirebasePing = new Firebase("https://viectimnguoi-469e6.firebaseio.com/pings/");
+        mFirebasePing = FirebaseDatabase.getInstance().getReference("/pings/");
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        getDataPostByUser(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        getDataPostByUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mAdapter = new NewsAdapter(mNewItems, getActivity(), this);
         mRecyclerViewMyJob.setLayoutManager(layoutManager);
         mRecyclerViewMyJob.setAdapter(mAdapter);
 
-        checkUserPost(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, ""));
+        checkUserPost(FirebaseAuth.getInstance().getCurrentUser().getUid());
     }
 
     public void checkUserPost(final String idUser) {
@@ -73,19 +72,30 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }
 
     public void getDataPostByUser(final String idUser) {
-        Firebase firebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts/");
+        DatabaseReference firebasePost = FirebaseDatabase.getInstance().getReference("/posts/");
         firebasePost.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    NewItem newItem = data.getValue(NewItem.class);
-                    if (idUser.equals(newItem.getIdUser())) {
+                    NewItem newItem;
+                    HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
+                    if (idUser.equals(map.get("idUser").toString())) {
+                        newItem = new NewItem();
+                        newItem.setId(map.get("id").toString());
+                        newItem.setIdUser(map.get("idUser").toString());
+                        newItem.setIdCat(map.get("idCat").toString());
+                        newItem.setIdDistrict(map.get("idDistrict").toString());
+                        newItem.setAddress(map.get("address").toString());
+                        newItem.setTimeDeadline(map.get("timeDeadline").toString());
+                        newItem.setTimeCreated(map.get("timeCreated").toString());
+                        newItem.setNote(map.get("note").toString());
                         mNewItems.add(newItem);
                     }
                 }
@@ -94,14 +104,14 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
     public void getData() {
-        mFirebasePing.child(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, "")).addValueEventListener(new ValueEventListener() {
+        mFirebasePing.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
@@ -110,7 +120,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError firebaseError) {
 
             }
         });

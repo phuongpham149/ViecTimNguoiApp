@@ -2,6 +2,7 @@ package com.example.phuong.viectimnguoiapp.objects;
 
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
+import lombok.libs.com.zwitserloot.cmdreader.Requires;
 
 /**
  * Created by phuong on 24/02/2017.
@@ -10,11 +11,16 @@ import io.realm.annotations.PrimaryKey;
 public class User extends RealmObject {
     @PrimaryKey
     private String id;
+    @Requires("")
     private String address;
+    @Requires("")
     private String email;
+    @Requires("")
     private String password;
+    @Requires("")
     private String type;
     private String status;
+    @Requires("")
     private String username;
     private String phone;
     private int idDistrict;

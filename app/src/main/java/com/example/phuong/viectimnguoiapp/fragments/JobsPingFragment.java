@@ -1,9 +1,9 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,26 +12,27 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.JobsPingAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by asiantech on 27/03/2017.
  */
 @EFragment(R.layout.fragment_jobs_ping)
 public class JobsPingFragment extends BaseFragment {
-
+    private static final String TAG = JobsPingFragment.class.getSimpleName();
     @ViewById(R.id.recyclerViewJobsPing)
     RecyclerView mRecyclerViewJobsPing;
     @ViewById(R.id.prograssBarLoading)
@@ -40,11 +41,10 @@ public class JobsPingFragment extends BaseFragment {
     TextView mTvNotifyNoData;
 
     private List<HistoryPing> mHistoryPings;
-    private Firebase mFirebaseHistoryPings;
-    private SharedPreferences mSharedPreferencesUser;
+    private DatabaseReference mFirebaseHistoryPings;
 
-    private Firebase mFirebasePost;
-    private Firebase mFirebaseUser;
+    private DatabaseReference mFirebasePost;
+    private DatabaseReference mFirebaseUser;
     private JobsPingAdapter mAdapter;
     private RealmHelper mData;
 
@@ -52,13 +52,11 @@ public class JobsPingFragment extends BaseFragment {
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
         mHistoryPings = new ArrayList<>();
-        mSharedPreferencesUser = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
 
         mData = new RealmHelper(getActivity());
         final RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             getDataHistoryPing();
-
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -75,7 +73,7 @@ public class JobsPingFragment extends BaseFragment {
                     }
                     mProgressBarLoading.setVisibility(View.GONE);
                 }
-            }, 2000);
+            }, 5000);
         } else {
             mHistoryPings = mData.getHistoryPings();
             if (mHistoryPings.size() == 0) {
@@ -91,116 +89,79 @@ public class JobsPingFragment extends BaseFragment {
     }
 
     public void getDataHistoryPing() {
-        mFirebaseHistoryPings = new Firebase("https://viectimnguoi-469e6.firebaseio.com/historyPingByUser");
+        mFirebaseHistoryPings = FirebaseDatabase.getInstance().getReference("/historyPingByUser/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-        mFirebaseHistoryPings.addChildEventListener(new ChildEventListener() {
+        mFirebaseHistoryPings.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                if (mSharedPreferencesUser.getString(Constant.ID_USER_LOGIN, "").equals(dataSnapshot.getKey())) {
-                    for (DataSnapshot d : dataSnapshot.getChildren()) {
-                        HistoryPing historyPing = d.getValue(HistoryPing.class);
-                        mHistoryPings.add(historyPing);
-                    }
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> data = (HashMap<String, Object>) d.getValue();
+                    Log.d(TAG, "onDataChange: " + data);
+                    HistoryPing historyPing = new HistoryPing();
+                    historyPing.setIdPost(data.get("idPost").toString());
+                    historyPing.setPrice(data.get("price").toString());
+                    mHistoryPings.add(historyPing);
                     getDataPost();
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
         });
     }
 
     public void getDataPost() {
-        mFirebasePost = new Firebase("https://viectimnguoi-469e6.firebaseio.com/posts");
-        mFirebasePost.addChildEventListener(new ChildEventListener() {
+        mFirebasePost = FirebaseDatabase.getInstance().getReference("/posts");
+        mFirebasePost.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                for (HistoryPing historyPing : mHistoryPings) {
-                    if (historyPing.getIdPost().equals(map.get("id").toString())) {
-                        historyPing.setTitlePost(mData.getCategoryJobItem(map.get("idCat").toString()).first().getName());
-                        historyPing.setTimeDeadline(map.get("timeDeadline").toString());
-                        historyPing.setUserOwner(map.get("idUser").toString());
-                        historyPing.setNote(map.get("note").toString());
-                        historyPing.setAddress(map.get("address").toString());
-                        historyPing.setIdUser(map.get("idUser").toString());
-                        historyPing.setNameDistrict(mData.getDistrictItem(map.get("idDistrict").toString()).first().getName());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot subSnapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) subSnapshot.getValue();
+                    for (HistoryPing historyPing : mHistoryPings) {
+                        if (historyPing.getIdPost().equals(map.get("id").toString())) {
+                            historyPing.setTitlePost(mData.getCategoryJobItem(map.get("idCat").toString()).first().getName());
+                            historyPing.setTimeDeadline(map.get("timeDeadline").toString());
+                            historyPing.setUserOwner(map.get("idUser").toString());
+                            historyPing.setNote(map.get("note").toString());
+                            historyPing.setAddress(map.get("address").toString());
+                            historyPing.setIdUser(map.get("idUser").toString());
+                            historyPing.setNameDistrict(mData.getDistrictItem(map.get("idDistrict").toString()).first().getName());
+                        }
                     }
+                    getNameOwner();
                 }
-                getNameOwner();
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
     public void getNameOwner() {
-        mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
-        mFirebaseUser.addChildEventListener(new ChildEventListener() {
+        mFirebaseUser = FirebaseDatabase.getInstance().getReference("/users");
+        mFirebaseUser.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
-                for (HistoryPing historyPing : mHistoryPings) {
-                    if (historyPing.getUserOwner().equals(map.get("id").toString())) {
-                        historyPing.setUserOwner(map.get("username").toString());
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) snapshot.getValue();
+                    for (HistoryPing historyPing : mHistoryPings) {
+                        if (historyPing.getUserOwner().equals(map.get("id").toString())) {
+                            historyPing.setUserOwner(map.get("username").toString());
+                        }
                     }
                 }
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
 
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
         });
     }
 

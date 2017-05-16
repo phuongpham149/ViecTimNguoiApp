@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -13,19 +12,20 @@ import com.example.phuong.viectimnguoiapp.adapters.SendMessageAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.UserChat;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.firebase.client.ChildEventListener;
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by phuong on 21/02/2017.
@@ -40,7 +40,6 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     private List<UserChat> mUserChat = new ArrayList<>();
     private SendMessageAdapter mAdapter;
     private String idUser;
-    private SharedPreferences mSharedPreferences;
     private RealmHelper mData;
 
     @Override
@@ -48,10 +47,9 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
         mData = new RealmHelper(getActivity());
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
-        mSharedPreferences = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
+        idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             getListContactMessage();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -72,7 +70,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     }
 
     public void getListContactMessage() {
-        Firebase mFirebaseMessage = new Firebase("https://viectimnguoi-469e6.firebaseio.com/messages");
+        DatabaseReference mFirebaseMessage = FirebaseDatabase.getInstance().getReference("/messages");
         mFirebaseMessage.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
@@ -100,7 +98,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });
@@ -108,7 +106,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
 
     @Override
     public void itemClickListener(int position) {
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             SendMessageActivity_.intent(this).idUserContact(mUserChat.get(position).getIdUser()).mNameUserContact(mUserChat.get(position).getUsername()).start();
         } else {
             Common.createDialog(getActivity(), "Vui lòng kiểm tra kết nối mạng");
@@ -116,11 +114,11 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     }
 
     public void getDataUserName() {
-        Firebase mFirebaseUser = new Firebase("https://viectimnguoi-469e6.firebaseio.com/users");
+        DatabaseReference mFirebaseUser = FirebaseDatabase.getInstance().getReference("/users");
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
+                HashMap<String,Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 for (UserChat userChat : mUserChat) {
                     if (userChat.getIdUser().equals(map.get("id").toString())) {
                         userChat.setUsername(map.get("username").toString());
@@ -147,7 +145,7 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
+            public void onCancelled(DatabaseError databaseError) {
 
             }
         });

@@ -9,7 +9,6 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.TrackGPS;
 
@@ -84,7 +83,7 @@ public class HistoryPingDetailActivity extends BaseActivity {
 
     @Click(R.id.imgGoToMapAndroid)
     public void goToMapAction() {
-        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(this)) {
             mTrackGPS = new TrackGPS(this);
             if (mTrackGPS.canGetLocation()) {
                 if (Common.isGoogleMapsInstalled(this)) {
