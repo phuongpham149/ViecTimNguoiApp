@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.fragments;
 
-import android.content.SharedPreferences;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -12,7 +11,7 @@ import com.example.phuong.viectimnguoiapp.activities.MainActivity;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.objects.User;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
@@ -42,9 +41,7 @@ public class UpdateInformationFragment extends BaseFragment {
 
     private RealmHelper mData;
     private User mUserInfor;
-    private SharedPreferences mSharedPreferencesUserLogin;
     private int districtBefore;
-    private List<String> mDistrictNames;
     private List<District> mDistricts;
     private String mDistrictName;
     private String mDistrictId;
@@ -52,9 +49,8 @@ public class UpdateInformationFragment extends BaseFragment {
 
     @Override
     void inits() {
-        mSharedPreferencesUserLogin = getActivity().getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
         mData = new RealmHelper(getActivity());
-        mUserInfor = mData.getUser(mSharedPreferencesUserLogin.getString(Constant.ID_USER_LOGIN, "")).first();
+        mUserInfor = mData.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
         mEdtUsername.setText(mUserInfor.getUsername());
         mEdtPhone.setText(mUserInfor.getPhone());
         mEdtEmail.setText(mUserInfor.getEmail());

@@ -80,5 +80,6 @@
     <string name="message_Do_you_wants_to_turn_On_GPS">Vui lòng bật GPS</string>
     <string name="message_Yes">Ok</string>
     <string name="message_No">Đóng</string>
-    <string name="dialog_messenger_connect">connect to server...</string>
+    <string name="dialog_messenger_connect">Đang xử lý...</string>
+    <string name="toast_text_connection_internet">Vui lòng kiểm tra kết nối mạng</string>
 </resources>

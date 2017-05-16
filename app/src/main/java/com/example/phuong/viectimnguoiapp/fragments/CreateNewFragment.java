@@ -18,6 +18,7 @@ import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.mobsandgeeks.saripaar.ValidationError;
@@ -127,10 +128,12 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
                     public void onDateSet(DatePicker view, int year,
                                           int monthOfYear, int dayOfMonth) {
                         dateDeadline = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
-                        if (dateDeadline.compareTo(dateCurrent) > 0) {
+                        if (dateDeadline.compareTo(dateCurrent) < 0) {
                             Common.createDialog(getActivity(), "Thời gian hết hạn chưa chính xác");
-                            mEdtTimeDeadline.setText(dateDeadline);
+                            mEdtTimeDeadline.setText("");
+                            return;
                         }
+                        mEdtTimeDeadline.setText(dateDeadline);
                     }
                 }, mYear, mMonth, mDay);
         datePickerDialog.show();
@@ -151,13 +154,13 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     public void doCreateNew() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             Map<String, String> map = new HashMap<String, String>();
             map.put("id", UUID.randomUUID().toString());
             map.put("idCat", getCạtobSelected());
             map.put("idDistrict", getDistrictSelected());
             map.put("address", mEdtAddress.getText().toString());
-            map.put("idUser", mSharedPreferencesUser.getString(Constant.ID_USER_LOGIN, ""));
+            map.put("idUser", FirebaseAuth.getInstance().getCurrentUser().getUid());
             map.put("note", mEdtNote.getText().toString());
             map.put("status", Constant.STATUS_NEW);
             map.put("timeCreated", timeFormat.format(new Date()));

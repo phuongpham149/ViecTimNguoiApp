@@ -22,6 +22,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -86,8 +87,18 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
-                    NewItem newItem = data.getValue(NewItem.class);
-                    if (idUser.equals(newItem.getIdUser())) {
+                    NewItem newItem;
+                    HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
+                    if (idUser.equals(map.get("idUser").toString())) {
+                        newItem = new NewItem();
+                        newItem.setId(map.get("id").toString());
+                        newItem.setIdUser(map.get("idUser").toString());
+                        newItem.setIdCat(map.get("idCat").toString());
+                        newItem.setIdDistrict(map.get("idDistrict").toString());
+                        newItem.setAddress(map.get("address").toString());
+                        newItem.setTimeDeadline(map.get("timeDeadline").toString());
+                        newItem.setTimeCreated(map.get("timeCreated").toString());
+                        newItem.setNote(map.get("note").toString());
                         mNewItems.add(newItem);
                     }
                 }

@@ -1,6 +1,5 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
-import android.content.SharedPreferences;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
@@ -12,7 +11,7 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,7 +50,6 @@ public class SendMessageActivity extends BaseActivity {
     private TextView mTvTitle;
     private DatabaseReference mFirebaseUser;
     private DatabaseReference mFirebaseFriend;
-    private SharedPreferences mSharedPreferences;
     private String idUser;
 
     @Click(R.id.btnBack)
@@ -64,8 +62,7 @@ public class SendMessageActivity extends BaseActivity {
         mTvTitle = (TextView) mToolbarChat.findViewById(R.id.tvtitleToolbar);
         mTvTitle.setText(mNameUserContact);
 
-        mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, 0);
-        idUser = mSharedPreferences.getString(Constant.ID_USER_LOGIN, "");
+        idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         mFirebaseUser = FirebaseDatabase.getInstance().getReference("/messages/" + idUser + "_" + idUserContact);
         mFirebaseFriend = FirebaseDatabase.getInstance().getReference("/messages/" + idUserContact + "_" + idUser);
@@ -88,7 +85,7 @@ public class SendMessageActivity extends BaseActivity {
         mFirebaseUser.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
+                HashMap<String,Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 String message = map.get("message").toString();
                 String userName = map.get("user").toString();
 

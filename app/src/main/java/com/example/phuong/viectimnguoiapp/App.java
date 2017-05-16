@@ -16,7 +16,8 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder(this)
+        Realm.init(getApplicationContext());
+        RealmConfiguration realmConfiguration = new RealmConfiguration.Builder()
                 .name(Realm.DEFAULT_REALM_NAME)
                 .schemaVersion(0)
                 .deleteRealmIfMigrationNeeded()

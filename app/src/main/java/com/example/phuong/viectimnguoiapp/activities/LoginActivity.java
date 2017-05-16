@@ -174,7 +174,7 @@ public class LoginActivity extends BaseActivity implements Validator.ValidationL
     public void loginAction() {
         if (!"".equals(mEdtUsername.getText()) && !"".equals(mEdtPassword.getText())) {
             //check mang
-            if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+            if (Network.checkNetWork(this)) {
                 mValidator.validate();
             } else {
                 Common.createDialog(this, "Vui lòng kiểm tra kết nối mạng");

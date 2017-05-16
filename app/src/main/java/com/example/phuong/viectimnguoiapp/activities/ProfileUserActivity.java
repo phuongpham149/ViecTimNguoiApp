@@ -11,7 +11,6 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
-import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -24,7 +23,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  * Created by asiantech on 25/03/2017.
@@ -78,7 +77,7 @@ public class ProfileUserActivity extends BaseActivity {
         mTvTitleToolbar.setText("Thông tin người đăng bài");
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
-        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(this)) {
             getUserInfor();
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -116,7 +115,7 @@ public class ProfileUserActivity extends BaseActivity {
         mFirebaseUserInfor.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Map map = dataSnapshot.getValue(Map.class);
+                HashMap<String,Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 if (idUser.equals(map.get("id").toString())) {
                     mUser = new User();
                     mUser.setId(map.get("id").toString());

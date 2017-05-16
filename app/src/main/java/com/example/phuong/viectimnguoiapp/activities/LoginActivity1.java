@@ -1,12 +1,18 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
+import com.example.phuong.viectimnguoiapp.objects.User;
+import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.DialogLoading;
+import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -27,12 +33,19 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Copyright@ AsianTech.Inc
@@ -46,11 +59,22 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
     private CallbackManager mCallbackManager;
     private GoogleApiClient mGoogleApiClient;
     private FirebaseAuth mFireBaseAuth;
+    private RealmHelper mData;
+
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @AfterViews
     void init() {
         mFireBaseAuth = FirebaseAuth.getInstance();
+        mSharedPreferences = getSharedPreferences(Constant.DATA_NAME_USER_LOGIN, MODE_PRIVATE);
+        mEditor = mSharedPreferences.edit();
+
         if (mFireBaseAuth.getCurrentUser() != null) {
+            Log.d("tag112", "1" + mFireBaseAuth.getCurrentUser().getDisplayName());
+            //luu share
+            mEditor.putString(Constant.IS_USER_LOGIN, "true");
+            mEditor.commit();
             MainActivity_.intent(LoginActivity1.this).start();
             finish();
         } else {
@@ -58,6 +82,56 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             configLoginGoogle();
             configLoginFacebook();
         }
+    }
+
+    public void getUserInfor() {
+        mData = new RealmHelper(this);
+        final DatabaseReference mFirebaseUserInfor = FirebaseDatabase.getInstance().getReference("/users");
+        mFirebaseUserInfor.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean check = false;
+                User mUser = new User();
+                mUser.setId(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                mUser.setUsername(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                mUser.setEmail(FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                    String id = map.get("id").toString();
+                    if (id.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        mUser.setPhone(map.get("phone").toString());
+                        mUser.setAddress(map.get("address").toString());
+                        mUser.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
+                        mUser.setPoint(map.get("point").toString());
+                        mUser.setStatus(map.get("status").toString());
+                        mData.addUser(mUser);
+                        check = true;
+                        break;
+                    }
+                }
+                if (!check) {
+                    Map<String, String> mapUser = new HashMap<String, String>();
+                    mapUser.put("address", "");
+                    mapUser.put("idDistrict", "");
+                    mapUser.put("phone", "");
+                    mapUser.put("status", Constant.USER_ACTIVE);
+                    mapUser.put("point", "0");
+                    mFirebaseUserInfor.push().setValue(mapUser);
+                    mUser.setPhone("");
+                    mUser.setAddress("");
+                    mUser.setIdDistrict(0);
+                    mUser.setPoint("");
+                    mUser.setStatus("");
+                    mData.addUser(mUser);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void configLoginGoogle() {
@@ -76,6 +150,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
         LoginManager.getInstance().registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
+                //  Log.d(TAG, "onSuccess: aaaaaaaaaaaaa");
                 fireBaseAuthWithFacebook(loginResult.getAccessToken());
             }
 
@@ -94,10 +169,10 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
 
     @Click(R.id.btnLoginGg)
     void onClickLoginWithGoogle() {
-       /* if (!NetworkUtils.getInstance().isConnectNetwork(this)) {
+        if (!(Network.checkNetWork(this))) {
             Toast.makeText(this, R.string.toast_text_connection_internet, Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -105,10 +180,10 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
 
     @Click(R.id.btnLoginFb)
     void onClickLoginWithFacebook() {
-      /*  if (!NetworkUtils.getInstance().isConnectNetwork(this)) {
+        if (!(Network.checkNetWork(this))) {
             Toast.makeText(this, R.string.toast_text_connection_internet, Toast.LENGTH_SHORT).show();
             return;
-        }*/
+        }
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList(PERMISSION_FB));
     }
 
@@ -144,6 +219,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "onComplete: aaaaaaaaaaa");
                         DialogLoading.getInstance().dismissProgressDialog();
                     }
                 });
@@ -160,11 +236,10 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
         Log.d(TAG, "onAuthStateChanged: ");
         if (firebaseUser != null) {
             requestLogOutGoogle();
-            Log.d(TAG, "onAuthStateChanged: suscces login");
             MainActivity_.intent(LoginActivity1.this).start();
+            getUserInfor();
             finish();
         } else {
-            Log.d(TAG, "onAuthStateChanged: null");
         }
     }
 

@@ -50,42 +50,6 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:background="@drawable/password" />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_weight="6"
-                android:paddingLeft="10dp"
-                android:textSize="18sp"
-                android:text="Mật khẩu" />
-
-            <EditText
-                android:id="@+id/edtPassword"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="10"
-                android:enabled="false"
-                android:inputType="textPassword"
-                android:text="12345678" />
-
-            <ImageView
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:layout_gravity="center"
-                android:background="@drawable/ic_edit" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="center"
                 android:background="@drawable/email" />
 
             <TextView
@@ -100,6 +64,7 @@
             <EditText
                 android:id="@+id/edtEmail"
                 android:layout_width="0dp"
+                android:enabled="false"
                 android:layout_height="wrap_content"
                 android:layout_weight="9"
                 android:textSize="18sp"
@@ -211,7 +176,7 @@
                 android:layout_weight="5"
                 android:paddingLeft="10dp"
                 android:textSize="18sp"
-                android:text="Địa chỉ" />
+                android:text="Điểm" />
 
             <EditText
                 android:id="@+id/edtCoint"

@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -19,6 +21,7 @@ import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.Network;
+import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
 import com.facebook.AccessToken;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
@@ -36,6 +39,7 @@ import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -78,9 +82,6 @@ public class NewsFragment extends BaseFragment {
 
         mNews = new ArrayList<>();
         initsData();
-
-        mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
-        mSettingAddress = mSharedPreferences.getString(Constant.SETTING_ADDRESS, "");
     }
 
     public void showDialogLogout() {
@@ -94,9 +95,8 @@ public class NewsFragment extends BaseFragment {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mEditor.putString(Constant.IS_USER_LOGIN, "false");
-                mEditor.apply();
-                //TODO logout here, you must clear data current user befor logout
+                mData.clearData();
+                SharedPreferencesUtils.getInstance().deleteAll(getContext());
                 FirebaseAuth.getInstance().signOut();
                 logoutFacebook();
                 LoginActivity1_.intent(getActivity()).start();
@@ -114,29 +114,90 @@ public class NewsFragment extends BaseFragment {
     }
 
     public void initsData() {
+        mSettingJobs = mSharedPreferences.getString(Constant.SETTING_JOB, "");
+        mSettingAddress = mSharedPreferences.getString(Constant.SETTING_ADDRESS, "");
+        Log.d("initsData: ", mSettingJobs);
+        Log.d("initsData aa: ", mSettingAddress);
         mData = new RealmHelper(getActivity());
-        if (Network.checkNetWork(getActivity(), Constant.TYPE_NETWORK) || Network.checkNetWork(getActivity(), Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(getActivity())) {
             mFirebase.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    for (DataSnapshot obj : dataSnapshot.getChildren()) {
-                        NewItem newItem = obj.getValue(NewItem.class);
-                        if (newItem.getStatus() == Integer.parseInt(Constant.STATUS_APPROVAL)) {
-                            if (!mSettingAddress.equals("") && !mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat())) && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
-                                mNews.add(newItem);
+                    if (TextUtils.isEmpty(mSettingJobs) && TextUtils.isEmpty(mSettingAddress)) {
+                        for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                            NewItem newItem;
+                            HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
+                            newItem = new NewItem();
+                            newItem.setId(data.get("id").toString());
+                            newItem.setIdUser(data.get("idUser").toString());
+                            newItem.setIdCat(data.get("idCat").toString());
+                            newItem.setIdDistrict(data.get("idDistrict").toString());
+                            newItem.setAddress(data.get("address").toString());
+                            newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                            newItem.setTimeCreated(data.get("timeCreated").toString());
+                            newItem.setNote(data.get("note").toString());
+                            mData.addNew(newItem);
+                            mNews.add(newItem);
+                        }
+                    }
+                    if ((TextUtils.isEmpty(mSettingJobs) && !TextUtils.isEmpty(mSettingAddress))) {
+                        for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                            HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
+                            Log.d("onDataChange: ", "aaa");
+                            if (mSettingAddress.contains(data.get("idDistrict").toString())) {
+                                NewItem newItem = new NewItem();
+                                newItem.setId(data.get("id").toString());
+                                newItem.setIdUser(data.get("idUser").toString());
+                                newItem.setIdCat(data.get("idCat").toString());
+                                newItem.setIdDistrict(data.get("idDistrict").toString());
+                                newItem.setAddress(data.get("address").toString());
+                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                newItem.setTimeCreated(data.get("timeCreated").toString());
+                                newItem.setNote(data.get("note").toString());
                                 mData.addNew(newItem);
-                            } else if (!mSettingJobs.equals("") && mSettingJobs.contains(String.valueOf(newItem.getIdCat()))) {
                                 mNews.add(newItem);
-                                mData.addNew(newItem);
-                            } else if (!mSettingAddress.equals("") && mSettingAddress.contains(String.valueOf(newItem.getIdDistrict()))) {
-                                mNews.add(newItem);
-                                mData.addNew(newItem);
-                            } else {
-                                mNews.add(newItem);
-                                mData.addNew(newItem);
                             }
                         }
                     }
+                    if ((!TextUtils.isEmpty(mSettingJobs) && TextUtils.isEmpty(mSettingAddress))) {
+                        for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                            HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
+                            Log.d("onDataChange: ", "aaa");
+                            if (mSettingJobs.contains(data.get("idCat").toString())) {
+                                NewItem newItem = new NewItem();
+                                newItem.setId(data.get("id").toString());
+                                newItem.setIdUser(data.get("idUser").toString());
+                                newItem.setIdCat(data.get("idCat").toString());
+                                newItem.setIdDistrict(data.get("idDistrict").toString());
+                                newItem.setAddress(data.get("address").toString());
+                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                newItem.setTimeCreated(data.get("timeCreated").toString());
+                                newItem.setNote(data.get("note").toString());
+                                mData.addNew(newItem);
+                                mNews.add(newItem);
+                            }
+                        }
+                    }
+                    if ((!TextUtils.isEmpty(mSettingJobs) && !TextUtils.isEmpty(mSettingAddress))) {
+                        for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                            HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
+                            Log.d("onDataChange: ", "aaa");
+                            if (mSettingAddress.contains(data.get("idDistrict").toString()) && mSettingJobs.contains(data.get("idCat").toString())) {
+                                NewItem newItem = new NewItem();
+                                newItem.setId(data.get("id").toString());
+                                newItem.setIdUser(data.get("idUser").toString());
+                                newItem.setIdCat(data.get("idCat").toString());
+                                newItem.setIdDistrict(data.get("idDistrict").toString());
+                                newItem.setAddress(data.get("address").toString());
+                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                newItem.setTimeCreated(data.get("timeCreated").toString());
+                                newItem.setNote(data.get("note").toString());
+                                mData.addNew(newItem);
+                                mNews.add(newItem);
+                            }
+                        }
+                    }
+
                 }
 
                 @Override
@@ -144,28 +205,36 @@ public class NewsFragment extends BaseFragment {
 
                 }
             });
-        } else {
+        } else
+
+        {
             mNews = mData.getNews();
         }
+
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-                mRecyclerViewNews.setLayoutManager(layoutManager);
-                mAdapter = new NewsAdapter(mNews, getContext(), new NewsAdapter.onItemClickListener() {
-                    @Override
-                    public void itemClickListener(int position) {
-                        DetailNewActivity_.intent(getActivity()).mId(mNews.get(position).getId()).start();
-                        getActivity().overridePendingTransition(R.anim.anim_slide_bottom_top, R.anim.anim_nothing);
-                    }
-                });
-                mRecyclerViewNews.setAdapter(mAdapter);
-                mAdapter.notifyDataSetChanged();
-                mProgressBarLoadingNews.setVisibility(View.GONE);
-            }
-        }, 3000);
+        handler.postDelayed(new
+
+                                    Runnable() {
+                                        @Override
+                                        public void run() {
+                                            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                                            mRecyclerViewNews.setLayoutManager(layoutManager);
+                                            mAdapter = new NewsAdapter(mNews, getContext(), new NewsAdapter.onItemClickListener() {
+                                                @Override
+                                                public void itemClickListener(int position) {
+                                                    DetailNewActivity_.intent(getActivity()).mId(mNews.get(position).getId()).start();
+                                                    getActivity().overridePendingTransition(R.anim.anim_slide_bottom_top, R.anim.anim_nothing);
+                                                }
+                                            });
+                                            mRecyclerViewNews.setAdapter(mAdapter);
+                                            mAdapter.notifyDataSetChanged();
+                                            mProgressBarLoadingNews.setVisibility(View.GONE);
+                                        }
+                                    }
+
+                , 3000);
     }
+
     private void logoutFacebook() {
         new GraphRequest(AccessToken.getCurrentAccessToken(), "/me/permissions/", null, HttpMethod.DELETE, new GraphRequest
                 .Callback() {

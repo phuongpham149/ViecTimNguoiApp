@@ -120,7 +120,7 @@ public class RegisterActivity extends BaseActivity implements Validator.Validati
     }
 
     public void doRegister() {
-        if (Network.checkNetWork(this, Constant.TYPE_NETWORK) || Network.checkNetWork(this, Constant.TYPE_WIFI)) {
+        if (Network.checkNetWork(this) ) {
             if (check) {
                 if (!(mSpinnerAddress.getSelectedItem() == null)) {
                     getDistrictSelected();
