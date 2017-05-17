@@ -14,6 +14,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
@@ -47,6 +48,8 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
     private String keyUser;
     private User UserSubPoint = new User();
 
+    private boolean isContact = false;
+
     public PingJobAdapter(List<Ping> pings, Context mContext, onItemClickListener listener) {
         this.pings = pings;
         this.mContext = mContext;
@@ -61,13 +64,13 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
     }
 
     @Override
-    public void onBindViewHolder(NewsHolder holder, final int position) {
+    public void onBindViewHolder(final NewsHolder holder, final int position) {
         final Ping item = pings.get(position);
         holder.mTvName.setText(item.getUsername());
         holder.mTvPrice.setText(item.getPrice());
         int randomAvarta = (new Random().nextInt(4));
         holder.mImgAvarta.setImageResource(mIcons[randomAvarta]);
-        Log.d("tag12", "abc " + item.toString());
+
         holder.mRlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +78,38 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
             }
         });
 
+        if (item.getChoice().equals("true")) {
+            holder.mChkContact.setChecked(true);
+        } else {
+            holder.mChkContact.setChecked(false);
+        }
+
+        holder.mChkContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (item.getChoice().equals("false")) {
+                    Handler handler = new Handler();
+                    isContact = isContactWithUser(item);
+                    Log.d("tag123"," a "+isContact);
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isContact) {
+                                Toast.makeText(mContext, "Bạn đã xác nhận với người khác", Toast.LENGTH_SHORT).show();
+                                holder.mChkContact.setChecked(false);
+                                return;
+                            } else {
+                                updateChoice(item, "true");
+                            }
+                        }
+                    }, 2000);
+                } else {
+                    updateChoice(item, "false");
+                }
+            }
+        });
+
         if (item.getReport().equals("true")) {
-            Log.d("tag12", "aaaaaaaaaaa ");
             holder.mImgReport.setVisibility(View.GONE);
         }
 
@@ -91,6 +124,40 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
 
             }
         });
+    }
+
+    public void updateChoice(Ping ping, String choice) {
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost() + "/" + ping.getIdUser());
+        Ping pingChoice = new Ping();
+        pingChoice.setChoice(choice);
+        pingChoice.setUsername(ping.getUsername());
+        pingChoice.setMessage(ping.getMessage());
+        pingChoice.setPrice(ping.getPrice());
+        pingChoice.setReport(ping.getReport());
+        data.setValue(pingChoice);
+
+    }
+
+    public boolean isContactWithUser(Ping ping) {
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost());
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                    if (map.get("choice").toString().equals("true")) {
+                        isContact = true;
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        return isContact;
     }
 
     public void showDialogConfirmReport(Context context, final Ping ping) {
@@ -119,7 +186,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
 
                 //tru diem
                 subPoint(ping.getIdUser());
-                notifyReport(ping.getIdUser(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                notifyReport(ping.getIdUser(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                 Handler handler = new Handler();
                 handler.postDelayed(new Runnable() {
                     @Override
@@ -144,7 +211,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         dialog.show();
     }
 
-    public void notifyReport(String idUser,String idUserReport){
+    public void notifyReport(String idUser, String idUserReport) {
         DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference("/notifyReport");
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();

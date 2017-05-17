@@ -59,7 +59,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
         mFirebasePing.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
             }
 
             @Override
