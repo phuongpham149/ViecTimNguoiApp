@@ -2,7 +2,6 @@ package com.example.phuong.viectimnguoiapp.adapters;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -67,7 +66,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         holder.mTvPrice.setText(item.getPrice());
         int randomAvarta = (new Random().nextInt(4));
         holder.mImgAvarta.setImageResource(mIcons[randomAvarta]);
-        Log.d("tag12", "abc " + item.toString());
         holder.mRlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,7 +74,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         });
 
         if (item.getReport().equals("true")) {
-            Log.d("tag12", "aaaaaaaaaaa ");
             holder.mImgReport.setVisibility(View.GONE);
         }
 
@@ -85,10 +82,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
             public void onClick(View view) {
                 //show dialog
                 showDialogConfirmReport(mContext, pings.get(position));
-                //ok -> firebase chinh isReport true
-
-                //goi message
-
             }
         });
     }
@@ -106,31 +99,18 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost() + "/" + ping.getIdUser());
+                DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost() + "/" + ping.getIdUser()+"/report/");
                 Ping pingReport = new Ping();
-                pingReport.setChoice(ping.getChoice());
-                pingReport.setMessage(ping.getMessage());
-                pingReport.setPrice(ping.getPrice());
-                pingReport.setUsername(ping.getUsername());
                 pingReport.setReport("true");
-                pingRef.setValue(pingReport);
+                pingRef.setValue(pingReport.getReport());
+
                 dialog.dismiss();
+                ping.setReport("true");
                 notifyDataSetChanged();
 
                 //tru diem
                 subPoint(ping.getIdUser());
-                notifyReport(ping.getIdUser(),FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        //tru diem
-                        //setPointForReport();
-                        //goi msg
-
-                    }
-                }, 2000);
-
+                notifyReport(ping.getIdUser(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
 
             }
         });
@@ -144,7 +124,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         dialog.show();
     }
 
-    public void notifyReport(String idUser,String idUserReport){
+    public void notifyReport(String idUser, String idUserReport) {
         DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference("/notifyReport");
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
@@ -165,21 +145,8 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                     HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
                     if (map.get("id").toString().equals(idUser)) {
                         User userReported = new User();
-                        userReported.setId(map.get("id").toString());
-                        userReported.setAddress(map.get("address").toString());
-                        userReported.setPhone(map.get("phone").toString());
-                        userReported.setUsername(map.get("username").toString());
-                        userReported.setEmail(map.get("email").toString());
-                        Log.d("data", key + " aaaa id district " + map.get("idDistrict").toString());
                         userReported.setPoint(String.valueOf(Integer.parseInt(map.get("point").toString()) - 2));
-                        userReported.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
-                        userReported.setStatus(map.get("status").toString());
-
-
-                        //user.child(key).setValue(userReported);
-                        //setPointForReport(key,userReported);
-                        keyUser = key;
-                        UserSubPoint = userReported;
+                        setPointForReport(key, userReported.getPoint());
                         return;
                     }
                 }
@@ -192,11 +159,9 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         });
     }
 
-    public void setPointForReport() {
-        Log.d("tag123", "ab " + keyUser + " user " + UserSubPoint);
-        //user.child(keyUser).setValue(UserSubPoint);
-        DatabaseReference dataUser = FirebaseDatabase.getInstance().getReference("/users/" + keyUser);
-        dataUser.setValue(UserSubPoint);
+    public void setPointForReport(String keyUser, String subPoint) {
+        DatabaseReference dataUser = FirebaseDatabase.getInstance().getReference("/users/" + keyUser + "/point/");
+        dataUser.setValue(subPoint);
     }
 
     @Override
