@@ -3,6 +3,7 @@ package com.example.phuong.viectimnguoiapp.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,15 +12,20 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.HistoryPingDetailActivity_;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -28,6 +34,7 @@ import java.util.List;
 public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHolder> {
     private List<HistoryPing> mHistoryPings;
     private Context mContext;
+    private DatabaseReference mUserRef;
 
     public JobsPingAdapter(List<HistoryPing> mHistoryPings, Context mContext) {
         this.mHistoryPings = mHistoryPings;
@@ -52,21 +59,20 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
                 HistoryPingDetailActivity_.intent(mContext).mIdPost(historyPing.getIdPost()).start();
             }
         });
-        if(historyPing.getChoice().equals("true")){
+        if (historyPing.getChoice().equals("true")) {
             holder.mChkConfirm.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             holder.mChkConfirm.setVisibility(View.GONE);
         }
 
         holder.mChkConfirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(historyPing.getConfirm().equals("true")){
+                if (historyPing.getConfirm().equals("true")) {
                     holder.mChkConfirm.setChecked(true);
-                } else{
+                } else {
                     //day du lieu
-                    showDialogConfirm(mContext,historyPing);
+                    showDialogConfirm(mContext, historyPing);
                     // cong diem
                 }
 
@@ -74,12 +80,12 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
         });
     }
 
-    public void showDialogConfirm(Context context, final HistoryPing historyPing){
+    public void showDialogConfirm(Context context, final HistoryPing historyPing) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.dialog_logout);
         dialog.setCanceledOnTouchOutside(false);
-        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
+        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
         TextView mtvContent = (TextView) dialog.findViewById(R.id.tvContent);
         mtvContent.setText("Xác nhận làm việc này ?");
@@ -87,18 +93,20 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + historyPing.getIdPost() + "/" + historyPing.getIdUser() + "/confirm/");
+                DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + historyPing.getIdUser() + "/" + historyPing.getIdPost() + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/confirm/");
+                Log.d("confirm", "/pings/" + historyPing.getUserOwner() + "/" + historyPing.getIdPost() + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/confirm/");
                 Ping pingReport = new Ping();
                 pingReport.setConfirm("true");
-                pingRef.setValue(pingReport.getReport());
+                pingRef.setValue(pingReport.getConfirm());
 
                 dialog.dismiss();
                 historyPing.setConfirm("true");
                 notifyDataSetChanged();
 
-                //tru diem
-                //subPoint(ping.getIdUser());
-
+                //cong diem
+                getKeyUser(historyPing.getIdUser());
+                getKeyUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                Toast.makeText(mContext, "Bạn vừa xác nhận một giao dịch việc làm", Toast.LENGTH_SHORT).show();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +118,32 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
 
         dialog.show();
     }
+
+    public void getKeyUser(final String idUser) {
+        mUserRef = FirebaseDatabase.getInstance().getReference("/users");
+        mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                    if (idUser.equals(map.get("id").toString())) {
+                        addPointUser(data.getKey(), map.get("point").toString());
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void addPointUser(String key, String point) {
+        mUserRef.child(key).child("point").setValue(String.valueOf(Integer.parseInt(point) + 1));
+    }
+
     @Override
     public int getItemCount() {
         return mHistoryPings == null ? 0 : mHistoryPings.size();

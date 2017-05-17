@@ -3,7 +3,6 @@ package com.example.phuong.viectimnguoiapp.fragments;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -49,6 +48,7 @@ public class JobsPingFragment extends BaseFragment {
     private RealmHelper mData;
 
     private List<StringBuilder> mURLs = new ArrayList<>();
+    private int i = 0;
 
     @Override
     void inits() {
@@ -133,8 +133,8 @@ public class JobsPingFragment extends BaseFragment {
                         }
                     }
                     getNameOwner();
-                    getContactByOwner();
                 }
+                getContactByOwner();
             }
 
             @Override
@@ -142,26 +142,23 @@ public class JobsPingFragment extends BaseFragment {
 
             }
         });
+
+
     }
 
     public void getContactByOwner() {
         DatabaseReference ping;
         getListURL(mHistoryPings);
-        //cho moi url chay de lay du lieu ve
-
-        for (final HistoryPing historyPing : mHistoryPings) {
-            ping = FirebaseDatabase.getInstance().getReference("/pings/" + historyPing.getUserOwner() + "/" + historyPing.getIdPost() + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-            Log.d("phuongpham", historyPing.getUserOwner()+" b "+historyPing.getIdPost()+" m "+FirebaseAuth.getInstance().getCurrentUser().getUid());
+        for (; i < mHistoryPings.size(); i++) {
+            ping = FirebaseDatabase.getInstance().getReference(mURLs.get(i).toString());
+            final int position = i;
             ping.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    Log.d("historyping", dataSnapshot.toString());
                     if (dataSnapshot != null) {
-                        for (DataSnapshot data : dataSnapshot.getChildren()) {
-                            HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
-                            historyPing.setChoice(map.get("choice").toString());
-                            historyPing.setConfirm(map.get("confirm").toString());
-                        }
+                        HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                        mHistoryPings.get(position).setChoice(map.get("choice").toString());
+                        mHistoryPings.get(position).setConfirm(map.get("confirm").toString());
                     }
                 }
 
@@ -196,11 +193,13 @@ public class JobsPingFragment extends BaseFragment {
         });
     }
 
-    public void getListURL(List<HistoryPing> historyPings){
-        for(HistoryPing historyPing : historyPings){
+    public void getListURL(List<HistoryPing> historyPings) {
+        for (HistoryPing historyPing : historyPings) {
             StringBuilder url = new StringBuilder("/pings/");
             url.append(historyPing.getUserOwner());
+            url.append("/");
             url.append(historyPing.getIdPost());
+            url.append("/");
             url.append(FirebaseAuth.getInstance().getCurrentUser().getUid());
             mURLs.add(url);
         }
