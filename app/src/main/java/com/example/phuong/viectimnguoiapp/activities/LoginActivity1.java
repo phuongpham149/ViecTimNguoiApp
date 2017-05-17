@@ -124,7 +124,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
                 if (!check) {
                     Map<String, String> mapUser = new HashMap<String, String>();
                     mapUser.put("address", "");
-                    mapUser.put("idDistrict", "");
+                    mapUser.put("idDistrict", "1");
                     mapUser.put("phone", "");
                     mapUser.put("status", Constant.USER_ACTIVE);
                     mapUser.put("point", "0");
@@ -134,7 +134,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
                     mFirebaseUserInfor.push().setValue(mapUser);
                     mUser.setPhone("");
                     mUser.setAddress("");
-                    mUser.setIdDistrict(0);
+                    mUser.setIdDistrict(1);
                     mUser.setPoint("");
                     mUser.setStatus("");
                     mData.addUser(mUser);

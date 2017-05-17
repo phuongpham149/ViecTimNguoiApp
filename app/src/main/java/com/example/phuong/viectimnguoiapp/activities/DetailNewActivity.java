@@ -325,6 +325,8 @@ public class DetailNewActivity extends BaseActivity {
                         ping.setUsername(username);
                         ping.setPrice(edtPrice.getText().toString() + "VNĐ");
                         ping.setMessage(messageText);
+                        ping.setReport("false");
+                        ping.setChoice("false");
                         mFirebasePing.setValue(ping);
 
 

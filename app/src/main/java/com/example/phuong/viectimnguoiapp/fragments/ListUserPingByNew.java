@@ -2,6 +2,7 @@ package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
@@ -63,12 +64,18 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                String idPost = dataSnapshot.getKey();
+                Log.d("tag13","idPost "+idPost);
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
                     Ping ping = new Ping();
+                    ping.setIdPost(idPost);
                     ping.setUsername(map.get("username").toString());
                     ping.setMessage(map.get("message").toString());
                     ping.setPrice(map.get("price").toString());
+                    ping.setIdUser(data.getKey());
+                    ping.setChoice(map.get("choice").toString());
+                    ping.setReport(map.get("report").toString());
                     mPings.add(ping);
                 }
                 mAdapter.notifyDataSetChanged();

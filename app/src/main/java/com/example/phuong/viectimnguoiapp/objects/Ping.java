@@ -11,4 +11,7 @@ public class Ping {
     private String username;
     private String message;
     private String price;
+    private String idPost;
+    private String choice;
+    private String report;
 }
