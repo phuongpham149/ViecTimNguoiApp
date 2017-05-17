@@ -132,6 +132,7 @@ public class JobsPingFragment extends BaseFragment {
                         }
                     }
                     getNameOwner();
+                    getContactByOwner();
                 }
             }
 
@@ -140,6 +141,25 @@ public class JobsPingFragment extends BaseFragment {
 
             }
         });
+    }
+
+    public void getContactByOwner(){
+        DatabaseReference ping;
+        Log.d("tag123",mHistoryPings.toString());
+        for(HistoryPing historyPing : mHistoryPings){
+            ping = FirebaseDatabase.getInstance().getReference("/pings/"+historyPing.getUserOwner()+"/"+historyPing.getIdPost()+"/"+FirebaseAuth.getInstance().getCurrentUser().getUid());
+            ping.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.d("historyping",dataSnapshot.toString());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void getNameOwner() {

@@ -134,6 +134,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         pingChoice.setMessage(ping.getMessage());
         pingChoice.setPrice(ping.getPrice());
         pingChoice.setReport(ping.getReport());
+        pingChoice.setConfirm(ping.getConfirm());
         data.setValue(pingChoice);
 
     }
@@ -179,6 +180,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                 pingReport.setMessage(ping.getMessage());
                 pingReport.setPrice(ping.getPrice());
                 pingReport.setUsername(ping.getUsername());
+                pingReport.setConfirm(ping.getConfirm());
                 pingReport.setReport("true");
                 pingRef.setValue(pingReport);
                 dialog.dismiss();
@@ -218,7 +220,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         Report report = new Report();
         report.setIdUserReport(idUserReport);
         report.setTimeReport(dateFormat.format(date));
-        notifyReport.child(idUser).setValue(report);
+        notifyReport.child(idUser).push().setValue(report);
     }
 
     public void subPoint(final String idUser) {
@@ -228,7 +230,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String key = data.getKey();
-                    Log.d("tkey", key);
                     HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
                     if (map.get("id").toString().equals(idUser)) {
                         User userReported = new User();
@@ -241,7 +242,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                         userReported.setPoint(String.valueOf(Integer.parseInt(map.get("point").toString()) - 2));
                         userReported.setIdDistrict(Integer.parseInt(map.get("idDistrict").toString()));
                         userReported.setStatus(map.get("status").toString());
-
 
                         //user.child(key).setValue(userReported);
                         //setPointForReport(key,userReported);

@@ -327,6 +327,7 @@ public class DetailNewActivity extends BaseActivity {
                         ping.setMessage(messageText);
                         ping.setReport("false");
                         ping.setChoice("false");
+                        ping.setConfirm("false");
                         mFirebasePing.setValue(ping);
 
 

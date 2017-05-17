@@ -93,4 +93,19 @@ public class HistoryPing extends RealmObject {
     public void setNameDistrict(String nameDistrict) {
         this.nameDistrict = nameDistrict;
     }
+
+    @Override
+    public String toString() {
+        return "HistoryPing{" +
+                "idPost='" + idPost + '\'' +
+                ", titlePost='" + titlePost + '\'' +
+                ", timeDeadline='" + timeDeadline + '\'' +
+                ", price='" + price + '\'' +
+                ", note='" + note + '\'' +
+                ", address='" + address + '\'' +
+                ", userOwner='" + userOwner + '\'' +
+                ", idUser='" + idUser + '\'' +
+                ", nameDistrict='" + nameDistrict + '\'' +
+                '}';
+    }
 }
