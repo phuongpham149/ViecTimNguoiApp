@@ -130,7 +130,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         pingChoice.setReport(ping.getReport());
         pingChoice.setConfirm(ping.getConfirm());
         data.setValue(pingChoice);
-
     }
 
     public boolean isContactWithUser(Ping ping) {

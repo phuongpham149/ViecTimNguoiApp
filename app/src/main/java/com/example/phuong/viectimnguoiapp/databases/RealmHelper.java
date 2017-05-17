@@ -111,8 +111,8 @@ public class RealmHelper {
         return mRealm.where(NewItem.class).equalTo("id", id).findAll();
     }
 
-    public RealmResults<CategoryJob> getCategoryJobItem(String id) {
-        return mRealm.where(CategoryJob.class).equalTo("id", id).findAll();
+    public CategoryJob getCategoryJobItem(String id) {
+        return mRealm.where(CategoryJob.class).equalTo("id", id).findFirst();
     }
 
     public RealmResults<District> getDistrictItem(String id) {

@@ -39,6 +39,16 @@
             android:layout_marginTop="5dp"
             android:textSize="@dimen/button_contact_text_size" />
 
+        <CheckBox
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:button="@drawable/choice_user_contact"
+            android:id="@+id/chkConfirm"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:layout_centerVertical="true"
+            />
+
     </RelativeLayout>
 
     <View

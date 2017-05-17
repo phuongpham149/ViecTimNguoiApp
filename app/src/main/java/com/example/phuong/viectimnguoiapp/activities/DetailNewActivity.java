@@ -129,7 +129,7 @@ public class DetailNewActivity extends BaseActivity {
                 mTvCoin.setText("Đang cập nhật");
                 mTvUserName.setText("Đang cập nhật");
             }
-            mTvTitle.setText(mData.getCategoryJobItem(mNew.getIdCat()).first().getName());
+            mTvTitle.setText(mData.getCategoryJobItem(mNew.getIdCat()).getName());
             mTvDetail.setText(mNew.getNote());
             mTvDate.setText(mNew.getTimeCreated());
             mTvDeadline.setText(mNew.getTimeDeadline());

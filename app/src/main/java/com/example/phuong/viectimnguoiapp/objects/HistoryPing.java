@@ -18,6 +18,16 @@ public class HistoryPing extends RealmObject {
     private String userOwner;
     private String idUser;
     private String nameDistrict;
+    private String choice;
+    private String confirm;
+
+    public String getConfirm() {
+        return confirm;
+    }
+
+    public void setConfirm(String confirm) {
+        this.confirm = confirm;
+    }
 
     public String getIdUser() {
         return idUser;
@@ -92,6 +102,14 @@ public class HistoryPing extends RealmObject {
 
     public void setNameDistrict(String nameDistrict) {
         this.nameDistrict = nameDistrict;
+    }
+
+    public String getChoice() {
+        return choice;
+    }
+
+    public void setChoice(String choice) {
+        this.choice = choice;
     }
 
     @Override
