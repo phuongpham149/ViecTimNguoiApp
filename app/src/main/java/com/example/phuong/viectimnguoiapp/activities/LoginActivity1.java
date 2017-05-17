@@ -7,6 +7,8 @@ import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
+import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
+import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.DialogLoading;
@@ -82,7 +84,9 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                if (map != null) {
+                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                }
             }
 
             @Override
@@ -120,14 +124,17 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
                 if (!check) {
                     Map<String, String> mapUser = new HashMap<String, String>();
                     mapUser.put("address", "");
-                    mapUser.put("idDistrict", "");
+                    mapUser.put("idDistrict", "1");
                     mapUser.put("phone", "");
                     mapUser.put("status", Constant.USER_ACTIVE);
                     mapUser.put("point", "0");
+                    mapUser.put("id",FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    mapUser.put("email",FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    mapUser.put("username",FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                     mFirebaseUserInfor.push().setValue(mapUser);
                     mUser.setPhone("");
                     mUser.setAddress("");
-                    mUser.setIdDistrict(0);
+                    mUser.setIdDistrict(1);
                     mUser.setPoint("");
                     mUser.setStatus("");
                     mData.addUser(mUser);
@@ -243,9 +250,49 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             MainActivity_.intent(LoginActivity1.this).start();
             getUserInfor();
             getSetting();
+            getDataCategoryJob();
+            getDataDistrict();
             finish();
         } else {
         }
+    }
+
+    public void getDataDistrict() {
+        DatabaseReference mFirebaseDistrict = FirebaseDatabase.getInstance().getReference("/districts");
+        mFirebaseDistrict.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) obj.getValue();
+                    District district = new District(map.get("id").toString(), map.get("name").toString());
+                    mData.addDistrict(district);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void getDataCategoryJob() {
+        DatabaseReference mFirebaseCategoryJob = FirebaseDatabase.getInstance().getReference("/categoryJobs");
+        mFirebaseCategoryJob.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot obj : dataSnapshot.getChildren()) {
+                    HashMap<String, Object> map = (HashMap<String, Object>) obj.getValue();
+                    CategoryJob categoryJob = new CategoryJob(map.get("id").toString(), map.get("name").toString());
+                    mData.addCategoryJob(categoryJob);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void requestLogOutGoogle() {
