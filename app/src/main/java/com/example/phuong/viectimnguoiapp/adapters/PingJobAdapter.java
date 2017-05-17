@@ -3,16 +3,17 @@ package com.example.phuong.viectimnguoiapp.adapters;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
@@ -43,8 +44,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
     private DatabaseReference user;
 
     private onItemClickListener mListener;
-    private String keyUser;
-    private User UserSubPoint = new User();
 
     public PingJobAdapter(List<Ping> pings, Context mContext, onItemClickListener listener) {
         this.pings = pings;
@@ -89,29 +88,31 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
     public void showDialogConfirmReport(Context context, final Ping ping) {
         final Dialog dialog = new Dialog(context);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        dialog.setContentView(R.layout.dialog_logout);
+        dialog.setContentView(R.layout.dialog_report);
         dialog.setCanceledOnTouchOutside(false);
-        Button btnOk = (Button) dialog.findViewById(R.id.btnOk);
+        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
         Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
-        TextView tvContent = (TextView) dialog.findViewById(R.id.tvContent);
-        tvContent.setText("Báo cáo vi phạm người này?");
+        final EditText tvContent = (EditText) dialog.findViewById(R.id.edtPrice);
 
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost() + "/" + ping.getIdUser()+"/report/");
-                Ping pingReport = new Ping();
-                pingReport.setReport("true");
-                pingRef.setValue(pingReport.getReport());
+                if (tvContent.getText().equals("")) {
+                    Toast.makeText(mContext, "Vui lòng nhập lí do báo vi phạm", Toast.LENGTH_SHORT).show();
+                } else {
+                    DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/" + ping.getIdPost() + "/" + ping.getIdUser() + "/report/");
+                    Ping pingReport = new Ping();
+                    pingReport.setReport("true");
+                    pingRef.setValue(pingReport.getReport());
 
-                dialog.dismiss();
-                ping.setReport("true");
-                notifyDataSetChanged();
+                    dialog.dismiss();
+                    ping.setReport("true");
+                    notifyDataSetChanged();
 
-                //tru diem
-                subPoint(ping.getIdUser());
-                notifyReport(ping.getIdUser(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
-
+                    //tru diem
+                    subPoint(ping.getIdUser());
+                    notifyReport(ping.getIdUser(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                }
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -131,7 +132,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         Report report = new Report();
         report.setIdUserReport(idUserReport);
         report.setTimeReport(dateFormat.format(date));
-        notifyReport.child(idUser).setValue(report);
+        notifyReport.child(idUser).push().setValue(report);
     }
 
     public void subPoint(final String idUser) {
@@ -141,7 +142,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     String key = data.getKey();
-                    Log.d("tkey", key);
                     HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
                     if (map.get("id").toString().equals(idUser)) {
                         User userReported = new User();

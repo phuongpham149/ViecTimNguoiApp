@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="@dimen/dialog_width"
+    android:layout_height="@dimen/dialog_price_height"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+
+        android:layout_marginLeft="@dimen/textview_dialog_content_margin"
+        android:layout_marginRight="@dimen/textview_dialog_content_margin"
+        android:layout_marginTop="30dp"
+        android:text="Báo cáo vi phạm người này?"
+        android:textColor="@color/textview_login"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/edtPrice"
+        android:layout_width="240dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:paddingLeft="5dp"
+        android:layout_marginLeft="@dimen/edt_price_margin_right_left"
+        android:hint="Lí do vi phạm"
+        android:layout_marginRight="@dimen/edt_price_margin_right_left"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_btn_contact"
+        android:inputType="text"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp">
+
+        <Button
+            android:id="@+id/tvBtnOk"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:text="@string/textview_btn_ok"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/textview_btn_ok_margin"
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@+id/btnOk"
+            android:background="#4CAF50"
+            android:text="Cancel"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>
