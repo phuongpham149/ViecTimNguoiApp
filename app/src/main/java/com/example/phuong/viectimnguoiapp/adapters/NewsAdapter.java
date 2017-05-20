@@ -5,7 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
@@ -20,7 +21,7 @@ import java.util.List;
 public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
     private List<NewItem> mNews;
     private Context mContext;
-
+    private int[] mImages = {R.drawable.img_sua_dien, R.drawable.img_lau_nha, R.drawable.img_giat_quan_ao, R.drawable.img_sua_ong_nuoc,R.drawable.img_don_nha_cua,R.drawable.img_ui_quan_ao};
 
     private onItemClickListener mListener;
 
@@ -42,7 +43,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         holder.mTvName.setText(mContext.getResources().getStringArray(R.array.name_category)[Integer.parseInt(item.getIdCat()) - 1]);
         holder.mTvTime.setText(item.getTimeCreated());
         holder.mTvAddress.setText(item.getAddress() + ", " + mContext.getResources().getStringArray(R.array.name_district)[Integer.parseInt(item.getIdDistrict()) - 1]);
-
+        holder.mImgCategory.setImageResource(mImages[Integer.parseInt(item.getIdCat())-1]);
         holder.mRlItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,14 +66,16 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.NewsHolder> {
         TextView mTvName;
         TextView mTvAddress;
         TextView mTvTime;
-        RelativeLayout mRlItem;
+        LinearLayout mRlItem;
+        ImageView mImgCategory;
 
         public NewsHolder(View itemView) {
             super(itemView);
             mTvName = (TextView) itemView.findViewById(R.id.tvName);
             mTvAddress = (TextView) itemView.findViewById(R.id.tvAddress);
             mTvTime = (TextView) itemView.findViewById(R.id.tvTime);
-            mRlItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
+            mRlItem = (LinearLayout) itemView.findViewById(R.id.rlNewItem);
+            mImgCategory = (ImageView) itemView.findViewById(R.id.imgCategory);
         }
     }
 }
