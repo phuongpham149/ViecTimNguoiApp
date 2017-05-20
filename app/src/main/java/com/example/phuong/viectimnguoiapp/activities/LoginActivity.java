@@ -85,7 +85,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 if (map != null) {
-                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity.this, map.get("addressSetting").toString(), map.get("jobSetting").toString());
                 }
             }
 
@@ -128,9 +128,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                     mapUser.put("phone", "");
                     mapUser.put("status", Constant.USER_ACTIVE);
                     mapUser.put("point", "0");
-                    mapUser.put("id",FirebaseAuth.getInstance().getCurrentUser().getUid());
-                    mapUser.put("email",FirebaseAuth.getInstance().getCurrentUser().getEmail());
-                    mapUser.put("username",FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                    mapUser.put("id", FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    mapUser.put("email", FirebaseAuth.getInstance().getCurrentUser().getEmail());
+                    mapUser.put("username", FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
                     mFirebaseUserInfor.push().setValue(mapUser);
                     mUser.setPhone("");
                     mUser.setAddress("");

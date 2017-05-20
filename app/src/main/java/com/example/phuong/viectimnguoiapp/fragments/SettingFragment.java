@@ -155,7 +155,6 @@ public class SettingFragment extends BaseFragment {
     void inits() {
         mFirebaseSetting = FirebaseDatabase.getInstance().getReference("/");
         mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
-
         if ((!SharedPreferencesUtils.getInstance().getSettingJob(getContext()).equals("") || !SharedPreferencesUtils.getInstance().getSettingAddress(getContext()).equals(""))) {
             setViewSetting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()), SharedPreferencesUtils.getInstance().getSettingAddress(getContext()));
         } else {
