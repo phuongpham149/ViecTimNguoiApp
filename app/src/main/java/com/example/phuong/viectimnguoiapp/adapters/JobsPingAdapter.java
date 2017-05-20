@@ -10,8 +10,10 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.HistoryPingDetailActivity_;
@@ -76,6 +78,13 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
                     // cong diem
                 }
 
+            }
+        });
+
+        holder.mImgReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(mContext,"Bạn đã báo cáo vi phạm người này",Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -155,6 +164,7 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
         TextView mTvTimeCreate;
         TextView mTvAddress;
         CheckBox mChkConfirm;
+        ImageView mImgReport;
 
         public ItemHolder(View itemView) {
             super(itemView);
@@ -163,6 +173,7 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
             mLlItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
             mTvTimeCreate = (TextView) itemView.findViewById(R.id.tvTimeCreate);
             mChkConfirm = (CheckBox) itemView.findViewById(R.id.chkConfirm);
+            mImgReport = (ImageView)  itemView.findViewById(R.id.imgReport);
         }
     }
 }
