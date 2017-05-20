@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.objects.NotifyReport;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
-import com.example.phuong.viectimnguoiapp.objects.Report;
 import com.example.phuong.viectimnguoiapp.objects.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -88,7 +87,6 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                 if (item.getChoice().equals("false")) {
                     Handler handler = new Handler();
                     isContact = isContactWithUser(item);
-                    Log.d("tag123", " a " + isContact);
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
@@ -180,7 +178,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
 
                     //tru diem
                     subPoint(ping.getIdUser());
-                    notifyReport(ping.getIdUser(), FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                    notifyReport(ping.getIdUser(),tvContent.getText().toString());
                 }
             }
         });
@@ -194,13 +192,15 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         dialog.show();
     }
 
-    public void notifyReport(String idUser, String idUserReport) {
-        DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference("/notifyReport");
+    public void notifyReport(String idUser,String msg) {
+        DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference(mContext.getString(R.string.child_notify_report));
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
-        Report report = new Report();
-        report.setIdUserReport(idUserReport);
-        report.setTimeReport(dateFormat.format(date));
+        NotifyReport report = new NotifyReport();
+        report.setIdUserReport(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        report.setTime(dateFormat.format(date));
+        report.setUsernameReport(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        report.setMessage(msg);
         notifyReport.child(idUser).push().setValue(report);
     }
 
