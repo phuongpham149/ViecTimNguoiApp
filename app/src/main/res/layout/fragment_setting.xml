@@ -96,10 +96,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/chkFixWaterPipe"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="@dimen/ll_login_margin"
                 android:layout_marginTop="@dimen/textview_text_setting_margin_top"
                 android:text="@string/textview_text_paint_house" />
+
+            <CheckBox
+                android:id="@+id/chkIronTheClothes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chkPaintHouse"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/ll_login_margin"
+                android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+                android:text="@string/textview_text_iron_the_clothes" />
         </RelativeLayout>
 
         <RelativeLayout

@@ -71,6 +71,8 @@ public class SettingFragment extends BaseFragment {
     protected CheckBox mChkNguHanhSon;
     @ViewById(R.id.chkHoaVang)
     protected CheckBox mChkHoaVang;
+    @ViewById(R.id.chkIronTheClothes)
+    protected CheckBox mChkIronTheClothes;
 
     @ViewById(R.id.progressBarSave)
     protected ProgressBar mProgressBarSave;
@@ -128,6 +130,9 @@ public class SettingFragment extends BaseFragment {
         if (mChkPaintHouse.isChecked()) {
             stringBuilder.append("5");
         }
+        if (mChkIronTheClothes.isChecked()) {
+            stringBuilder.append("6");
+        }
         return stringBuilder.toString();
     }
 
@@ -177,6 +182,9 @@ public class SettingFragment extends BaseFragment {
                     break;
                 case 5:
                     mChkPaintHouse.setChecked(true);
+                    break;
+                case 6:
+                    mChkIronTheClothes.setChecked(true);
                     break;
             }
         }
