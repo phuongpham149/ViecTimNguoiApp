@@ -3,7 +3,6 @@ package com.example.phuong.viectimnguoiapp.fragments;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +46,9 @@ public class JobsPingFragment extends BaseFragment {
     private DatabaseReference mFirebaseUser;
     private JobsPingAdapter mAdapter;
     private RealmHelper mData;
+
+    private List<StringBuilder> mURLs = new ArrayList<>();
+    private int i = 0;
 
     @Override
     void inits() {
@@ -96,7 +98,6 @@ public class JobsPingFragment extends BaseFragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     HashMap<String, Object> data = (HashMap<String, Object>) d.getValue();
-                    Log.d(TAG, "onDataChange: " + data);
                     HistoryPing historyPing = new HistoryPing();
                     historyPing.setIdPost(data.get("idPost").toString());
                     historyPing.setPrice(data.get("price").toString());
@@ -122,7 +123,7 @@ public class JobsPingFragment extends BaseFragment {
                     HashMap<String, Object> map = (HashMap<String, Object>) subSnapshot.getValue();
                     for (HistoryPing historyPing : mHistoryPings) {
                         if (historyPing.getIdPost().equals(map.get("id").toString())) {
-                            historyPing.setTitlePost(mData.getCategoryJobItem(map.get("idCat").toString()).first().getName());
+                            historyPing.setTitlePost(mData.getCategoryJobItem(map.get("idCat").toString()).getName());
                             historyPing.setTimeDeadline(map.get("timeDeadline").toString());
                             historyPing.setUserOwner(map.get("idUser").toString());
                             historyPing.setNote(map.get("note").toString());
@@ -133,6 +134,7 @@ public class JobsPingFragment extends BaseFragment {
                     }
                     getNameOwner();
                 }
+                getContactByOwner();
             }
 
             @Override
@@ -140,6 +142,32 @@ public class JobsPingFragment extends BaseFragment {
 
             }
         });
+
+
+    }
+
+    public void getContactByOwner() {
+        DatabaseReference ping;
+        getListURL(mHistoryPings);
+        for (; i < mHistoryPings.size(); i++) {
+            ping = FirebaseDatabase.getInstance().getReference(mURLs.get(i).toString());
+            final int position = i;
+            ping.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if (dataSnapshot != null) {
+                        HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+                        mHistoryPings.get(position).setChoice(map.get("choice").toString());
+                        mHistoryPings.get(position).setConfirm(map.get("confirm").toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
+        }
     }
 
     public void getNameOwner() {
@@ -163,6 +191,18 @@ public class JobsPingFragment extends BaseFragment {
             }
 
         });
+    }
+
+    public void getListURL(List<HistoryPing> historyPings) {
+        for (HistoryPing historyPing : historyPings) {
+            StringBuilder url = new StringBuilder("/pings/");
+            url.append(historyPing.getUserOwner());
+            url.append("/");
+            url.append(historyPing.getIdPost());
+            url.append("/");
+            url.append(FirebaseAuth.getInstance().getCurrentUser().getUid());
+            mURLs.add(url);
+        }
     }
 
 

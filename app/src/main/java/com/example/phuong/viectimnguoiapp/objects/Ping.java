@@ -14,4 +14,5 @@ public class Ping {
     private String idPost;
     private String choice;
     private String report;
+    private String confirm;
 }
