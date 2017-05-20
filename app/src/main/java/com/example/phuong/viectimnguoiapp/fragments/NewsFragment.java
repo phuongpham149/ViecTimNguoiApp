@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -112,7 +111,6 @@ public class NewsFragment extends BaseFragment {
         mSettingJobs = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
         mSettingAddress = SharedPreferencesUtils.getInstance().getSettingAddress(getContext());
 
-        Log.d("tag1", mSettingJobs + " b " + mSettingAddress);
         mData = new RealmHelper(getActivity());
         if (Network.checkNetWork(getActivity())) {
             mFirebase.addValueEventListener(new ValueEventListener() {
