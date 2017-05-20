@@ -19,6 +19,7 @@ import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MyJobFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.NewsFragment_;
+import com.example.phuong.viectimnguoiapp.fragments.NotifyReportFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.PostSavedFrament_;
 import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.UpdateInformationFragment_;
@@ -161,6 +162,7 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         mItems.add(new MenuItem(R.drawable.ic_save, "Việc làm đã lưu"));
         mItems.add(new MenuItem(R.drawable.ic_note, "Việc đã tương tác"));
         mItems.add(new MenuItem(R.drawable.ic_settings, "Cài đặt"));
+        mItems.add(new MenuItem(R.drawable.report, "Thông báo vi phạm"));
         mItems.add(new MenuItem(R.drawable.ic_exit, "Đăng xuất"));
         mItems.add(new Integer(1));
     }
@@ -208,6 +210,11 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case 9:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NotifyReportFragment_.builder().build()).commit();
+                setTitleToolbar("Thông báo vi phạm");
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                break;
+            case 10:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, NewsFragment_.builder().isLogout(true).build()).commit();
                 setTitleToolbar("Bảng tin");
                 mDrawerLayout.closeDrawer(GravityCompat.START);
