@@ -12,12 +12,12 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.HistoryPingDetailActivity_;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
+import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -106,7 +106,7 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
                 //cong diem
                 getKeyUser(historyPing.getIdUser());
                 getKeyUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                Toast.makeText(mContext, "Bạn vừa xác nhận một giao dịch việc làm", Toast.LENGTH_SHORT).show();
+                Common.createDialog(mContext, "Xác nhận việc làm thành công");
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {
