@@ -12,7 +12,7 @@
     <color name="bg_selected">#DEDEDE</color>
     <color name="bg_default">#FFFFFF</color>
 
-    <!-- login -->
+    <!-- activity_login -->
     <color name="textview.text.title.login">#303F9F</color>
     <color name="textview.text.title.register">#303F9F</color>
 
@@ -30,4 +30,10 @@
     <color name="ll_item_separator">#85caea</color>
     <color name="textview_Register_in_Login">#303F9F</color>
     <color name="view_background_separate">#DEDEDE</color>
+
+    <color name="color_google_gray">#3367d5</color>
+    <color name="color_facebook_gray">#2e4678</color>
+    <color name="white_select">#05000000</color>
+    <color name="color_facebook">#3b5998</color>
+    <color name="color_google">#4284f3</color>
 </resources>

@@ -12,7 +12,7 @@ import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
-import com.example.phuong.viectimnguoiapp.activities.LoginActivity1_;
+import com.example.phuong.viectimnguoiapp.activities.LoginActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
@@ -91,7 +91,7 @@ public class NewsFragment extends BaseFragment {
                 SharedPreferencesUtils.getInstance().deleteAll(getContext());
                 FirebaseAuth.getInstance().signOut();
                 logoutFacebook();
-                LoginActivity1_.intent(getActivity()).start();
+                LoginActivity_.intent(getActivity()).start();
             }
         });
         btnCancel.setOnClickListener(new View.OnClickListener() {

@@ -50,10 +50,10 @@ import java.util.Map;
 
 /**
  * Copyright@ AsianTech.Inc
- * Created by ly.ho on 21/02/2017.
+ * Created by phuong on 21/02/2017.
  */
-@EActivity(R.layout.activity_login_2)
-public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener {
+@EActivity(R.layout.activity_login)
+public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener, FirebaseAuth.AuthStateListener {
     private static final String[] PERMISSION_FB = {"email", "public_profile", "user_posts"};
     private static final int RC_SIGN_IN = 1;
     private CallbackManager mCallbackManager;
@@ -69,7 +69,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             //luu share
             SharedPreferencesUtils.getInstance().setUserLogin(getApplicationContext());
 
-            MainActivity_.intent(LoginActivity1.this).start();
+            MainActivity_.intent(LoginActivity.this).start();
             finish();
         } else {
             mFireBaseAuth.addAuthStateListener(this);
@@ -85,7 +85,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
             public void onDataChange(DataSnapshot dataSnapshot) {
                 HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
                 if (map != null) {
-                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity1.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
+                    SharedPreferencesUtils.getInstance().setSetting(LoginActivity.this, map.get("jobSetting").toString(), map.get("addressSetting").toString());
                 }
             }
 
@@ -247,7 +247,7 @@ public class LoginActivity1 extends AppCompatActivity implements GoogleApiClient
         FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
         if (firebaseUser != null) {
             requestLogOutGoogle();
-            MainActivity_.intent(LoginActivity1.this).start();
+            MainActivity_.intent(LoginActivity.this).start();
             getUserInfor();
             getSetting();
             getDataCategoryJob();

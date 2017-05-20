@@ -1,112 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@android:color/white"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/ll_login_margin"
-        android:layout_marginRight="@dimen/ll_login_margin"
-        android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageView
-                android:layout_width="180dp"
-                android:id="@+id/imgLogo"
-                android:layout_height="150dp"
-                android:src="@drawable/logo"
-                android:layout_marginTop="10dp"
-                android:layout_centerHorizontal="true"
-                />
-            <ProgressBar
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:visibility="gone"
-                android:layout_marginTop="10dp"
-                android:id="@+id/pbLoading"
-                android:layout_toRightOf="@id/imgLogo"
-                android:layout_height="wrap_content" />
-        </RelativeLayout>
+        android:layout_gravity="center"
+        android:layout_marginEnd="15dp"
+        android:layout_marginStart="15dp">
+
+        <ImageView
+            android:id="@+id/imgLogo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_centerHorizontal="true"
+            android:src="@drawable/ic_work_logo" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/textview_text_username_margin_top"
-            android:text="@string/textview_login_username"
-            android:textSize="@dimen/textview_text_username_size"
-            android:textColor="@color/textview_login" />
-
-        <EditText
-            android:id="@+id/edtUsername"
+            android:id="@+id/tvTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edt_username_margin_top"
-            android:padding="@dimen/edt_username_padding" />
+            android:layout_below="@id/imgLogo"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="việc tìm người - người tìm việc"
+            android:textColor="@color/colorPrimary"
+            android:textSize="20dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/textview_text_password_margin_top"
-            android:text="@string/textview_password"
-            android:textSize="@dimen/textview_text_username_size"
-             />
-
-        <EditText
-            android:id="@+id/edtPassword"
+        <LinearLayout
+            android:id="@+id/llButtonLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/edt_password_margin_top"
-            android:inputType="textPassword"
-            android:padding="@dimen/edt_password_padding" />
+            android:layout_below="@+id/tvTitle"
+            android:layout_marginTop="50dp"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnLogin"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/btn_login_height"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/btn_login_margin_top"
-            android:background="#4CAF50"
-            android:text="@string/btn_login"
-            android:textColor="@android:color/white"
-            android:textSize="@dimen/btn_login_text" />
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp"
-            android:layout_gravity="center_horizontal"
-            >
-            <TextView
-                android:layout_width="wrap_content"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/imgGoogle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_google_gray"
+                    android:padding="5dp"
+                    android:src="@drawable/img_google" />
+
+                <TextView
+                    android:id="@+id/btnLoginGg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/imgGoogle"
+                    android:layout_alignTop="@+id/imgGoogle"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgGoogle"
+                    android:background="@drawable/selector_bg_google"
+                    android:gravity="center"
+                    android:text="@string/activity_login.button.text.google"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Bạn chưa có tài khoản."
-                android:textSize="20sp"
-                android:id="@+id/tvYoudontAccount"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=" Đăng Ký"
-                android:textSize="20sp"
-                android:id="@+id/tvRegister"
-                android:layout_toRightOf="@+id/tvYoudontAccount"
-                android:textColor="@android:color/holo_red_light"
-                />
-        </RelativeLayout>
+                android:layout_marginTop="10dp">
 
-        <TextView
-            android:id="@+id/tvLoginFaceBook"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/btn_login_fb_text"
-            android:paddingLeft="@dimen/btn_login_fb_padding_left"
-            android:paddingRight="10dp"
-            android:textSize="20sp" />
+                <ImageView
+                    android:id="@+id/imgFacebook"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/color_facebook_gray"
+                    android:padding="5dp"
+                    android:src="@drawable/img_facebook" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/btnLoginFb"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/imgFacebook"
+                    android:layout_alignTop="@+id/imgFacebook"
+                    android:layout_centerVertical="true"
+                    android:layout_toRightOf="@+id/imgFacebook"
+                    android:background="@drawable/selector_bg_facebook"
+                    android:gravity="center"
+                    android:text="@string/activity_login.button.text.facebook"
+                    android:textAllCaps="false"
+                    android:textColor="@android:color/white"
+                    android:textSize="16dp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </RelativeLayout>
 </ScrollView>
