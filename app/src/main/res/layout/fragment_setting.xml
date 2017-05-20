@@ -96,10 +96,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/chkFixWaterPipe"
-                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="@dimen/ll_login_margin"
                 android:layout_marginTop="@dimen/textview_text_setting_margin_top"
                 android:text="@string/textview_text_paint_house" />
+
+            <CheckBox
+                android:id="@+id/chkIronTheClothes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/chkPaintHouse"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="@dimen/ll_login_margin"
+                android:layout_marginTop="@dimen/textview_text_setting_margin_top"
+                android:text="@string/textview_text_iron_the_clothes" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -226,65 +235,19 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/imgDownSetting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:src="@drawable/ic_down" />
+                android:id="@+id/swNotification"
+                android:padding="10dp"
+                />
+        </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/imgUpSetting"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignParentRight="true"
-                android:src="@drawable/ic_up"
-                android:visibility="gone" />
-        </RelativeLayout>
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:background="@drawable/bg_btn_contact"
-            android:layout_below="@+id/llNotification"
-            android:layout_marginTop="10dp"
-            android:id="@+id/rlSettingNotification"
-            android:layout_height="wrap_content">
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/tvJobSetting"
-                android:text="Công việc"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content" />
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:id="@+id/swJobNotification"
-                android:padding="10dp"
-                />
-            <TextView
-                android:layout_width="wrap_content"
-                android:id="@+id/tvMemberSetting"
-                android:text="Người quen"
-                android:textSize="18sp"
-                android:layout_marginLeft="10dp"
-                android:layout_below="@+id/swJobNotification"
-                android:layout_marginTop="10dp"
-                android:layout_height="wrap_content" />
-            <Switch
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:padding="10dp"
-                android:layout_below="@+id/swJobNotification"
-                android:layout_marginBottom="10dp"
-                />
-        </RelativeLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/rlSettingNotification"
+            android:layout_below="@+id/llNotification"
             android:text="Lưu"
             android:layout_marginTop="20dp"
             android:textColor="@android:color/white"
