@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -16,6 +17,7 @@ import com.example.phuong.viectimnguoiapp.activities.LoginActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
+import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Network;
 import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
 import com.facebook.AccessToken;
@@ -34,6 +36,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.FragmentArg;
 import org.androidannotations.annotations.ViewById;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -107,7 +110,9 @@ public class NewsFragment extends BaseFragment {
 
     public void initsData() {
         mSettingJobs = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
-        mSettingAddress = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
+        mSettingAddress = SharedPreferencesUtils.getInstance().getSettingAddress(getContext());
+
+        Log.d("tag1", mSettingJobs + " b " + mSettingAddress);
         mData = new RealmHelper(getActivity());
         if (Network.checkNetWork(getActivity())) {
             mFirebase.addValueEventListener(new ValueEventListener() {
@@ -115,36 +120,50 @@ public class NewsFragment extends BaseFragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (TextUtils.isEmpty(mSettingJobs) && TextUtils.isEmpty(mSettingAddress)) {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
+
                             NewItem newItem;
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
-                            newItem = new NewItem();
-                            newItem.setId(data.get("id").toString());
-                            newItem.setIdUser(data.get("idUser").toString());
-                            newItem.setIdCat(data.get("idCat").toString());
-                            newItem.setIdDistrict(data.get("idDistrict").toString());
-                            newItem.setAddress(data.get("address").toString());
-                            newItem.setTimeDeadline(data.get("timeDeadline").toString());
-                            newItem.setTimeCreated(data.get("timeCreated").toString());
-                            newItem.setNote(data.get("note").toString());
-                            mData.addNew(newItem);
-                            mNews.add(newItem);
+                            try {
+                                if (Common.compareDate(data.get("timeDeadline").toString())) {
+                                    newItem = new NewItem();
+                                    newItem.setId(data.get("id").toString());
+                                    newItem.setIdUser(data.get("idUser").toString());
+                                    newItem.setIdCat(data.get("idCat").toString());
+                                    newItem.setIdDistrict(data.get("idDistrict").toString());
+                                    newItem.setAddress(data.get("address").toString());
+                                    newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                    newItem.setTimeCreated(data.get("timeCreated").toString());
+                                    newItem.setNote(data.get("note").toString());
+                                    mData.addNew(newItem);
+                                    mNews.add(newItem);
+                                }
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                     if ((TextUtils.isEmpty(mSettingJobs) && !TextUtils.isEmpty(mSettingAddress))) {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
                             if (mSettingAddress.contains(data.get("idDistrict").toString())) {
-                                NewItem newItem = new NewItem();
-                                newItem.setId(data.get("id").toString());
-                                newItem.setIdUser(data.get("idUser").toString());
-                                newItem.setIdCat(data.get("idCat").toString());
-                                newItem.setIdDistrict(data.get("idDistrict").toString());
-                                newItem.setAddress(data.get("address").toString());
-                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
-                                newItem.setTimeCreated(data.get("timeCreated").toString());
-                                newItem.setNote(data.get("note").toString());
-                                mData.addNew(newItem);
-                                mNews.add(newItem);
+                                NewItem newItem;
+                                try {
+                                    if (Common.compareDate(data.get("timeDeadline").toString())) {
+                                        newItem = new NewItem();
+                                        newItem.setId(data.get("id").toString());
+                                        newItem.setIdUser(data.get("idUser").toString());
+                                        newItem.setIdCat(data.get("idCat").toString());
+                                        newItem.setIdDistrict(data.get("idDistrict").toString());
+                                        newItem.setAddress(data.get("address").toString());
+                                        newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                        newItem.setTimeCreated(data.get("timeCreated").toString());
+                                        newItem.setNote(data.get("note").toString());
+                                        mData.addNew(newItem);
+                                        mNews.add(newItem);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -152,17 +171,24 @@ public class NewsFragment extends BaseFragment {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
                             if (mSettingJobs.contains(data.get("idCat").toString())) {
-                                NewItem newItem = new NewItem();
-                                newItem.setId(data.get("id").toString());
-                                newItem.setIdUser(data.get("idUser").toString());
-                                newItem.setIdCat(data.get("idCat").toString());
-                                newItem.setIdDistrict(data.get("idDistrict").toString());
-                                newItem.setAddress(data.get("address").toString());
-                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
-                                newItem.setTimeCreated(data.get("timeCreated").toString());
-                                newItem.setNote(data.get("note").toString());
-                                mData.addNew(newItem);
-                                mNews.add(newItem);
+                                NewItem newItem;
+                                try {
+                                    if (Common.compareDate(data.get("timeDeadline").toString())) {
+                                        newItem = new NewItem();
+                                        newItem.setId(data.get("id").toString());
+                                        newItem.setIdUser(data.get("idUser").toString());
+                                        newItem.setIdCat(data.get("idCat").toString());
+                                        newItem.setIdDistrict(data.get("idDistrict").toString());
+                                        newItem.setAddress(data.get("address").toString());
+                                        newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                        newItem.setTimeCreated(data.get("timeCreated").toString());
+                                        newItem.setNote(data.get("note").toString());
+                                        mData.addNew(newItem);
+                                        mNews.add(newItem);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
@@ -170,17 +196,24 @@ public class NewsFragment extends BaseFragment {
                         for (DataSnapshot obj : dataSnapshot.getChildren()) {
                             HashMap<String, Object> data = (HashMap<String, Object>) obj.getValue();
                             if (mSettingAddress.contains(data.get("idDistrict").toString()) && mSettingJobs.contains(data.get("idCat").toString())) {
-                                NewItem newItem = new NewItem();
-                                newItem.setId(data.get("id").toString());
-                                newItem.setIdUser(data.get("idUser").toString());
-                                newItem.setIdCat(data.get("idCat").toString());
-                                newItem.setIdDistrict(data.get("idDistrict").toString());
-                                newItem.setAddress(data.get("address").toString());
-                                newItem.setTimeDeadline(data.get("timeDeadline").toString());
-                                newItem.setTimeCreated(data.get("timeCreated").toString());
-                                newItem.setNote(data.get("note").toString());
-                                mData.addNew(newItem);
-                                mNews.add(newItem);
+                                NewItem newItem;
+                                try {
+                                    if (Common.compareDate(data.get("timeDeadline").toString())) {
+                                        newItem = new NewItem();
+                                        newItem.setId(data.get("id").toString());
+                                        newItem.setIdUser(data.get("idUser").toString());
+                                        newItem.setIdCat(data.get("idCat").toString());
+                                        newItem.setIdDistrict(data.get("idDistrict").toString());
+                                        newItem.setAddress(data.get("address").toString());
+                                        newItem.setTimeDeadline(data.get("timeDeadline").toString());
+                                        newItem.setTimeCreated(data.get("timeCreated").toString());
+                                        newItem.setNote(data.get("note").toString());
+                                        mData.addNew(newItem);
+                                        mNews.add(newItem);
+                                    }
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
                     }
