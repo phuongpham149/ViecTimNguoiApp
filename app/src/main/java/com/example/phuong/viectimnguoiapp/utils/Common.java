@@ -77,7 +77,7 @@ public class Common {
     public static boolean compareDate(String dateCompare) throws ParseException {
         SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
         String mCurrentDate = format.format(new Date());
-        if (dateCompare.compareTo(mCurrentDate) <= 0) {
+        if (dateCompare.compareTo(mCurrentDate) > 0) {
             return true;
         }
         return false;
