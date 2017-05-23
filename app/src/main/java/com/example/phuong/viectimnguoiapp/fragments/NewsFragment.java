@@ -5,17 +5,20 @@ import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
 import com.example.phuong.viectimnguoiapp.activities.LoginActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
+import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Network;
@@ -45,11 +48,13 @@ import java.util.List;
  * Created by phuong on 21/02/2017.
  */
 @EFragment(R.layout.fragment_news)
-public class NewsFragment extends BaseFragment {
+public class NewsFragment extends BaseFragment implements AdapterView.OnItemSelectedListener {
     @ViewById(R.id.recyclerViewNews)
     RecyclerView mRecyclerViewNews;
     @ViewById(R.id.progressBarLoadingNews)
     ProgressBar mProgressBarLoadingNews;
+    @ViewById(R.id.spCategory)
+    Spinner mSpCategory;
     @FragmentArg
     public boolean isLogout = false;
 
@@ -61,13 +66,32 @@ public class NewsFragment extends BaseFragment {
     private String mSettingAddress;
     private RealmHelper mData;
 
+    private List<String> categoryJobs;
     @Override
     void inits() {
         if (isLogout) {
             showDialogLogout();
         } else {
             getDataNews();
+            viewDataSpinner();
         }
+    }
+
+    public void viewDataSpinner(){
+        categoryJobs = new ArrayList<>();
+        categoryJobs.add("Tất cả");
+        String settingJob = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
+        char[] jobs = settingJob.toCharArray();
+        for(char c : jobs){
+            CategoryJob categoryJob = new CategoryJob();
+            categoryJob.setName(mData.getCategoryJobItem(String.valueOf(c)).getName());
+            categoryJobs.add(categoryJob.getName());
+        }
+        ArrayAdapter<String> mAdapterCatJob;mAdapterCatJob = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, categoryJobs);
+        mAdapterCatJob.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpCategory.setAdapter(mAdapterCatJob);
+        mSpCategory.setSelection(0);
+        mSpCategory.setOnItemSelectedListener(this);
     }
 
     public void getDataNews() {
@@ -112,7 +136,6 @@ public class NewsFragment extends BaseFragment {
         mSettingJobs = SharedPreferencesUtils.getInstance().getSettingJob(getContext());
         mSettingAddress = SharedPreferencesUtils.getInstance().getSettingAddress(getContext());
 
-        Log.d("tag1", mSettingJobs + " b " + mSettingAddress);
         mData = new RealmHelper(getActivity());
         if (Network.checkNetWork(getActivity())) {
             mFirebase.addValueEventListener(new ValueEventListener() {
@@ -226,7 +249,6 @@ public class NewsFragment extends BaseFragment {
                 }
             });
         } else
-
         {
             mNews = mData.getNews();
         }
@@ -263,5 +285,37 @@ public class NewsFragment extends BaseFragment {
                 LoginManager.getInstance().logOut();
             }
         }).executeAsync();
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        List<NewItem> newItems = new ArrayList<>();
+        if(i == 0){
+            newItems = mNews;
+        }
+        else{
+            for(NewItem newItem : mNews){
+                if(mData.getCategoryJobItem(newItem.getIdCat()).getName().equals(categoryJobs.get(i))){
+                    newItems.add(newItem);
+                }
+            }
+        }
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        mRecyclerViewNews.setLayoutManager(layoutManager);
+        final List<NewItem> finalNewItems = newItems;
+        mAdapter = new NewsAdapter(newItems, getContext(), new NewsAdapter.onItemClickListener() {
+            @Override
+            public void itemClickListener(int position) {
+                DetailNewActivity_.intent(getActivity()).mId(finalNewItems.get(position).getId()).start();
+                getActivity().overridePendingTransition(R.anim.anim_slide_bottom_top, R.anim.anim_nothing);
+            }
+        });
+        mRecyclerViewNews.setAdapter(mAdapter);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
     }
 }

@@ -3,15 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+
+    <Spinner
+        android:id="@+id/spCategory"
+        android:background="@drawable/bg_btn_contact"
+        android:layout_width="match_parent"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/spinner.district.margin.left"
+        android:layout_marginRight="@dimen/spinner.district.margin.left"
+        android:layout_marginTop="@dimen/textview.text.job.margin.top"></Spinner>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerViewNews"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_marginTop="10dp"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/spCategory"></android.support.v7.widget.RecyclerView>
+
     <ProgressBar
+        android:id="@+id/progressBarLoadingNews"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:id="@+id/progressBarLoadingNews"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </RelativeLayout>
