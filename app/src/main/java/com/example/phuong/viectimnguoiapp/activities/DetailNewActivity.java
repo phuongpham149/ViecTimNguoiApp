@@ -45,6 +45,7 @@ import java.util.Map;
  */
 @EActivity(R.layout.activity_detail_new)
 public class DetailNewActivity extends BaseActivity {
+    public static final String NEW_ITEM = "new-item";
     @Extra
     protected String mId = "";
 
@@ -114,8 +115,11 @@ public class DetailNewActivity extends BaseActivity {
     @Override
     void inits() {
         mData = new RealmHelper(DetailNewActivity.this);
-        mNew = mData.getItemNew(mId).first();
-
+        if (getIntent().hasExtra(NEW_ITEM)) {
+            mNew = (NewItem) getIntent().getSerializableExtra(NEW_ITEM);
+        } else {
+            mNew = mData.getItemNew(mId).first();
+        }
         mTvTitleToolbar = (TextView) mToolbarDetail.findViewById(R.id.tvtitleToolbar);
         mProgressBarLoading = (ProgressBar) mToolbarDetail.findViewById(R.id.prograssBarLoading);
         mImgSave = (ImageView) mToolbarDetail.findViewById(R.id.imgSave);

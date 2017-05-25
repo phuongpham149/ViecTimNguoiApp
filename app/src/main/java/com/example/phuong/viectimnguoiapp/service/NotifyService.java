@@ -10,18 +10,14 @@ import android.net.Uri;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
-import android.text.TextUtils;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.activities.MainActivity;
+import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity;
+import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
-import com.example.phuong.viectimnguoiapp.fragments.ListUserPingByNew;
-import com.example.phuong.viectimnguoiapp.fragments.ListUserPingByNew_;
 import com.example.phuong.viectimnguoiapp.objects.CategoryJob;
 import com.example.phuong.viectimnguoiapp.objects.District;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
-import com.example.phuong.viectimnguoiapp.utils.Network;
-import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
 import com.example.phuong.viectimnguoiapp.utils.SubscribeSettingHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -30,7 +26,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -103,15 +98,26 @@ public class NotifyService extends Service implements ChildEventListener {
                 message += " tại " + district.getName();
 
             prepareData(map);
-            sendNotification(message);
+
+            NewItem newItem = new NewItem();
+            newItem.setId(map.get("id").toString());
+            newItem.setIdUser(map.get("idUser").toString());
+            newItem.setIdCat(map.get("idCat").toString());
+            newItem.setIdDistrict(map.get("idDistrict").toString());
+            newItem.setAddress(map.get("address").toString());
+            newItem.setTimeDeadline(map.get("timeDeadline").toString());
+            newItem.setTimeCreated(map.get("timeCreated").toString());
+            newItem.setNote(map.get("note").toString());
+
+            sendNotification(message, newItem);
         }
     }
 
-    private void sendNotification(String messageBody) {
-        Intent intent = new Intent(this, MainActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
-                PendingIntent.FLAG_ONE_SHOT);
+    private void sendNotification(String messageBody, NewItem newItem) {
+        Intent intent = new Intent(this, DetailNewActivity_.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(DetailNewActivity.NEW_ITEM, newItem);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_CANCEL_CURRENT);
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
@@ -122,8 +128,7 @@ public class NotifyService extends Service implements ChildEventListener {
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
 
-        NotificationManager notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }

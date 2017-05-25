@@ -18,8 +18,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity
-            android:name=".activities.SplashActivity_">
+        <activity android:name=".activities.SplashActivity_">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -28,12 +27,15 @@
         </activity>
         <activity android:name=".activities.LoginActivity_" />
         <activity android:name=".activities.MainActivity_" />
-        <activity android:name=".activities.DetailNewActivity_" />
+        <activity
+            android:name="com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_"
+            android:exported="true" />
         <activity android:name=".activities.SendMessageActivity_" />
         <activity android:name=".activities.ProfileUserActivity_" />
         <activity android:name=".activities.HistoryPingDetailActivity_" />
-        <activity android:name=".activities.HistoryListUserPingActivity_"/>
-        <service android:name=".service.NotifyService"/>
+        <activity android:name=".activities.HistoryListUserPingActivity_" />
+
+        <service android:name=".service.NotifyService" />
     </application>
 
 </manifest>

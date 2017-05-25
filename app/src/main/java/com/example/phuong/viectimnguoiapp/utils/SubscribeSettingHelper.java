@@ -45,6 +45,7 @@ public final class SubscribeSettingHelper {
         subscribeSetting.setEnable(false);
         subscribeSetting.setCategoryJobs(categoryJobElements);
         subscribeSetting.setDistricts(districtElements);
+        subscribeSetting.setEnable(SharedPreferencesUtils.getInstance().getEnableSubscribeSetting(context));
     }
 
     public void updateSetting(Context context) {

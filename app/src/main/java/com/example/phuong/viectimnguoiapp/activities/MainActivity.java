@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         initActionbar();
         initMenu();
         initMain();
+        SubscribeSettingHelper.getInstance().initialize(this);
+        SubscribeSettingHelper.getInstance().updateSetting(this);
         startService(new Intent(this, NotifyService.class));
     }
 
