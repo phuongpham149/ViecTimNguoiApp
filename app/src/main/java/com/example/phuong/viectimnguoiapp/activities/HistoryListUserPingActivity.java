@@ -1,13 +1,12 @@
-package com.example.phuong.viectimnguoiapp.fragments;
+package com.example.phuong.viectimnguoiapp.activities;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.adapters.PingJobAdapter;
+import com.example.phuong.viectimnguoiapp.adapters.HistoryPingJobAdapter;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -16,8 +15,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import java.util.ArrayList;
@@ -25,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by asiantech on 27/04/2017.
+ * Created by asiantech on 23/05/2017.
  */
-@EFragment(R.layout.fragment_list_user_ping_by_new)
-public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.onItemClickListener {
-    @FragmentArg
+@EActivity(R.layout.fragment_list_user_ping_by_new)
+public class HistoryListUserPingActivity extends BaseActivity {
+    @Extra
     String idPost;
 
     @ViewById(R.id.recyclerViewUserPing)
@@ -40,15 +39,14 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
 
     private static final String TAG = "ListUserPingByNew";
 
-    private PingJobAdapter mAdapter;
+    private HistoryPingJobAdapter mAdapter;
     private List<Ping> mPings;
-
     @Override
     void inits() {
         mProgressBarLoading.setVisibility(View.VISIBLE);
         getDataPing();
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
-        mAdapter = new PingJobAdapter(mPings, getContext(), this);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
+        mAdapter = new HistoryPingJobAdapter(mPings, this);
         mRecyclerViewJobPings.setLayoutManager(layoutManager);
         mRecyclerViewJobPings.setAdapter(mAdapter);
     }
@@ -64,7 +62,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String idPost = dataSnapshot.getKey();
-                Log.d("tag13","idPost "+idPost);
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
                     Ping ping = new Ping();
@@ -75,7 +72,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
                     ping.setIdUser(data.getKey());
                     ping.setChoice(map.get("choice").toString());
                     ping.setReport(map.get("report").toString());
-                    ping.setConfirm(map.get("confirm").toString());
                     mPings.add(ping);
                 }
                 mAdapter.notifyDataSetChanged();
@@ -83,11 +79,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
             }
 
         });
-
-    }
-
-    @Override
-    public void itemClickListener(int position) {
 
     }
 }

@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.SendMessageActivity_;
@@ -36,6 +37,8 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
     RecyclerView mRecyclerViewContact;
     @ViewById(R.id.prograssBarLoading)
     ProgressBar mProgressBarLoading;
+    @ViewById(R.id.tvNotifyNoData)
+    TextView mTvNotify;
 
     private List<UserChat> mUserChat = new ArrayList<>();
     private SendMessageAdapter mAdapter;
@@ -126,6 +129,9 @@ public class MessageFragment extends BaseFragment implements SendMessageAdapter.
                     mData.addUserChat(userChat);
                 }
                 mAdapter.notifyDataSetChanged();
+                if(mUserChat.size()==0){
+                    mTvNotify.setVisibility(View.VISIBLE);
+                }
                 mProgressBarLoading.setVisibility(View.GONE);
             }
 

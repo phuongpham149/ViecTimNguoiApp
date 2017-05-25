@@ -7,6 +7,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.activities.HistoryListUserPingActivity_;
 import com.example.phuong.viectimnguoiapp.adapters.NewsAdapter;
 import com.example.phuong.viectimnguoiapp.objects.NewItem;
 import com.example.phuong.viectimnguoiapp.utils.Common;
@@ -26,11 +27,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by asiantech on 26/04/2017.
+ * Created by asiantech on 23/05/2017.
  */
 @EFragment(R.layout.fragment_my_job)
-public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemClickListener {
-    private static final String TAG = MyJobFragment.class.getSimpleName();
+public class HistoryPostFragment extends BaseFragment implements NewsAdapter.onItemClickListener{
     @ViewById(R.id.recyclerViewMyJob)
     protected RecyclerView mRecyclerViewMyJob;
     @ViewById(R.id.prograssBarLoading)
@@ -89,7 +89,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
                     HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
                     if (idUser.equals(map.get("idUser").toString())) {
                         try {
-                            if (Common.compareDate(map.get("timeDeadline").toString())) {
+                            if (!Common.compareDate(map.get("timeDeadline").toString())) {
                                 newItem = new NewItem();
                                 newItem.setId(map.get("id").toString());
                                 newItem.setIdUser(map.get("idUser").toString());
@@ -138,7 +138,7 @@ public class MyJobFragment extends BaseFragment implements NewsAdapter.onItemCli
         if (isPostUser) {
             for (String id : mNewContact) {
                 if (mNewItems.get(position).getId().equals(id)) {
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.frMainContainer, ListUserPingByNew_.builder().idPost(mNewItems.get(position).getId()).build()).commit();
+                    HistoryListUserPingActivity_.intent(this).idPost(mNewItems.get(position).getId()).start();
                     return;
                 }
             }
