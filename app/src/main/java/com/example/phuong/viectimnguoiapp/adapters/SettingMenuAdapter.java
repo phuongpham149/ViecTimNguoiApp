@@ -10,6 +10,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
@@ -65,6 +67,10 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
                ///* String username = userLogin.getString(Constant.NA*/ME_USER_LOGIN, ""s);
                 HeaderHolder mHeader = (HeaderHolder) holder;
                 mHeader.mTvUsername.setText(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+                Glide.with(mContext).load(FirebaseAuth.getInstance().getCurrentUser().getPhotoUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.RESULT)
+                        .skipMemoryCache(true)
+                        .into(mHeader.mImgAvarta);
                 break;
             case MENU_ITEM_INFORMATION:
                 MenuItem menuItem = (MenuItem) mItems.get(position);
@@ -103,10 +109,12 @@ public class SettingMenuAdapter extends RecyclerView.Adapter {
 
     public class HeaderHolder extends RecyclerView.ViewHolder {
         TextView mTvUsername;
+        ImageView mImgAvarta;
 
         public HeaderHolder(View itemView) {
             super(itemView);
             mTvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
+            mImgAvarta = (ImageView) itemView.findViewById(R.id.imgLogo);
         }
     }
 

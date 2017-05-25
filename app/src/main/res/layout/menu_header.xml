@@ -10,7 +10,7 @@
     android:paddingRight="@dimen/menu_header_padding_left_right"
     android:paddingTop="@dimen/rl_register_header_height">
 
-    <ImageView
+    <com.example.phuong.viectimnguoiapp.views.CircleImage
         android:id="@+id/imgLogo"
         android:layout_width="80dp"
         android:layout_height="80dp"
