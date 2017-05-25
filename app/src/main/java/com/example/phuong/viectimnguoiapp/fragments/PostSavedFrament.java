@@ -2,6 +2,8 @@ package com.example.phuong.viectimnguoiapp.fragments;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.DetailNewActivity_;
@@ -22,17 +24,27 @@ public class PostSavedFrament extends BaseFragment implements NewSaveAdapter.onI
     private RealmHelper mData;
     @ViewById(R.id.recyclerViewPostSaved)
     protected RecyclerView mRecyclerViewPostSaved;
+    @ViewById(R.id.tvNotifyNoData)
+    TextView mTvNotify;
+
     private NewSaveAdapter mAdapter;
     private List<NewSave> mNewSaves;
 
     @Override
     void inits() {
         mData = new RealmHelper(getActivity());
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+
         mNewSaves = mData.getNewSaves();
-        mAdapter = new NewSaveAdapter(mNewSaves, getActivity(), this);
-        mRecyclerViewPostSaved.setLayoutManager(layoutManager);
-        mRecyclerViewPostSaved.setAdapter(mAdapter);
+
+        if(mNewSaves.size()==0){
+            mTvNotify.setVisibility(View.VISIBLE);
+        }else{
+            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            mAdapter = new NewSaveAdapter(mNewSaves, getActivity(), this);
+            mRecyclerViewPostSaved.setLayoutManager(layoutManager);
+            mRecyclerViewPostSaved.setAdapter(mAdapter);
+        }
+
     }
 
     @Override

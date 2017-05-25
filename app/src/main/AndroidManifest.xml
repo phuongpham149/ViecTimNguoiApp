@@ -32,6 +32,7 @@
         <activity android:name=".activities.SendMessageActivity_" />
         <activity android:name=".activities.ProfileUserActivity_" />
         <activity android:name=".activities.HistoryPingDetailActivity_" />
+        <activity android:name=".activities.HistoryListUserPingActivity_"/>
     </application>
 
 </manifest>

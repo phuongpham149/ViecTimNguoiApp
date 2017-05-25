@@ -3,12 +3,13 @@ package com.example.phuong.viectimnguoiapp.fragments;
 import android.os.Handler;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
-import com.example.phuong.viectimnguoiapp.adapters.JobsPingAdapter;
+import com.example.phuong.viectimnguoiapp.adapters.HistoryPingAdapter;
 import com.example.phuong.viectimnguoiapp.databases.RealmHelper;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
 import com.example.phuong.viectimnguoiapp.utils.Common;
@@ -29,11 +30,10 @@ import java.util.HashMap;
 import java.util.List;
 
 /**
- * Created by asiantech on 27/03/2017.
+ * Created by asiantech on 23/05/2017.
  */
-@EFragment(R.layout.fragment_jobs_ping)
-public class JobsPingFragment extends BaseFragment {
-    private static final String TAG = JobsPingFragment.class.getSimpleName();
+@EFragment(R.layout.fragment_history_ping)
+public class HistoryPingFragment extends BaseFragment {
     @ViewById(R.id.recyclerViewJobsPing)
     RecyclerView mRecyclerViewJobsPing;
     @ViewById(R.id.prograssBarLoading)
@@ -47,7 +47,7 @@ public class JobsPingFragment extends BaseFragment {
 
     private DatabaseReference mFirebasePost;
     private DatabaseReference mFirebaseUser;
-    private JobsPingAdapter mAdapter;
+    private HistoryPingAdapter mAdapter;
     private RealmHelper mData;
 
     private List<StringBuilder> mURLs = new ArrayList<>();
@@ -67,19 +67,21 @@ public class JobsPingFragment extends BaseFragment {
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+
                     //loc
                     for(HistoryPing historyPing : mHistoryPings){
                         try {
-                            if(Common.compareDate(historyPing.getTimeDeadline())){
+                            if(!Common.compareDate(historyPing.getTimeDeadline())){
                                 mHistorys.add(historyPing);
                             }
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                     }
-                    mAdapter = new JobsPingAdapter(mHistorys, getActivity());
+                    mAdapter = new HistoryPingAdapter(mHistorys, getActivity());
                     mRecyclerViewJobsPing.setLayoutManager(layoutManager);
                     mRecyclerViewJobsPing.setAdapter(mAdapter);
+                    Log.d("tag1"," lich su "+mHistorys.toString()+mHistorys.size());
                     if (mHistorys.size() > 0) {
                         for (HistoryPing historyPing : mHistorys) {
                             mData.addHistoryPing(historyPing);
@@ -96,7 +98,7 @@ public class JobsPingFragment extends BaseFragment {
                 mTvNotifyNoData.setVisibility(View.VISIBLE);
                 mProgressBarLoading.setVisibility(View.GONE);
             }
-            mAdapter = new JobsPingAdapter(mHistorys, getActivity());
+            mAdapter = new HistoryPingAdapter(mHistorys, getActivity());
             mRecyclerViewJobsPing.setLayoutManager(layoutManager);
             mRecyclerViewJobsPing.setAdapter(mAdapter);
             mProgressBarLoading.setVisibility(View.GONE);
@@ -172,6 +174,7 @@ public class JobsPingFragment extends BaseFragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null) {
                         HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
+
                         mHistoryPings.get(position).setChoice(map.get("choice").toString());
                         mHistoryPings.get(position).setConfirm(map.get("confirm").toString());
                     }
@@ -220,6 +223,4 @@ public class JobsPingFragment extends BaseFragment {
             mURLs.add(url);
         }
     }
-
-
 }

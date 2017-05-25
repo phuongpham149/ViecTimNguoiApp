@@ -1,7 +1,10 @@
 package com.example.phuong.viectimnguoiapp.adapters;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -61,6 +64,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         return new NewsHolder(view);
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onBindViewHolder(final NewsHolder holder, final int position) {
         final Ping item = pings.get(position);
@@ -74,6 +78,9 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                 mListener.itemClickListener(position);
             }
         });
+        if(item.getConfirm().equals("true")){
+            holder.mRlItem.setBackgroundColor(Color.parseColor("#33377EB0"));
+        }
 
         if (item.getChoice().equals("true")) {
             holder.mChkContact.setChecked(true);
@@ -100,7 +107,12 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                         }
                     }, 2000);
                 } else {
-                    updateChoice(item, "false");
+                    if(item.getConfirm().equals("true")){
+                        Toast.makeText(mContext, "Bạn không thay đổi được xác nhận việc làm.", Toast.LENGTH_SHORT).show();
+                        holder.mChkContact.setChecked(true);
+                    } else{
+                        updateChoice(item, "false");
+                    }
                 }
             }
         });
