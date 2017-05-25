@@ -81,7 +81,6 @@ public class HistoryPingFragment extends BaseFragment {
                     mAdapter = new HistoryPingAdapter(mHistorys, getActivity());
                     mRecyclerViewJobsPing.setLayoutManager(layoutManager);
                     mRecyclerViewJobsPing.setAdapter(mAdapter);
-                    Log.d("tag1"," lich su "+mHistorys.toString()+mHistorys.size());
                     if (mHistorys.size() > 0) {
                         for (HistoryPing historyPing : mHistorys) {
                             mData.addHistoryPing(historyPing);
