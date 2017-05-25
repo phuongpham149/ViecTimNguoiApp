@@ -23,6 +23,7 @@ public class Constant {
 
     public static final int TYPE_WIFI = 1;
     public static final int TYPE_NETWORK = 0;
+    public static final String SETTING_ENABLE = "enable-subscribe";
     public static String WIFI_ENABLE = "Wifi enabled";
     public static String MOBILE_DATA_ENABLE = "Mobile data enabled";
     public static String NO_INTERNET = "Not connected to Internet";

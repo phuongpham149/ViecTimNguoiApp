@@ -1,5 +1,6 @@
 package com.example.phuong.viectimnguoiapp.activities;
 
+import android.content.Intent;
 import android.os.Build;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.adapters.SettingMenuAdapter;
+import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
 import com.example.phuong.viectimnguoiapp.fragments.CreateNewFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.JobsPingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.MessageFragment_;
@@ -23,8 +25,10 @@ import com.example.phuong.viectimnguoiapp.fragments.PostSavedFrament_;
 import com.example.phuong.viectimnguoiapp.fragments.SettingFragment_;
 import com.example.phuong.viectimnguoiapp.fragments.UpdateInformationFragment_;
 import com.example.phuong.viectimnguoiapp.objects.MenuItem;
+import com.example.phuong.viectimnguoiapp.service.NotifyService;
 import com.example.phuong.viectimnguoiapp.utils.ScreenUtil;
 import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
+import com.example.phuong.viectimnguoiapp.utils.SubscribeSettingHelper;
 import com.google.firebase.auth.FirebaseAuth;
 
 import org.androidannotations.annotations.EActivity;
@@ -64,6 +68,7 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
         initActionbar();
         initMenu();
         initMain();
+        startService(new Intent(this, NotifyService.class));
     }
 
     public void initMain() {

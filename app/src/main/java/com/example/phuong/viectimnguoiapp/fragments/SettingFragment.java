@@ -6,13 +6,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.eventBus.BusProvider;
 import com.example.phuong.viectimnguoiapp.eventBus.object.NetWorkState;
 import com.example.phuong.viectimnguoiapp.objects.Setting;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.example.phuong.viectimnguoiapp.utils.Constant;
 import com.example.phuong.viectimnguoiapp.utils.SharedPreferencesUtils;
+import com.example.phuong.viectimnguoiapp.utils.SubscribeSettingHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -73,6 +76,8 @@ public class SettingFragment extends BaseFragment {
     protected CheckBox mChkHoaVang;
     @ViewById(R.id.chkIronTheClothes)
     protected CheckBox mChkIronTheClothes;
+    @ViewById(R.id.swNotification)
+    protected Switch swNotification;
 
     @ViewById(R.id.progressBarSave)
     protected ProgressBar mProgressBarSave;
@@ -84,6 +89,7 @@ public class SettingFragment extends BaseFragment {
     public void saveAction() {
         mProgressBarSave.setVisibility(View.VISIBLE);
         SharedPreferencesUtils.getInstance().setSetting(getContext(), getSettingAddress(), getSettingJob());
+        SharedPreferencesUtils.getInstance().setEnableSubscribeSetting(getContext(), swNotification.isChecked());
         pushDataSetting();
     }
 
@@ -148,6 +154,9 @@ public class SettingFragment extends BaseFragment {
         Setting setting = new Setting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()), SharedPreferencesUtils.getInstance().getSettingAddress(getContext()));
         mFirebaseSetting.child("setting").child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(setting);
         mProgressBarSave.setVisibility(View.GONE);
+
+        SubscribeSettingHelper.getInstance().updateSetting(getContext());
+
         Common.createDialog(getActivity(), "Lưu cài đặt thành công");
     }
 
@@ -157,13 +166,15 @@ public class SettingFragment extends BaseFragment {
         mFirebaseCheckSetting = FirebaseDatabase.getInstance().getReference("/setting/" + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         if ((!SharedPreferencesUtils.getInstance().getSettingJob(getContext()).equals("") || !SharedPreferencesUtils.getInstance().getSettingAddress(getContext()).equals(""))) {
-            setViewSetting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()), SharedPreferencesUtils.getInstance().getSettingAddress(getContext()));
+            setViewSetting(SharedPreferencesUtils.getInstance().getSettingJob(getContext()),
+                    SharedPreferencesUtils.getInstance().getSettingAddress(getContext()),
+                    SharedPreferencesUtils.getInstance().getEnableSubscribeSetting(getContext()));
         } else {
             checkFirebaseForSetting();
         }
     }
 
-    public void setViewSetting(String jobSetting, String addressSetting) {
+    public void setViewSetting(String jobSetting, String addressSetting, boolean enableSubscribeSetting) {
         char[] jobs = jobSetting.toCharArray();
         char[] addresses = addressSetting.toCharArray();
         for (char job : jobs) {
@@ -213,6 +224,7 @@ public class SettingFragment extends BaseFragment {
                     break;
             }
         }
+        swNotification.setChecked(enableSubscribeSetting);
     }
 
     public void checkFirebaseForSetting() {
@@ -227,7 +239,7 @@ public class SettingFragment extends BaseFragment {
                         if (map != null) {
                             String jobSetting = map.get("jobSetting").toString();
                             String addressSetting = map.get("addressSetting").toString();
-                            setViewSetting(jobSetting, addressSetting);
+                            setViewSetting(jobSetting, addressSetting, SharedPreferencesUtils.getInstance().getEnableSubscribeSetting(getContext()));
                         }
                     }
                 }

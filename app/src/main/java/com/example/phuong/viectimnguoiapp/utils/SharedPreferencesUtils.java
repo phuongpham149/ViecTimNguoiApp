@@ -65,4 +65,16 @@ public class SharedPreferencesUtils {
         SharedPreferences pref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return pref.getString(Constant.SETTING_ADDRESS, "");
     }
+
+    public void setEnableSubscribeSetting(Context context, boolean enableSubscribe) {
+        SharedPreferences pref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putBoolean(Constant.SETTING_ENABLE, enableSubscribe);
+        editor.apply();
+    }
+
+    public boolean getEnableSubscribeSetting(Context context) {
+        SharedPreferences pref = context.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+        return pref.getBoolean(Constant.SETTING_ENABLE, false);
+    }
 }

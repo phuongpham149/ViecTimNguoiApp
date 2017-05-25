@@ -82,7 +82,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
     void inits() {
         mData = new RealmHelper(getActivity());
         timeFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-        mFirebasePost= FirebaseDatabase.getInstance().getReference("/posts");
+        mFirebasePost = FirebaseDatabase.getInstance().getReference("/posts");
         mValidator = new Validator(this);
         mValidator.setValidationListener(this);
 
@@ -152,7 +152,7 @@ public class CreateNewFragment extends BaseFragment implements Validator.Validat
         mProgressBarLoading.setVisibility(View.VISIBLE);
 
         if (Network.checkNetWork(getActivity())) {
-            Map<String, String> map = new HashMap<String, String>();
+            final Map<String, String> map = new HashMap<String, String>();
             map.put("id", UUID.randomUUID().toString());
             map.put("idCat", getCạtobSelected());
             map.put("idDistrict", getDistrictSelected());
