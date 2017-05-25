@@ -15,6 +15,9 @@ import com.example.phuong.viectimnguoiapp.R;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -69,5 +72,14 @@ public class Common {
         } catch (PackageManager.NameNotFoundException e) {
             return false;
         }
+    }
+
+    public static boolean compareDate(String dateCompare) throws ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+        String mCurrentDate = format.format(new Date());
+        if (dateCompare.compareTo(mCurrentDate) >= 0) {
+            return true;
+        }
+        return false;
     }
 }

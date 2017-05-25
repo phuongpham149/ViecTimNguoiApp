@@ -10,13 +10,18 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
 import com.example.phuong.viectimnguoiapp.activities.HistoryPingDetailActivity_;
 import com.example.phuong.viectimnguoiapp.objects.HistoryPing;
+import com.example.phuong.viectimnguoiapp.objects.NotifyReport;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
+import com.example.phuong.viectimnguoiapp.objects.User;
 import com.example.phuong.viectimnguoiapp.utils.Common;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -25,6 +30,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -78,6 +86,15 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
 
             }
         });
+
+        holder.mImgReport.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                //show dialog
+                showDialogConfirmReport(mContext,historyPing);
+            }
+        });
     }
 
     public void showDialogConfirm(Context context, final HistoryPing historyPing) {
@@ -119,6 +136,89 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
         dialog.show();
     }
 
+    public void showDialogConfirmReport(Context context, final HistoryPing ping) {
+        final Dialog dialog = new Dialog(context);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialog_report);
+        dialog.setCanceledOnTouchOutside(false);
+        Button btnOk = (Button) dialog.findViewById(R.id.tvBtnOk);
+        Button btnCancel = (Button) dialog.findViewById(R.id.btnCancel);
+        final EditText tvContent = (EditText) dialog.findViewById(R.id.edtPrice);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (tvContent.getText().equals("")) {
+                    Toast.makeText(mContext, "Vui lòng nhập lí do báo vi phạm", Toast.LENGTH_SHORT).show();
+                } else {
+                    DatabaseReference pingRef = FirebaseDatabase.getInstance().getReference("/pings/" + ping.getIdUser() + "/" + ping.getIdPost() + "/" + FirebaseAuth.getInstance().getCurrentUser().getUid() + "/report/");
+                    Ping pingReport = new Ping();
+                    pingReport.setReport("true");
+                    pingRef.setValue(pingReport.getReport());
+
+                    dialog.dismiss();
+                    ping.setReport("true");
+                    notifyDataSetChanged();
+
+                    //tru diem
+                    subPoint(ping.getIdUser());
+                    notifyReport(ping.getIdUser(),tvContent.getText().toString());
+                    Toast.makeText(mContext,"Bạn đã báo cáo vi phạm người này",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+    }
+
+    public void notifyReport(String idUser,String msg) {
+        DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference(mContext.getString(R.string.child_notify_report));
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        Date date = new Date();
+        NotifyReport report = new NotifyReport();
+        report.setIdUserReport(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        report.setTime(dateFormat.format(date));
+        report.setUsernameReport(FirebaseAuth.getInstance().getCurrentUser().getDisplayName());
+        report.setMessage(msg);
+        notifyReport.child(idUser).push().setValue(report);
+    }
+
+    public void subPoint(final String idUser) {
+        DatabaseReference user = FirebaseDatabase.getInstance().getReference(mContext.getString(R.string.child_user));
+        user.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot data : dataSnapshot.getChildren()) {
+                    String key = data.getKey();
+                    HashMap<String, Object> map = (HashMap<String, Object>) data.getValue();
+                    if (map.get("id").toString().equals(idUser)) {
+                        User userReported = new User();
+                        userReported.setPoint(String.valueOf(Integer.parseInt(map.get("point").toString()) - 2));
+
+                        setPointForReport(key, userReported.getPoint());
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void setPointForReport(String keyUser, String subPoint) {
+        DatabaseReference dataUser = FirebaseDatabase.getInstance().getReference("/users/" + keyUser + "/point/");
+        dataUser.setValue(subPoint);
+    }
+
     public void getKeyUser(final String idUser) {
         mUserRef = FirebaseDatabase.getInstance().getReference("/users");
         mUserRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -155,6 +255,7 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
         TextView mTvTimeCreate;
         TextView mTvAddress;
         CheckBox mChkConfirm;
+        ImageView mImgReport;
 
         public ItemHolder(View itemView) {
             super(itemView);
@@ -163,6 +264,7 @@ public class JobsPingAdapter extends RecyclerView.Adapter<JobsPingAdapter.ItemHo
             mLlItem = (RelativeLayout) itemView.findViewById(R.id.rlNewItem);
             mTvTimeCreate = (TextView) itemView.findViewById(R.id.tvTimeCreate);
             mChkConfirm = (CheckBox) itemView.findViewById(R.id.chkConfirm);
+            mImgReport = (ImageView)  itemView.findViewById(R.id.imgReport);
         }
     }
 }

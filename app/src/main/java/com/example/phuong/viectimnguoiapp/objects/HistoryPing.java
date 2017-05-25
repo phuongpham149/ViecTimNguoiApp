@@ -19,7 +19,16 @@ public class HistoryPing extends RealmObject {
     private String idUser;
     private String nameDistrict;
     private String choice;
+    private String report;
     private String confirm;
+
+    public String getReport() {
+        return report;
+    }
+
+    public void setReport(String report) {
+        this.report = report;
+    }
 
     public String getConfirm() {
         return confirm;

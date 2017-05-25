@@ -1,27 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:orientation="vertical">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerViewContact"
+        android:id="@+id/recyclerViewNotify"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
     <ProgressBar
-        android:id="@+id/prograssBarLoading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:visibility="gone" />
-
+        android:id="@+id/progressBarLoading"
+        android:visibility="gone"
+        />
     <TextView
         android:id="@+id/tvNotifyNoData"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Không có tin nhắn"
+        android:text="Không có thông báo vi phạm"
         android:textColor="#4CAF50"
         android:textSize="18sp"
         android:textStyle="bold"

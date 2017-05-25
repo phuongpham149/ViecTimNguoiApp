@@ -62,7 +62,8 @@
         <item>Lau nhà</item>
         <item>Giặt quần áo</item>
         <item>Sửa ống nước</item>
-        <item>Sơn sửa nhà cửa</item>
+        <item>Dọn dẹp nhà cửa</item>
+        <item>Ủi quần áo</item>
     </array>
     <array name="name_district">
         <item>Hải Châu</item>
@@ -85,4 +86,7 @@
     <string name="activity_login.button.text.google">Google</string>
     <string name="activity_login.button.text.facebook">Facebook</string>
     <string name="textview_text_iron_the_clothes">Ủi quần áo</string>
+
+    <string name="child_notify_report">notifyReport</string>
+    <string name="child_user">users</string>
 </resources>
