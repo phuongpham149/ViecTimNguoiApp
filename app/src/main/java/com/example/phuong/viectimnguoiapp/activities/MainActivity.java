@@ -75,7 +75,7 @@ public class MainActivity extends BaseActivity implements SettingMenuAdapter.ite
             displayView(1);
         } else {
             SharedPreferencesUtils.getInstance().setLastUserId(this, currentId);
-            displayView(8);
+            displayView(9);
         }
     }
 
