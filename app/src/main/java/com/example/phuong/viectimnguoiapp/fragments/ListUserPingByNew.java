@@ -64,7 +64,6 @@ public class ListUserPingByNew extends BaseFragment implements PingJobAdapter.on
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 String idPost = dataSnapshot.getKey();
-                Log.d("tag13","idPost "+idPost);
                 for (DataSnapshot data : dataSnapshot.getChildren()) {
                     HashMap<String,Object> map = (HashMap<String, Object>) data.getValue();
                     Ping ping = new Ping();

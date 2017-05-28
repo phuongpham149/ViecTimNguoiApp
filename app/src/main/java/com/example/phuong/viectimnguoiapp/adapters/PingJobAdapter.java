@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.phuong.viectimnguoiapp.R;
+import com.example.phuong.viectimnguoiapp.activities.ProfileUserActivity_;
 import com.example.phuong.viectimnguoiapp.objects.NotifyReport;
 import com.example.phuong.viectimnguoiapp.objects.Ping;
 import com.example.phuong.viectimnguoiapp.objects.User;
@@ -78,7 +79,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                 mListener.itemClickListener(position);
             }
         });
-        if(item.getConfirm().equals("true")){
+        if (item.getConfirm().equals("true")) {
             holder.mRlItem.setBackgroundColor(Color.parseColor("#33377EB0"));
         }
 
@@ -107,10 +108,10 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
                         }
                     }, 2000);
                 } else {
-                    if(item.getConfirm().equals("true")){
+                    if (item.getConfirm().equals("true")) {
                         Toast.makeText(mContext, "Bạn không thay đổi được xác nhận việc làm.", Toast.LENGTH_SHORT).show();
                         holder.mChkContact.setChecked(true);
-                    } else{
+                    } else {
                         updateChoice(item, "false");
                     }
                 }
@@ -126,6 +127,13 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
             public void onClick(View view) {
                 //show dialog
                 showDialogConfirmReport(mContext, pings.get(position));
+            }
+        });
+
+        holder.mTvName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ProfileUserActivity_.intent(mContext).idUser(pings.get(position).getIdUser()).start();
             }
         });
     }
@@ -190,7 +198,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
 
                     //tru diem
                     subPoint(ping.getIdUser());
-                    notifyReport(ping.getIdUser(),tvContent.getText().toString());
+                    notifyReport(ping.getIdUser(), tvContent.getText().toString());
                 }
             }
         });
@@ -204,7 +212,7 @@ public class PingJobAdapter extends RecyclerView.Adapter<PingJobAdapter.NewsHold
         dialog.show();
     }
 
-    public void notifyReport(String idUser,String msg) {
+    public void notifyReport(String idUser, String msg) {
         DatabaseReference notifyReport = FirebaseDatabase.getInstance().getReference(mContext.getString(R.string.child_notify_report));
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
         Date date = new Date();
