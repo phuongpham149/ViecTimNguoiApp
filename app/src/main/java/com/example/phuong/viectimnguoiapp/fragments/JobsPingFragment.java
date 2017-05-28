@@ -68,9 +68,9 @@ public class JobsPingFragment extends BaseFragment {
                 @Override
                 public void run() {
                     //loc
-                    for(HistoryPing historyPing : mHistoryPings){
+                    for (HistoryPing historyPing : mHistoryPings) {
                         try {
-                            if(Common.compareDate(historyPing.getTimeDeadline())){
+                            if (Common.compareDate(historyPing.getTimeDeadline())) {
                                 mHistorys.add(historyPing);
                             }
                         } catch (ParseException e) {
@@ -136,7 +136,7 @@ public class JobsPingFragment extends BaseFragment {
                 for (DataSnapshot subSnapshot : dataSnapshot.getChildren()) {
                     HashMap<String, Object> map = (HashMap<String, Object>) subSnapshot.getValue();
                     for (HistoryPing historyPing : mHistoryPings) {
-                        if(historyPing.getIdPost().equals(map.get("id").toString())){
+                        if (historyPing.getIdPost().equals(map.get("id").toString())) {
                             historyPing.setTitlePost(mData.getCategoryJobItem(map.get("idCat").toString()).getName());
                             historyPing.setTimeDeadline(map.get("timeDeadline").toString());
                             historyPing.setUserOwner(map.get("idUser").toString());
@@ -172,8 +172,10 @@ public class JobsPingFragment extends BaseFragment {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     if (dataSnapshot != null) {
                         HashMap<String, Object> map = (HashMap<String, Object>) dataSnapshot.getValue();
-                        mHistoryPings.get(position).setChoice(map.get("choice").toString());
-                        mHistoryPings.get(position).setConfirm(map.get("confirm").toString());
+                        if (map != null) {
+                            mHistoryPings.get(position).setChoice(map.get("choice").toString());
+                            mHistoryPings.get(position).setConfirm(map.get("confirm").toString());
+                        }
                     }
                 }
 
